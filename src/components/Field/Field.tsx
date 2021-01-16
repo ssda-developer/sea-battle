@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import './Field.scss';
 
-export const Field = (props: []) => {
-    console.log(props);
+const Field = (): ReactElement => {
     return <div className="field">field</div>;
 };
+
+export default Field;

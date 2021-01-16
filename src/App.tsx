@@ -1,15 +1,9 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ReactElement } from 'react';
+import Area from './components/Area/Area';
 import './App.css';
 
-function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-            </header>
-        </div>
-    );
+function App(): ReactElement {
+    return <Area />;
 }
 
 export default App;

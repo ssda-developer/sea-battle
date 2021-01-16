@@ -25,7 +25,8 @@
                 "arrowParens": "avoid",
                 "trailingComma": "all"
             }
-        ]
+        ],
+        "react/state-in-constructor": "off"
     },
     "env": {
         "browser": true,

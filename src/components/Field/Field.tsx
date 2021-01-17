@@ -1,8 +1,7 @@
-import React, { ReactElement } from 'react';
-
+import React, { FC } from 'react';
 import './Field.scss';
 
-const Field = (): ReactElement => {
+const Field: FC = () => {
     return <div className="field">field</div>;
 };
 

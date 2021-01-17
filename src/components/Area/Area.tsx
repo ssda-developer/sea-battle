@@ -1,24 +1,23 @@
-import React, { Component, ReactElement } from 'react';
+import React, { FC, useState, useEffect } from 'react';
+import Field from '../Field/Field';
 import './Area.scss';
 
-class Area extends Component {
-    state = {
-        numbers: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-        letters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
-    };
+const AREA_SIZE = 10;
 
-    square = [];
+const Area: FC = () => {
+    const [square, setSquare] = useState<string[]>(['']);
 
-    render(): ReactElement {
-        const { numbers, letters } = this.state;
-        numbers.forEach(number => {
-            letters.forEach(letter => {
-                this.square.push([number, letter] as never);
-            });
-        });
+    useEffect(() => {
+        for (let i = 0; i < AREA_SIZE; i += 1) {
+            setSquare(prev => [...prev, String.fromCharCode(i + 65)]);
+        }
+    }, []);
 
-        return <div className="area">area</div>;
-    }
-}
+    return (
+        <div className="area">
+            <div>{square}</div>
+        </div>
+    );
+};
 
 export default Area;

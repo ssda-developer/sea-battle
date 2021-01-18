@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import './Field.scss';
 
 interface IFieldProps {
@@ -9,8 +9,8 @@ interface IFieldProps {
 }
 
 const Field: FC<IFieldProps> = ({ name, ship, hit, past }: IFieldProps) => {
-    const clickHandler = ({ target }: any) => {
-        console.log(target.innerHTML);
+    const clickHandler = ({ target }: MouseEvent<HTMLButtonElement>) => {
+        console.log((target as HTMLButtonElement).innerHTML);
     };
 
     return (

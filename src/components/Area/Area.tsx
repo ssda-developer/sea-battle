@@ -1,13 +1,25 @@
 import React, { FC, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { IState } from '../../store/reducer';
 import Field from '../Field/Field';
-
 import './Area.scss';
+
+interface IAreaProps {
+    name: string;
+    ship: boolean;
+    hit: boolean;
+    past: boolean;
+}
 
 const Area: FC = () => {
     const [numbers, setNumber] = useState<string[]>(['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']);
     const [letters, setLetters] = useState<string[]>(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']);
 
-    const square: [] = [];
+    const areas = useSelector<IState>(state => state);
+
+    console.log(areas);
+
+    const square: IAreaProps[] = [];
 
     numbers.forEach(number => {
         letters.forEach(letter => {
@@ -18,7 +30,7 @@ const Area: FC = () => {
                 past: false,
             };
 
-            square.push(cell as never);
+            square.push(cell);
         });
     });
 

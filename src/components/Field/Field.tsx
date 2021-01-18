@@ -2,17 +2,23 @@ import React, { FC } from 'react';
 import './Field.scss';
 
 interface IFieldProps {
-    cell: string;
+    name: string;
+    ship: boolean;
+    hit: boolean;
+    past: boolean;
 }
 
-const Field: FC<IFieldProps> = ({ cell }: IFieldProps) => {
+const Field: FC<IFieldProps> = ({ name, ship, hit, past }: IFieldProps) => {
     const clickHandler = ({ target }: any) => {
         console.log(target.innerHTML);
     };
 
     return (
         <button type="button" className="field" onClick={clickHandler}>
-            {cell}
+            {name}
+            {ship}
+            {hit}
+            {past}
         </button>
     );
 };

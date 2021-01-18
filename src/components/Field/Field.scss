@@ -1,3 +1,9 @@
 .field {
-    // style for field
+    align-items: center;
+    background: #c5c5c5;
+    display: flex;
+    height: calc(10% - 4px);
+    justify-content: center;
+    margin: 2px;
+    width: calc(10% - 4px);
 }

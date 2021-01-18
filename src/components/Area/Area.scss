@@ -1,3 +1,27 @@
 .area {
-    // style for area
+    display: flex;
+    flex-wrap: wrap;
+    margin: -2px;
+
+    &__wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+    }
+
+    //&__letters,
+    //&__numbers {
+    //    display: flex;
+    //    height: 500px;
+    //    left: 48px;
+    //    position: absolute;
+    //    top: 0;
+    //    width: 500px;
+    //}
+    //
+    //&__numbers {
+    //    flex-direction: column;
+    //    left: 0;
+    //    top: 48px;
+    //}
 }

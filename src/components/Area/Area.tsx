@@ -38,12 +38,16 @@ const Area: FC = () => {
         <div className="area__wrapper">
             <div className="area__letters">
                 {letters.map(letter => (
-                    <span key={letter}>{letter}</span>
+                    <div className="field" key={letter}>
+                        {letter}
+                    </div>
                 ))}
             </div>
             <div className="area__numbers">
                 {numbers.map(number => (
-                    <span key={number}>{number}</span>
+                    <div className="field" key={number}>
+                        {number}
+                    </div>
                 ))}
             </div>
             <div className="area">

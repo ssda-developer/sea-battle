@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import Area from './components/Area/Area';
-import './App.css';
+import './App.scss';
 
-const App: FC = () => {
+const Game: FC = () => {
     return (
         <div className="sea-battle">
             <Area />
@@ -10,4 +10,4 @@ const App: FC = () => {
     );
 };
 
-export default App;
+export default Game;

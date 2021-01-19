@@ -1,9 +1,19 @@
 .field {
+    //--field-color: #{$color-white};
+    --field-background: var(--color-1--2);
+    --field-size: calc(var(--global-field-size) - 2px);
+
     align-items: center;
-    background: #c5c5c5;
+    background: var(--field-background);
+    //color: var(--field-color);
     display: flex;
-    height: calc(10% - 4px);
+    height: var(--field-size);
     justify-content: center;
-    margin: 2px;
-    width: calc(10% - 4px);
+    margin: 1px;
+    width: var(--field-size);
+
+    .area__letters &,
+    .area__numbers & {
+        --field-background: var(--color-1--3);
+    }
 }

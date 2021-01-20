@@ -15,7 +15,6 @@ export const temporaryReducer = (state: IState = initialState, action: Temporary
         case HIT:
             return state;
         default:
-            console.log(state);
             return state;
     }
 };

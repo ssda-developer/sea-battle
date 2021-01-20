@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { IState } from '../../reducers/temporaryReducer';
 import Field from '../Field/Field';
 import './Area.scss';
+import { RootState } from '../../reducers';
 
 interface IAreaProps {
     name: string;
@@ -12,12 +12,9 @@ interface IAreaProps {
 }
 
 const Area: FC = () => {
-    // const fields = useSelector<IState, IState['temporaryReducer']>(state => state.temporaryReducer);
-    const numbers = useSelector<IState, IState['numbers']>(temporaryReducer => temporaryReducer.numbers);
-    const letters = useSelector<IState, IState['letters']>(temporaryReducer => temporaryReducer.letters);
+    const numbers = useSelector((state: RootState) => state.temporaryReducer.numbers);
+    const letters = useSelector((state: RootState) => state.temporaryReducer.letters);
     const square: IAreaProps[] = [];
-
-    // console.log(fields);
 
     numbers.forEach(number => {
         letters.forEach(letter => {

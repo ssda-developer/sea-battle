@@ -13,7 +13,6 @@ const initialState: IState = {
 export const temporaryReducer = (state: IState = initialState, action: TemporaryDispatchTypes): IState => {
     switch (action.type) {
         case HIT:
-            console.log(111);
             return { ...state, numbers: ['1', '2', '3', '4', '5'], letters: ['a', 'b', 'c', 'd', 'e'] };
         default:
             return state;

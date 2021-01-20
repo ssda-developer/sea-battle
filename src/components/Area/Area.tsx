@@ -16,7 +16,7 @@ const Area: FC = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(messageHit);
+        dispatch(messageHit());
     }, []);
 
     const numbers = useSelector((state: RootStore) => state.temporaryReducer.numbers);

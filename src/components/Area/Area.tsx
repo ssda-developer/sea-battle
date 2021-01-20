@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
+import React, { FC, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import Field from '../Field/Field';
 import './Area.scss';
-import { RootState } from '../../reducers';
+import { RootStore } from '../../store';
+import { messageHit } from '../../actions/temporaryActions';
 
 interface IAreaProps {
     name: string;
@@ -12,8 +13,14 @@ interface IAreaProps {
 }
 
 const Area: FC = () => {
-    const numbers = useSelector((state: RootState) => state.temporaryReducer.numbers);
-    const letters = useSelector((state: RootState) => state.temporaryReducer.letters);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(messageHit);
+    }, []);
+
+    const numbers = useSelector((state: RootStore) => state.temporaryReducer.numbers);
+    const letters = useSelector((state: RootStore) => state.temporaryReducer.letters);
     const square: IAreaProps[] = [];
 
     numbers.forEach(number => {

@@ -2,7 +2,7 @@ export const HIT = 'HIT';
 export const PAST = 'PAST';
 export const SHIP = 'SHIP';
 
-interface Hit {
+export interface Hit {
     type: typeof HIT;
 }
 
@@ -14,4 +14,4 @@ interface Ship {
     type: typeof SHIP;
 }
 
-export type TemporaryTypes = Hit | Past | Ship;
+export type TemporaryDispatchTypes = Hit | Past | Ship;

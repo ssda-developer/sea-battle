@@ -1,9 +1,14 @@
-import { HIT, PAST, TemporaryTypes } from './temporaryActionTypes';
+import { Dispatch } from 'redux';
+import { HIT, PAST, TemporaryDispatchTypes } from './temporaryActionTypes';
 
-export const messageHit = (): TemporaryTypes => ({
-    type: HIT,
-});
+export const messageHit = () => (dispatch: Dispatch<TemporaryDispatchTypes>) => {
+    dispatch({
+        type: HIT,
+    });
+};
 
-export const messagePast = (): TemporaryTypes => ({
-    type: PAST,
-});
+export const messagePast = () => (dispatch: Dispatch<TemporaryDispatchTypes>) => {
+    dispatch({
+        type: PAST,
+    });
+};

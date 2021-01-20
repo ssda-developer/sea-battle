@@ -1,4 +1,4 @@
-import { HIT, TemporaryTypes } from '../actions/temporaryActionTypes';
+import { HIT, TemporaryDispatchTypes } from '../actions/temporaryActionTypes';
 
 export interface IState {
     numbers: string[];
@@ -10,10 +10,11 @@ const initialState: IState = {
     letters: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
 };
 
-export const temporaryReducer = (state: IState = initialState, action: TemporaryTypes): IState => {
+export const temporaryReducer = (state: IState = initialState, action: TemporaryDispatchTypes): IState => {
     switch (action.type) {
         case HIT:
-            return state;
+            console.log(111);
+            return { ...state, numbers: ['1', '2', '3', '4', '5'], letters: ['a', 'b', 'c', 'd', 'e'] };
         default:
             return state;
     }

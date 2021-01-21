@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
-import { CHANGE_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './AreaTypes';
-import { IField } from '../Field/FieldInterface';
-import { IOwns } from './AreaInterface';
+import { CHANGE_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
+import { IField } from '../Field/fieldInterfaces';
+import { IOwns } from './areaInterfaces';
 
 export const ChangeSquare = (square: Array<IField>) => (dispatch: Dispatch<AreaDispatchTypes>): void => {
     dispatch({

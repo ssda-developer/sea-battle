@@ -1,5 +1,5 @@
-import { IField } from './FieldInterface';
-import { CHANGE_FIELD_HIT, CHANGE_FIELD_PAST, CHANGE_FIELD_SHIP, FieldDispatchTypes } from './FieldTypes';
+import { IField } from './fieldInterfaces';
+import { CHANGE_FIELD_HIT, CHANGE_FIELD_PAST, CHANGE_FIELD_SHIP, FieldDispatchTypes } from './fieldTypes';
 
 const initialState: IField = {
     name: '',

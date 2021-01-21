@@ -1,4 +1,4 @@
-import { IField } from './FieldInterface';
+import { IField } from './fieldInterfaces';
 
 export const CHANGE_FIELD_HIT = 'CHANGE_FIELD_HIT';
 export const CHANGE_FIELD_PAST = 'CHANGE_FIELD_PAST';

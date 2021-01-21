@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
-import { CHANGE_FIELD_HIT, CHANGE_FIELD_PAST, CHANGE_FIELD_SHIP, FieldDispatchTypes } from './FieldTypes';
-import { IField } from './FieldInterface';
+import { CHANGE_FIELD_HIT, CHANGE_FIELD_PAST, CHANGE_FIELD_SHIP, FieldDispatchTypes } from './fieldTypes';
+import { IField } from './fieldInterfaces';
 
 export const changeHit = (cell: IField) => (dispatch: Dispatch<FieldDispatchTypes>): void => {
     dispatch({

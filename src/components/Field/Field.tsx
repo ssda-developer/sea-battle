@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent } from 'react';
 
-import { IField } from '../../redux/Field/FieldInterface';
+import { IField } from '../../redux/Field/fieldInterfaces';
 
 import './Field.scss';
 

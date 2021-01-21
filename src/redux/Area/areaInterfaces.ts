@@ -1,4 +1,4 @@
-import { IField } from '../Field/FieldInterface';
+import { IField } from '../Field/fieldInterfaces';
 
 export interface IOwns {
     owns: 'friendly' | 'enemy';

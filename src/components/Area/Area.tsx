@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { ChangeSquare, ChangeOwns } from '../../redux/Area/AreaActions';
-import { IOwns } from '../../redux/Area/AreaInterface';
-import { IField } from '../../redux/Field/FieldInterface';
+import { ChangeSquare, ChangeOwns } from '../../redux/Area/areaActions';
+import { IOwns } from '../../redux/Area/areaInterfaces';
+import { IField } from '../../redux/Field/fieldInterfaces';
 
-import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/AreaConstants';
+import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 
 import Field from '../Field/Field';
 

@@ -1,5 +1,5 @@
-import { CHANGE_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './AreaTypes';
-import { IArea } from './AreaInterface';
+import { CHANGE_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
+import { IArea } from './areaInterfaces';
 
 const initialState: IArea = {
     square: [],

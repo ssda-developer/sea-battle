@@ -6,6 +6,7 @@
     align-items: center;
     background: var(--field-background);
     color: var(--field-color);
+    cursor: pointer;
     display: flex;
     height: var(--field-size);
     justify-content: center;
@@ -24,5 +25,10 @@
 
     &.past {
         --field-background: var(--color-1--1);
+    }
+
+    &:disabled,
+    &[disabled] {
+        cursor: default;
     }
 }

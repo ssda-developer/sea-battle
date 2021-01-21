@@ -1,12 +1,11 @@
 import { IField } from '../Field/fieldInterfaces';
 import { IOwns } from './areaInterfaces';
 
-export const CHANGE_SQUARE = 'CHANGE_SQUARE';
-export const CHANGE_SQUARE_CELL = 'CHANGE_SQUARE_CELL';
+export const RENDER_SQUARE = 'RENDER_SQUARE';
 export const CHANGE_OWNS = 'CHANGE_OWNS';
 
-export type ChangeSquare = {
-    type: typeof CHANGE_SQUARE;
+export type RenderSquare = {
+    type: typeof RENDER_SQUARE;
     payload: Array<IField>;
 };
 
@@ -15,9 +14,4 @@ export type ChangeOwns = {
     payload: IOwns;
 };
 
-export type ChangeSquareCell = {
-    type: typeof CHANGE_SQUARE_CELL;
-    payload: any[];
-};
-
-export type AreaDispatchTypes = ChangeSquare | ChangeOwns | ChangeSquareCell;
+export type AreaDispatchTypes = RenderSquare | ChangeOwns;

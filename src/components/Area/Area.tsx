@@ -1,12 +1,13 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStore } from '../../redux/store';
-import { changeSquare, changeSquareCell, changeOwns } from '../../redux/Area/areaActions';
+import { renderSquare, changeOwns } from '../../redux/Area/areaActions';
 import { IOwns } from '../../redux/Area/areaInterfaces';
-import { IField } from '../../redux/Field/fieldInterfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
+
+import { updateCell, createSquare } from '../../redux/Area/areaUtils';
 
 import Field from '../Field/Field';
 
@@ -14,32 +15,19 @@ import './Area.scss';
 
 const Area: FC<IOwns> = (owns: IOwns) => {
     const dispatch = useDispatch();
-    const area = useSelector((state: RootStore) => state.areaReducer);
+    const areaState = useSelector((state: RootStore) => state.areaReducer);
 
-    if (area.square.length === 0) {
-        const square: Array<IField> = [];
+    useEffect(() => {
+        const square = createSquare();
 
-        AREA_NUMBERS.forEach(number => {
-            AREA_LETTERS.forEach(letter => {
-                const cell = {
-                    id: `${letter}${number}`,
-                    ship: false,
-                    hit: false,
-                    past: false,
-                };
-
-                square.push(cell);
-            });
-        });
-
-        dispatch(changeSquare(square));
+        dispatch(renderSquare(square));
         dispatch(changeOwns(owns));
-    }
+    }, []);
 
-    const clickHandler = ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
+    const updateCellHandler = ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
         const { id } = currentTarget;
 
-        dispatch(changeSquareCell(area.square, id));
+        dispatch(renderSquare(updateCell(areaState.square, id)));
     };
 
     return (
@@ -59,8 +47,8 @@ const Area: FC<IOwns> = (owns: IOwns) => {
                 ))}
             </div>
             <div className="area__wrapper">
-                {area.square.map(({ id, ship, hit, past }) => (
-                    <Field key={id} id={id} hit={hit} ship={ship} past={past} onChangeField={clickHandler} />
+                {areaState.square.map(({ id, ship, hit, past }) => (
+                    <Field key={id} id={id} hit={hit} ship={ship} past={past} updateCellHandler={updateCellHandler} />
                 ))}
             </div>
         </div>

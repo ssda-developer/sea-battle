@@ -1,23 +1,35 @@
 import { IField } from '../Field/fieldInterfaces';
+import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 
-const changeSquareCell = (field: any) => {
-    console.log(field);
-
-    const newSquare = field[0];
+export const updateCell = (square: Array<IField>, cellId: string): Array<IField> => {
+    const newSquare = square;
 
     newSquare.forEach((cell: IField, idx: number) => {
-        const { id, ship, hit, past } = cell;
+        const { id } = cell;
 
-        if (id === field[1]) {
-            if (cell.ship) {
-                newSquare[idx] = { id, ship, hit: true, past };
-            } else {
-                newSquare[idx] = { id, ship, hit, past: true };
-            }
+        if (id === cellId) {
+            newSquare[idx].past = true;
         }
     });
 
     return newSquare;
 };
 
-export default changeSquareCell;
+export const createSquare = (): Array<IField> => {
+    const square: Array<IField> = [];
+
+    AREA_NUMBERS.forEach(number => {
+        AREA_LETTERS.forEach(letter => {
+            const cell = {
+                id: `${letter}${number}`,
+                ship: false,
+                hit: false,
+                past: false,
+            };
+
+            square.push(cell);
+        });
+    });
+
+    return square;
+};

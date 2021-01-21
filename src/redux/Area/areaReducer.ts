@@ -1,6 +1,5 @@
-import { CHANGE_SQUARE, CHANGE_SQUARE_CELL, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
+import { RENDER_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
 import { IArea } from './areaInterfaces';
-import changeSquareCell from './areaUtils';
 
 const initialState: IArea = {
     square: [],
@@ -9,10 +8,8 @@ const initialState: IArea = {
 
 const areaReducer = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {
     switch (action.type) {
-        case CHANGE_SQUARE:
+        case RENDER_SQUARE:
             return { ...state, square: action.payload };
-        case CHANGE_SQUARE_CELL:
-            return { ...state, square: changeSquareCell(action.payload) };
         case CHANGE_OWNS:
             return { ...state, owns: action.payload };
         default:

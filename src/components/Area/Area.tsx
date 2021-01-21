@@ -2,7 +2,7 @@ import React, { FC, MouseEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStore } from '../../redux/store';
-import { changeSquare, changeOwns } from '../../redux/Area/areaActions';
+import { changeSquare, changeSquareCell, changeOwns } from '../../redux/Area/areaActions';
 import { IOwns } from '../../redux/Area/areaInterfaces';
 import { IField } from '../../redux/Field/fieldInterfaces';
 
@@ -37,13 +37,9 @@ const Area: FC<IOwns> = (owns: IOwns) => {
     }
 
     const clickHandler = ({ currentTarget }: MouseEvent<HTMLButtonElement>) => {
-        // TODO: need refactoring.
-        area.square.forEach((cell, ind) => {
-            if (cell.id === currentTarget.id) {
-                area.square[ind] = { id: cell.id, ship: true, hit: true, past: true };
-            }
-        });
-        dispatch(changeSquare(area.square));
+        const { id } = currentTarget;
+
+        dispatch(changeSquareCell(area.square, id));
     };
 
     return (

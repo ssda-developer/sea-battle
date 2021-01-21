@@ -1,11 +1,11 @@
 .field {
-    //--field-color: #{$color-white};
+    --field-color: var($color-1--4);
     --field-background: var(--color-1--2);
     --field-size: calc(var(--global-field-size) - 2px);
 
     align-items: center;
     background: var(--field-background);
-    //color: var(--field-color);
+    color: var(--field-color);
     display: flex;
     height: var(--field-size);
     justify-content: center;
@@ -15,6 +15,7 @@
     .area__letters &,
     .area__numbers & {
         --field-background: var(--color-1--3);
+        --field-color: var(--color-white);
     }
 
     &.hit {

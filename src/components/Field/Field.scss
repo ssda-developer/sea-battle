@@ -16,4 +16,12 @@
     .area__numbers & {
         --field-background: var(--color-1--3);
     }
+
+    &.hit {
+        --field-background: var(--color-1--4);
+    }
+
+    &.past {
+        --field-background: var(--color-1--1);
+    }
 }

@@ -4,14 +4,10 @@ import { IField } from '../../redux/Field/fieldInterfaces';
 
 import './Field.scss';
 
-const Field: FC<IField> = ({ name, ship, hit, past }: IField) => {
-    const clickHandler = ({ target }: MouseEvent<HTMLButtonElement>) => {
-        console.log((target as HTMLButtonElement).innerHTML);
-    };
-
+const Field: FC<IField> = ({ id, ship, hit, past, onChangeField }: IField) => {
     return (
-        <button type="button" className="field" onClick={clickHandler}>
-            {name}
+        <button type="button" id={id} className={`field ${hit ? 'hit' : ''}`} onClick={onChangeField}>
+            {id}
             {ship}
             {hit}
             {past}

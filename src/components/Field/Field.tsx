@@ -1,14 +1,10 @@
 import React, { FC, MouseEvent } from 'react';
+
+import { IField } from '../../redux/Field/FieldInterface';
+
 import './Field.scss';
 
-interface IFieldProps {
-    name: string;
-    ship: boolean;
-    hit: boolean;
-    past: boolean;
-}
-
-const Field: FC<IFieldProps> = ({ name, ship, hit, past }: IFieldProps) => {
+const Field: FC<IField> = ({ name, ship, hit, past }: IField) => {
     const clickHandler = ({ target }: MouseEvent<HTMLButtonElement>) => {
         console.log((target as HTMLButtonElement).innerHTML);
     };

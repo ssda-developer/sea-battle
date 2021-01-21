@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { temporaryReducer } from './temporaryReducer';
-import { areaReducer } from './areaReducer';
+import areaReducer from './Area/AreaReducer';
+import fieldReducer from './Field/FieldReducer';
 
 const rootReducer = combineReducers({
-    temporaryReducer,
     areaReducer,
+    fieldReducer,
 });
 
 export default rootReducer;

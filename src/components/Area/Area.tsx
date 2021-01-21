@@ -1,23 +1,23 @@
 import React, { FC } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { RootStore } from '../../store';
-import { IOwns } from '../../reducers/areaReducer';
+import { ChangeSquare, ChangeOwns } from '../../redux/Area/AreaActions';
+import { IOwns } from '../../redux/Area/AreaInterface';
+import { IField } from '../../redux/Field/FieldInterface';
+
+import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/AreaConstants';
+
 import Field from '../Field/Field';
-import ChangeSquare from '../../actions/areaActions';
-import { ISquare } from '../../actions/areaActionsTypes';
 
 import './Area.scss';
 
-const Area: FC<IOwns> = ({ owns }: IOwns) => {
+const Area: FC<IOwns> = (owns: IOwns) => {
     const dispatch = useDispatch();
 
-    const numbers = useSelector((state: RootStore) => state.temporaryReducer.numbers);
-    const letters = useSelector((state: RootStore) => state.temporaryReducer.letters);
-    const square: ISquare[] = [];
+    const square: Array<IField> = [];
 
-    numbers.forEach(number => {
-        letters.forEach(letter => {
+    AREA_NUMBERS.forEach(number => {
+        AREA_LETTERS.forEach(letter => {
             const cell = {
                 name: `${letter}${number}`,
                 ship: false,
@@ -30,18 +30,19 @@ const Area: FC<IOwns> = ({ owns }: IOwns) => {
     });
 
     dispatch(ChangeSquare(square));
+    dispatch(ChangeOwns(owns));
 
     return (
         <div className="area">
             <div className="area__letters">
-                {letters.map(letter => (
+                {AREA_LETTERS.map(letter => (
                     <div className="field" key={letter}>
                         {letter}
                     </div>
                 ))}
             </div>
             <div className="area__numbers">
-                {numbers.map(number => (
+                {AREA_NUMBERS.map(number => (
                     <div className="field" key={number}>
                         {number}
                     </div>

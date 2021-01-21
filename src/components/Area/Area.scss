@@ -1,15 +1,16 @@
 .area {
+    background-color: var(--color-1--4);
     display: flex;
     flex-wrap: wrap;
-    margin: 0;
-    width: 500px;
+    margin: 0 2rem;
+    position: relative;
+    width: 550px;
 
     &__wrapper {
-        background-color: var(--color-1--4);
         display: flex;
         flex-wrap: wrap;
-        position: relative;
-        width: 550px;
+        margin: 0;
+        width: 500px;
     }
 
     &__letters,

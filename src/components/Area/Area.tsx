@@ -1,27 +1,20 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Field from '../Field/Field';
-import './Area.scss';
+
 import { RootStore } from '../../store';
-import { messageHit } from '../../actions/temporaryActions';
+import { IOwns } from '../../reducers/areaReducer';
+import Field from '../Field/Field';
+import ChangeSquare from '../../actions/areaActions';
+import { ISquare } from '../../actions/areaActionsTypes';
 
-interface IAreaProps {
-    name: string;
-    ship: boolean;
-    hit: boolean;
-    past: boolean;
-}
+import './Area.scss';
 
-const Area: FC = () => {
+const Area: FC<IOwns> = ({ owns }: IOwns) => {
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(messageHit());
-    }, []);
 
     const numbers = useSelector((state: RootStore) => state.temporaryReducer.numbers);
     const letters = useSelector((state: RootStore) => state.temporaryReducer.letters);
-    const square: IAreaProps[] = [];
+    const square: ISquare[] = [];
 
     numbers.forEach(number => {
         letters.forEach(letter => {
@@ -36,8 +29,10 @@ const Area: FC = () => {
         });
     });
 
+    dispatch(ChangeSquare(square));
+
     return (
-        <div className="area__wrapper">
+        <div className="area">
             <div className="area__letters">
                 {letters.map(letter => (
                     <div className="field" key={letter}>
@@ -52,7 +47,7 @@ const Area: FC = () => {
                     </div>
                 ))}
             </div>
-            <div className="area">
+            <div className="area__wrapper">
                 {square.map(({ name, ship, hit, past }) => (
                     <Field key={name} name={name} hit={hit} ship={ship} past={past} />
                 ))}

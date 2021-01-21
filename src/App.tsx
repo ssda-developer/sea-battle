@@ -5,7 +5,8 @@ import './App.scss';
 const Game: FC = () => {
     return (
         <div className="sea-battle">
-            <Area />
+            <Area owns="friendly" />
+            {/* <Area owns="enemy" /> */}
         </div>
     );
 };

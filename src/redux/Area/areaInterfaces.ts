@@ -5,6 +5,6 @@ export interface IOwns {
 }
 
 export interface IArea {
-    square: Array<IField>;
+    square: Array<Array<IField>>;
     owns: IOwns | null;
 }

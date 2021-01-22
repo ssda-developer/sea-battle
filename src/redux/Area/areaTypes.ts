@@ -6,7 +6,7 @@ export const CHANGE_OWNS = 'CHANGE_OWNS';
 
 export type RenderSquare = {
     type: typeof RENDER_SQUARE;
-    payload: Array<IField>;
+    payload: Array<Array<IField>>;
 };
 
 export type ChangeOwns = {

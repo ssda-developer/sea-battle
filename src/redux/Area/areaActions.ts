@@ -3,7 +3,7 @@ import { RENDER_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
 import { IField } from '../Field/fieldInterfaces';
 import { IOwns } from './areaInterfaces';
 
-export const renderSquare = (square: Array<IField>) => (dispatch: Dispatch<AreaDispatchTypes>): void => {
+export const renderSquare = (square: Array<Array<IField>>) => (dispatch: Dispatch<AreaDispatchTypes>): void => {
     dispatch({
         type: RENDER_SQUARE,
         payload: square,

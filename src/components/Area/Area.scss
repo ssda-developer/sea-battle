@@ -25,4 +25,8 @@
     &__numbers {
         flex-direction: column;
     }
+
+    &__row {
+        display: flex;
+    }
 }

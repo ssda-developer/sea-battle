@@ -5,5 +5,6 @@ export interface IField {
     ship: boolean;
     hit: boolean;
     past: boolean;
+    locked: boolean;
     updateCellHandler?: (event: MouseEvent<HTMLButtonElement>) => void;
 }

@@ -27,6 +27,18 @@
         --field-background: var(--color-1--1);
     }
 
+    &.ship {
+        --field-background: var(--color-1--4);
+    }
+
+    &.locked {
+        --field-background: #c5c5c5;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
     &:disabled,
     &[disabled] {
         cursor: default;

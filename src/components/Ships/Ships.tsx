@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import Ship from '../Ship/Ship';
+
 const Ships: FC = () => {
     const ships = [
         {
@@ -27,8 +29,12 @@ const Ships: FC = () => {
     return (
         <div className="ships">
             {ships.map(ship => (
-                // eslint-disable-next-line react/jsx-key
-                <div key={ship.maxCount}>{ship.name}</div>
+                <>
+                    <p>
+                        {ship.name} - x{ship.maxCount}
+                    </p>
+                    <Ship key={ship.length} maxCount={ship.maxCount} length={ship.length} />
+                </>
             ))}
         </div>
     );

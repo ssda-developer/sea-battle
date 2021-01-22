@@ -27,8 +27,9 @@
         --field-background: var(--color-1--1);
     }
 
-    &.ship {
-        --field-background: var(--color-1--4);
+    &.ship,
+    .ship & {
+        --field-background: var(--color-2--3);
     }
 
     &.locked {

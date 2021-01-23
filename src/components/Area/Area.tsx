@@ -7,9 +7,8 @@ import { IOwns } from '../../redux/Area/areaInterfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 
-import { updateCell, createSquare, addShip } from '../../redux/Area/areaUtils';
+import { createSquare, addShip } from '../../redux/Area/areaUtils';
 
-import Field from '../Field/Field';
 import FieldRow from '../FieldRow/FieldRow';
 
 import './Area.scss';
@@ -20,7 +19,6 @@ const Area: FC<IOwns> = (owns: IOwns) => {
 
     useEffect(() => {
         const square = createSquare();
-        console.log(square);
 
         dispatch(renderSquare(square));
         dispatch(changeOwns(owns));
@@ -33,7 +31,6 @@ const Area: FC<IOwns> = (owns: IOwns) => {
             currentTarget: { id },
         } = evn;
 
-        // dispatch(renderSquare(updateCell(areaState.square, id)));
         dispatch(renderSquare(addShip(areaState.square, id)));
     };
 
@@ -55,12 +52,8 @@ const Area: FC<IOwns> = (owns: IOwns) => {
             </div>
             <div className="area__wrapper">
                 {areaState.square.map((row, idx) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <FieldRow key={`row${idx}`} row={row} updateCellHandler={updateCellHandler} />
+                    <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} />
                 ))}
-                {/* {areaState.square.map(({ id, ship, hit, past }) => ( */}
-                {/*    <Field key={id} id={id} hit={hit} ship={ship} past={past} updateCellHandler={updateCellHandler} /> */}
-                {/* ))} */}
             </div>
         </div>
     );

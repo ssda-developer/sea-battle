@@ -4,10 +4,9 @@ import './Ship.scss';
 
 interface IShipProps {
     length: number;
-    maxCount: number;
 }
 
-const Ship: FC<IShipProps> = ({ length, maxCount }: IShipProps) => {
+const Ship: FC<IShipProps> = ({ length }: IShipProps) => {
     const array = [];
     for (let i = 0; i < length; i += 1) {
         array.push(`part of the ship ${i}`);

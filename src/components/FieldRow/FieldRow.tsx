@@ -10,8 +10,18 @@ interface IFieldRowProps {
 const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler }: IFieldRowProps) => {
     return (
         <div className="area__row">
-            {row.map(({ id, ship, hit, past, locked }) => (
-                <Field key={id} id={id} hit={hit} ship={ship} past={past} locked={locked} updateCellHandler={updateCellHandler} />
+            {row.map(({ id, ship, shipId, hit, past, locked, lockedId }) => (
+                <Field
+                    key={id}
+                    id={id}
+                    hit={hit}
+                    ship={ship}
+                    shipId={shipId}
+                    past={past}
+                    locked={locked}
+                    lockedId={lockedId}
+                    updateCellHandler={updateCellHandler}
+                />
             ))}
         </div>
     );

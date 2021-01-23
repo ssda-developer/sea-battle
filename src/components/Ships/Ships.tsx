@@ -5,36 +5,38 @@ import Ship from '../Ship/Ship';
 const Ships: FC = () => {
     const ships = [
         {
-            name: 'four-deck',
+            name: 'fourdeck',
             maxCount: 1,
             length: 4,
         },
         {
-            name: 'three-deck',
+            name: 'threedeck',
             maxCount: 2,
             length: 3,
         },
         {
-            name: 'double-deck',
+            name: 'doubledeck',
             maxCount: 3,
             length: 2,
         },
         {
-            name: 'one-deck',
+            name: 'singledeck',
             maxCount: 4,
             length: 1,
         },
     ];
 
+    const buildingShip = () => {
+        console.log('buildingShip');
+    };
+
     return (
         <div className="ships">
             {ships.map(ship => (
-                <div key={ship.name}>
-                    <p>
-                        {ship.name} - x{ship.maxCount}
-                    </p>
-                    <Ship maxCount={ship.maxCount} length={ship.length} />
-                </div>
+                <button type="button" key={ship.name} onClick={buildingShip}>
+                    <p>{ship.name}</p>
+                    {/* <Ship length={ship.length} /> */}
+                </button>
             ))}
         </div>
     );

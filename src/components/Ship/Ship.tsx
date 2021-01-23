@@ -10,7 +10,7 @@ interface IShipProps {
 const Ship: FC<IShipProps> = ({ length, maxCount }: IShipProps) => {
     const array = [];
     for (let i = 0; i < length; i += 1) {
-        array.push('part of the ship');
+        array.push(`part of the ship ${i}`);
     }
 
     return (

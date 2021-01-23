@@ -33,7 +33,7 @@
     }
 
     &.locked {
-        --field-background: #c5c5c5;
+        opacity: 0.65;
     }
 
     &:focus {

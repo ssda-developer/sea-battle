@@ -29,12 +29,12 @@ const Ships: FC = () => {
     return (
         <div className="ships">
             {ships.map(ship => (
-                <>
+                <div key={ship.name}>
                     <p>
                         {ship.name} - x{ship.maxCount}
                     </p>
-                    <Ship key={ship.length} maxCount={ship.maxCount} length={ship.length} />
-                </>
+                    <Ship maxCount={ship.maxCount} length={ship.length} />
+                </div>
             ))}
         </div>
     );

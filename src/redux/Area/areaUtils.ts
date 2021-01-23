@@ -40,9 +40,53 @@ export const updateCell = (square: Array<Array<IField>>, cellId: string): Array<
     return newSquare;
 };
 
+// let oldCoordI = 0;
+// let oldCoordJ = 0;
+
+const createShip = (square: Array<Array<IField>>, i: number, j: number): Array<Array<IField>> => {
+    console.log('createShip', i, j);
+    // oldCoordI = i;
+    // oldCoordJ = j;
+
+    const temporarilyMaxLength = 4;
+    const newSquare = square;
+    const newSquareLength = square.length;
+    const oldSquare = square;
+
+    const shiftUp = i - 1;
+    const shiftRight = j + 1;
+    const shiftDown = i + 1;
+    const shiftLeft = j - 1;
+
+    // console.log(`shiftUp: ${shiftUp}`);
+    // console.log(`shiftRight: ${shiftRight}`);
+    // console.log(`shiftDown: ${shiftDown}`);
+    // console.log(`shiftLeft: ${shiftLeft}`);
+
+    const cellUpLeft = shiftUp >= 0 && shiftLeft >= 0 ? newSquare[shiftUp][shiftLeft] : null;
+    const cellUpRight = shiftUp >= 0 && shiftRight < newSquareLength ? newSquare[shiftUp][shiftRight] : null;
+    const cellDownLeft = shiftDown < newSquareLength && shiftLeft >= 0 ? newSquare[shiftDown][shiftLeft] : null;
+    const cellDownRight = shiftDown < newSquareLength && shiftRight < newSquareLength ? newSquare[shiftDown][shiftRight] : null;
+
+    if (cellUpLeft && !cellUpLeft.ship) {
+        cellUpLeft.locked = true;
+    }
+    if (cellDownLeft && !cellDownLeft.ship) {
+        cellDownLeft.locked = true;
+    }
+    if (cellUpRight && !cellUpRight.ship) {
+        cellUpRight.locked = true;
+    }
+    if (cellDownRight && !cellDownRight.ship) {
+        cellDownRight.locked = true;
+    }
+
+    return newSquare;
+};
+
 // TODO: need finish this code.
 export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Array<IField>> => {
-    const newSquare = square;
+    let newSquare = square;
     const newSquareLength = square.length;
 
     for (let i = 0; i < newSquareLength; i += 1) {
@@ -51,43 +95,7 @@ export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Arr
 
             if (cell.id === cellId) {
                 cell.ship = true;
-
-                // const shiftLeft = i - 1 < 0 ? 0 : i - 1;
-                // const shiftUp = j - 1 < 0 ? 0 : j - 1;
-                // const shiftRight = i + 1 >= newSquareLength ? i : i + 1;
-                // const shiftDown = j + 1 >= newSquareLength ? j : j + 1;
-
-                const shiftUp = i - 1;
-                const shiftRight = j + 1;
-                const shiftDown = i + 1;
-                const shiftLeft = j - 1;
-
-                if (shiftUp >= 0 && shiftRight < newSquareLength && shiftDown < newSquareLength && shiftLeft >= 0) {
-                    const cellUpLeft = newSquare[shiftUp][shiftLeft];
-                    const cellUpRight = newSquare[shiftUp][shiftRight];
-                    const cellDownLeft = newSquare[shiftDown][shiftLeft];
-                    const cellDownRight = newSquare[shiftDown][shiftRight];
-
-                    if (!cellUpLeft.ship) {
-                        cellUpLeft.locked = true;
-                    }
-                    if (!cellDownLeft.ship) {
-                        cellDownLeft.locked = true;
-                    }
-                    if (!cellUpRight.ship) {
-                        cellUpRight.locked = true;
-                    }
-                    if (!cellDownRight.ship) {
-                        cellDownRight.locked = true;
-                    }
-                } else {
-                    console.log('уходит за границу');
-                }
-
-                // newSquare[i - 1][j - 1].locked = true;
-                // newSquare[i - 1][j + 1].locked = true;
-                // newSquare[i + 1][j + 1].locked = true;
-                // newSquare[i + 1][j - 1].locked = true;
+                newSquare = createShip(newSquare, i, j);
             }
         }
     }

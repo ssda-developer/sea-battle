@@ -71,15 +71,27 @@ const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
 
                 if (cellUp && !cellUp.ship) {
                     cellUp.locked = true;
+                    if (cellUp.lockedId.length === 0) {
+                        cellUp.lockedId = `locked-${temporarilyShipId}`;
+                    }
                 }
                 if (cellRight && !cellRight.ship) {
                     cellRight.locked = true;
+                    if (cellRight.lockedId.length === 0) {
+                        cellRight.lockedId = `locked-${temporarilyShipId}`;
+                    }
                 }
                 if (cellDown && !cellDown.ship) {
                     cellDown.locked = true;
+                    if (cellDown.lockedId.length === 0) {
+                        cellDown.lockedId = `locked-${temporarilyShipId}`;
+                    }
                 }
                 if (cellLeft && !cellLeft.ship) {
                     cellLeft.locked = true;
+                    if (cellLeft.lockedId.length === 0) {
+                        cellLeft.lockedId = `locked-${temporarilyShipId}`;
+                    }
                 }
             }
         }

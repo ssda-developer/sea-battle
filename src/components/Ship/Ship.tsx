@@ -3,21 +3,16 @@ import React, { FC } from 'react';
 import './Ship.scss';
 
 interface IShipProps {
-    length: number;
+    cellCount: number;
 }
 
-const Ship: FC<IShipProps> = ({ length }: IShipProps) => {
-    const array = [];
-    for (let i = 0; i < length; i += 1) {
-        array.push(`part of the ship ${i}`);
-    }
-
+const Ship: FC<IShipProps> = ({ cellCount }: IShipProps) => {
     return (
-        <div className="ship">
-            {array.map(partShip => (
-                <div className="field" key={partShip} />
+        <button type="button" className="ship__button">
+            {[...Array(cellCount).keys()].map(partShip => (
+                <div className="ship__button-cell" key={partShip} />
             ))}
-        </div>
+        </button>
     );
 };
 

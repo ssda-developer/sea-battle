@@ -27,8 +27,7 @@
         --field-background: var(--color-1--1);
     }
 
-    &.ship,
-    .ship & {
+    &.ship {
         --field-background: var(--color-2--3);
     }
 

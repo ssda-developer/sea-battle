@@ -1,42 +1,33 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, MouseEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import Ship from '../Ship/Ship';
+import { RootStore } from '../../redux/store';
+import initialShips from '../../redux/Ships/shipsUtils';
+
+import SHIPS from '../../constants/shipsConstants';
+
+import ShipsRow from '../ShipsRow/ShipsRow';
+
+import './Ships.scss';
 
 const Ships: FC = () => {
-    const ships = [
-        {
-            name: 'fourdeck',
-            maxCount: 1,
-            length: 4,
-        },
-        {
-            name: 'threedeck',
-            maxCount: 2,
-            length: 3,
-        },
-        {
-            name: 'doubledeck',
-            maxCount: 3,
-            length: 2,
-        },
-        {
-            name: 'singledeck',
-            maxCount: 4,
-            length: 1,
-        },
-    ];
+    // const dispatch = useDispatch();
+    // const shipsState = useSelector((state: RootStore) => state.shipsReducer);
 
-    const buildingShip = () => {
+    const buildingShip = (evn: MouseEvent<HTMLButtonElement>) => {
         console.log('buildingShip');
     };
 
+    // const renderShips = () => {};
+
     return (
         <div className="ships">
-            {ships.map(ship => (
-                <button type="button" key={ship.name} onClick={buildingShip}>
-                    <p>{ship.name}</p>
-                    {/* <Ship length={ship.length} /> */}
-                </button>
+            {SHIPS.map(ship => (
+                <ShipsRow key={ship.name} shipsCount={ship.maxCount} shipLength={ship.length} />
+                // <Ship length={ship.length} count={ship.maxCount} />
+                // <button type="button" key={ship.name} onClick={buildingShip}>
+                //     <Ship length={ship.length} count={ship.maxCount} />
+                // </button>
             ))}
         </div>
     );

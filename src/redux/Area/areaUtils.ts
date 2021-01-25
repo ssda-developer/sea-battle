@@ -46,6 +46,39 @@ let firstClick = true;
 let temporarilyMaxLength = 4;
 let temporarilyShipId = 'fourdeck1';
 
+const getShifts = (i: number, j: number) => {
+    return {
+        shiftUp: i - 1,
+        shiftRight: j + 1,
+        shiftDown: i + 1,
+        shiftLeft: j - 1,
+    };
+};
+
+const getDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => {
+    const { shiftUp, shiftRight, shiftDown, shiftLeft } = getShifts(i, j);
+    const { length } = square;
+
+    return {
+        cellUpLeft: shiftUp >= 0 && shiftLeft >= 0 ? square[shiftUp][shiftLeft] : null,
+        cellUpRight: shiftUp >= 0 && shiftRight < length ? square[shiftUp][shiftRight] : null,
+        cellDownLeft: shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
+        cellDownRight: shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
+    };
+};
+
+const getNonDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => {
+    const { shiftUp, shiftRight, shiftDown, shiftLeft } = getShifts(i, j);
+    const { length } = square;
+
+    return {
+        cellUp: shiftUp >= 0 ? square[shiftUp][j] : null,
+        cellRight: shiftRight < length ? square[i][shiftRight] : null,
+        cellDown: shiftDown < length ? square[shiftDown][j] : null,
+        cellLeft: shiftLeft >= 0 ? square[i][shiftLeft] : null,
+    };
+};
+
 const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
     console.log('finishBuildingShip');
     const newSquare = square;
@@ -56,18 +89,7 @@ const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
             const cell = newSquare[i][j];
 
             if (cell.shipId === shipId) {
-                console.log(cell);
-
-                const shiftUp = i - 1;
-                const shiftRight = j + 1;
-                const shiftDown = i + 1;
-                const shiftLeft = j - 1;
-
-                // For non-diagonal.
-                const cellUp = shiftUp >= 0 ? newSquare[shiftUp][j] : null;
-                const cellRight = shiftRight < newSquareLength ? newSquare[i][shiftRight] : null;
-                const cellDown = shiftDown < newSquareLength ? newSquare[shiftDown][j] : null;
-                const cellLeft = shiftLeft >= 0 ? newSquare[i][shiftLeft] : null;
+                const { cellUp, cellRight, cellDown, cellLeft } = getNonDiagonalCell(newSquare, i, j);
 
                 if (cellUp && !cellUp.ship) {
                     cellUp.locked = true;
@@ -106,7 +128,6 @@ const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
 
 const resetShip = (square: Array<Array<IField>>, shipId: string) => {
     console.log('resetShip');
-
     const newSquare = square;
     const newSquareLength = square.length;
 
@@ -141,22 +162,8 @@ export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Arr
             const cell = newSquare[i][j];
 
             if (cell.id === cellId) {
-                const shiftUp = i - 1;
-                const shiftRight = j + 1;
-                const shiftDown = i + 1;
-                const shiftLeft = j - 1;
-
-                // For the diagonal
-                const cellUpLeft = shiftUp >= 0 && shiftLeft >= 0 ? newSquare[shiftUp][shiftLeft] : null;
-                const cellUpRight = shiftUp >= 0 && shiftRight < newSquareLength ? newSquare[shiftUp][shiftRight] : null;
-                const cellDownLeft = shiftDown < newSquareLength && shiftLeft >= 0 ? newSquare[shiftDown][shiftLeft] : null;
-                const cellDownRight = shiftDown < newSquareLength && shiftRight < newSquareLength ? newSquare[shiftDown][shiftRight] : null;
-
-                // For non-diagonal.
-                const cellUp = shiftUp >= 0 ? newSquare[shiftUp][j] : null;
-                const cellRight = shiftRight < newSquareLength ? newSquare[i][shiftRight] : null;
-                const cellDown = shiftDown < newSquareLength ? newSquare[shiftDown][j] : null;
-                const cellLeft = shiftLeft >= 0 ? newSquare[i][shiftLeft] : null;
+                const { cellUpLeft, cellUpRight, cellDownLeft, cellDownRight } = getDiagonalCell(newSquare, i, j);
+                const { cellUp, cellRight, cellDown, cellLeft } = getNonDiagonalCell(newSquare, i, j);
 
                 if (
                     temporarilyMaxLength > 0 &&

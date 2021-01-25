@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { ShipsDispatchTypes, RENDER_SHIPS, UPDATE_CURRENT_SHIP_ID } from './shipsTypes';
+import { ShipsDispatchTypes, RENDER_SHIPS, GET_CURRENT_SHIP_ID, GET_CURRENT_SHIP_LENGTH } from './shipsTypes';
 
 export const renderShips = () => (dispatch: Dispatch<ShipsDispatchTypes>): void => {
     dispatch({
@@ -8,9 +8,16 @@ export const renderShips = () => (dispatch: Dispatch<ShipsDispatchTypes>): void 
     });
 };
 
-export const updateCurrentShipId = (id: string) => (dispatch: Dispatch<ShipsDispatchTypes>): void => {
+export const getCurrentShipId = (id: string) => (dispatch: Dispatch<ShipsDispatchTypes>): void => {
     dispatch({
-        type: UPDATE_CURRENT_SHIP_ID,
+        type: GET_CURRENT_SHIP_ID,
         payload: id,
+    });
+};
+
+export const getCurrentShipLength = (length: number) => (dispatch: Dispatch<ShipsDispatchTypes>): void => {
+    dispatch({
+        type: GET_CURRENT_SHIP_LENGTH,
+        payload: length,
     });
 };

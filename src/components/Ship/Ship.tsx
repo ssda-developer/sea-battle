@@ -1,7 +1,7 @@
 import React, { FC, MouseEvent } from 'react';
 
 import { useDispatch } from 'react-redux';
-import { updateCurrentShipId } from '../../redux/Ships/shipsActions';
+import { getCurrentShipId, getCurrentShipLength } from '../../redux/Ships/shipsActions';
 import getUniqId from '../../helpers';
 
 import './Ship.scss';
@@ -20,7 +20,8 @@ const Ship: FC<IShipProps> = ({ cellCount }: IShipProps) => {
             currentTarget: { id },
         } = evn;
 
-        dispatch(updateCurrentShipId(id));
+        dispatch(getCurrentShipId(id));
+        dispatch(getCurrentShipLength(cellCount));
     };
 
     return (

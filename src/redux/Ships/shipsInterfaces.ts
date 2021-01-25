@@ -4,7 +4,12 @@ export interface IShip {
     length: number;
 }
 
+export type CurrentShip = {
+    id: string;
+    length: number;
+};
+
 export interface IShips {
     ships: Array<IShip>;
-    currentShipId: string;
+    currentShip: CurrentShip;
 }

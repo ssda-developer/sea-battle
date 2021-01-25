@@ -1,5 +1,3 @@
-const initialShips = () => {
-
-};
+const initialShips = () => {};
 
 export default initialShips;

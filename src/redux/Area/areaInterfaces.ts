@@ -1,7 +1,12 @@
 import { IField } from '../Field/fieldInterfaces';
 
+export enum Owns {
+    Friendly = 'FRIENDLY',
+    Enemy = 'ENEMY',
+}
+
 export interface IOwns {
-    owns: 'friendly' | 'enemy';
+    owns: Owns.Enemy | Owns.Friendly;
 }
 
 export interface IArea {

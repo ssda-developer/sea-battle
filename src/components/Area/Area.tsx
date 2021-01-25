@@ -7,7 +7,7 @@ import { IOwns } from '../../redux/Area/areaInterfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 
-import { createSquare, addShip } from '../../redux/Area/areaUtils';
+import { createSquare, addShip, updateCell } from '../../redux/Area/areaUtils';
 
 import FieldRow from '../FieldRow/FieldRow';
 
@@ -16,6 +16,7 @@ import './Area.scss';
 const Area: FC<IOwns> = (owns: IOwns) => {
     const dispatch = useDispatch();
     const areaState = useSelector((state: RootStore) => state.areaReducer);
+    const shipsState = useSelector((state: RootStore) => state.shipsReducer);
 
     useEffect(() => {
         const square = createSquare();
@@ -30,8 +31,9 @@ const Area: FC<IOwns> = (owns: IOwns) => {
         const {
             currentTarget: { id },
         } = evn;
+        const { currentShipId } = shipsState;
 
-        dispatch(renderSquare(addShip(areaState.square, id)));
+        dispatch(renderSquare(updateCell(areaState.square, id)));
     };
 
     return (

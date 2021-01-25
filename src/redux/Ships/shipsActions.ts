@@ -1,11 +1,16 @@
 import { Dispatch } from 'redux';
 
-import { RENDER_SHIPS, ShipsDispatchTypes } from './shipsTypes';
+import { ShipsDispatchTypes, RENDER_SHIPS, UPDATE_CURRENT_SHIP_ID } from './shipsTypes';
 
-const renderShips = () => (dispatch: Dispatch<ShipsDispatchTypes>): void => {
+export const renderShips = () => (dispatch: Dispatch<ShipsDispatchTypes>): void => {
     dispatch({
         type: RENDER_SHIPS,
     });
 };
 
-export default renderShips;
+export const updateCurrentShipId = (id: string) => (dispatch: Dispatch<ShipsDispatchTypes>): void => {
+    dispatch({
+        type: UPDATE_CURRENT_SHIP_ID,
+        payload: id,
+    });
+};

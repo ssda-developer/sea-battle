@@ -80,7 +80,6 @@ const getNonDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) 
 };
 
 const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
-    console.log('finishBuildingShip');
     const newSquare = square;
     const newSquareLength = square.length;
 
@@ -127,7 +126,6 @@ const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
 };
 
 const resetShip = (square: Array<Array<IField>>, shipId: string) => {
-    console.log('resetShip');
     const newSquare = square;
     const newSquareLength = square.length;
 
@@ -136,7 +134,6 @@ const resetShip = (square: Array<Array<IField>>, shipId: string) => {
             const cell = newSquare[i][j];
 
             if (cell.shipId === shipId || cell.lockedId === `locked-${shipId}`) {
-                console.log(cell);
                 cell.ship = false;
                 cell.shipId = '';
                 cell.locked = false;
@@ -153,7 +150,6 @@ const resetShip = (square: Array<Array<IField>>, shipId: string) => {
 
 // TODO: need finish this code.
 export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Array<IField>> => {
-    console.log(firstClick);
     let newSquare = square;
     const newSquareLength = square.length;
 

@@ -6,4 +6,5 @@ export interface IShip {
 
 export interface IShips {
     ships: Array<IShip>;
+    currentShipId: string;
 }

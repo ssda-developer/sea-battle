@@ -33,7 +33,7 @@ const Area: FC<IOwns> = (owns: IOwns) => {
         } = evn;
         const { currentShip } = shipsState;
 
-        dispatch(renderSquare(updateCell(areaState.square, id)));
+        dispatch(renderSquare(addShip(areaState.square, id)));
     };
 
     return (

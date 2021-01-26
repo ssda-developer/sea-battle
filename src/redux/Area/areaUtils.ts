@@ -1,5 +1,7 @@
 import { IField } from '../Field/fieldInterfaces';
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
+import getUniqId from '../../helpers';
+import SHIPS from '../../constants/shipsConstants';
 
 export const createSquare = (): Array<Array<IField>> => {
     const square: Array<Array<IField>> = [];
@@ -44,7 +46,9 @@ export const updateCell = (square: Array<Array<IField>>, cellId: string): Array<
 
 let firstClick = true;
 let temporarilyMaxLength = 4;
-let temporarilyShipId = 'fourdeck1';
+let temporarilyShipId = getUniqId();
+let currentLength = 0;
+const ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
 
 const getShifts = (i: number, j: number) => {
     return {
@@ -65,6 +69,13 @@ const getDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => 
         cellDownLeft: shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
         cellDownRight: shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
     };
+
+    // return [
+    //     shiftUp >= 0 && shiftLeft >= 0 ? square[shiftUp][shiftLeft] : null,
+    //     shiftUp >= 0 && shiftRight < length ? square[shiftUp][shiftRight] : null,
+    //     shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
+    //     shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
+    // ];
 };
 
 const getNonDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => {
@@ -77,7 +88,91 @@ const getNonDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) 
         cellDown: shiftDown < length ? square[shiftDown][j] : null,
         cellLeft: shiftLeft >= 0 ? square[i][shiftLeft] : null,
     };
+
+    // return [
+    //     shiftUp >= 0 ? square[shiftUp][j] : null,
+    //     shiftRight < length ? square[i][shiftRight] : null,
+    //     shiftDown < length ? square[shiftDown][j] : null,
+    //     shiftLeft >= 0 ? square[i][shiftLeft] : null,
+    // ];
 };
+
+// const changeCellId = (square: any, i: number, j: number, cell: any) => {
+//     getNonDiagonalCell(square, i, j).forEach(el => {
+//         console.log(el);
+//
+//         if (el && el.shipId.length !== 0) {
+//             // eslint-disable-next-line no-param-reassign
+//             cell.shipId = el.shipId;
+//         }
+//     });
+// };
+
+// export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Array<IField>> => {
+//     const newSquare = square;
+//     const newSquareLength = square.length;
+//
+//     for (let i = 0; i < newSquareLength; i += 1) {
+//         for (let j = 0; j < newSquareLength; j += 1) {
+//             const cell = newSquare[i][j];
+//             if (cell.id === cellId) {
+//                 cell.ship = true;
+//
+//                 getNonDiagonalCell(square, i, j).forEach(el => {
+//                     // console.log(el);
+//                     if (el && el.shipId.length !== 0) {
+//                         cell.shipId = el.shipId;
+//                     }
+//                 });
+//
+//                 // changeCellId(newSquare, i, j, cell);
+//
+//                 getDiagonalCell(square, i, j).forEach(el => {
+//                     if (el) {
+//                         // eslint-disable-next-line no-param-reassign
+//                         el.locked = true;
+//                     }
+//                 });
+//
+//                 if (cell.shipId.length === 0) {
+//                     cell.shipId = getUniqId();
+//                 }
+//             }
+//         }
+//     }
+//
+//     // const testSquare = newSquare;
+//     // for (let i = 0; i < newSquareLength; i += 1) {
+//     //     for (let j = 0; j < newSquareLength; j += 1) {
+//     //         const cell = testSquare[i][j];
+//     //         console.log(cell);
+//     //         getNonDiagonalCell(square, i, j).forEach(el => {
+//     //             // console.log(el);
+//     //             if (el && el.shipId.length !== 0 && cell.ship) {
+//     //                 cell.shipId = el.shipId;
+//     //             }
+//     //         });
+//     //
+//     //         if (cell.ship && cell.shipId.length === 0) {
+//     //             cell.shipId = getUniqId();
+//     //         }
+//     //     }
+//     // }
+//     // console.log(testSquare);
+//
+//     const result = {} as any;
+//     newSquare.flat().forEach(cell => {
+//         if (cell.shipId.length !== 0) {
+//             result[cell.shipId] = result[cell.shipId] + 1 || 1;
+//         }
+//     });
+//
+//     // console.clear();
+//     // console.log(ships.sort());
+//     // console.log(Object.values(result).sort());
+//
+//     return newSquare;
+// };
 
 const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
     const newSquare = square;
@@ -119,11 +214,26 @@ const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
     }
 
     firstClick = true;
-    temporarilyMaxLength = 4;
-    temporarilyShipId = `random-${Math.floor(Math.random() * Math.floor(50))}`;
+    temporarilyShipId = getUniqId();
+    currentLength = 0;
+    // temporarilyMaxLength = 4;
+    // temporarilyShipId = `random-${Math.floor(Math.random() * Math.floor(50))}`;
 
     return newSquare;
 };
+
+// const testCheck = (newSquare: any) => {
+//     const result = {} as any;
+//     newSquare.flat().forEach((cell: any) => {
+//         if (cell.shipId.length !== 0) {
+//             result[cell.shipId] = result[cell.shipId] + 1 || 1;
+//         }
+//     });
+//
+//     console.clear();
+//     console.log(ships.sort());
+//     console.log(Object.values(result).sort());
+// };
 
 const resetShip = (square: Array<Array<IField>>, shipId: string) => {
     const newSquare = square;
@@ -197,13 +307,18 @@ export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Arr
                     cell.ship = true;
                     cell.shipId = temporarilyShipId;
                     firstClick = false;
-                    temporarilyMaxLength -= 1;
-
-                    if (temporarilyMaxLength === 0) {
-                        newSquare = finishBuildingShip(newSquare, temporarilyShipId);
-                    }
+                    currentLength += 1;
                 } else {
-                    resetShip(newSquare, temporarilyShipId);
+                    console.log(ships);
+                    // eslint-disable-next-line @typescript-eslint/no-loop-func
+                    const index = ships.findIndex(ship => ship === currentLength);
+                    console.log(index);
+                    if (index >= 0) {
+                        delete ships[index];
+                        newSquare = finishBuildingShip(newSquare, temporarilyShipId);
+                    } else {
+                        resetShip(newSquare, temporarilyShipId);
+                    }
                 }
             }
         }

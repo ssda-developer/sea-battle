@@ -5,11 +5,16 @@ export enum Owns {
     Enemy = 'ENEMY',
 }
 
+export type Squares = {
+    friendlySquare: Array<Array<IField>>;
+    enemySquare: Array<Array<IField>>;
+};
+
 export interface IOwns {
     owns: Owns.Enemy | Owns.Friendly;
 }
 
 export interface IArea {
-    square: Array<Array<IField>>;
+    squares: Squares;
     owns: IOwns | null;
 }

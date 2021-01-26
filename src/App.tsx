@@ -12,7 +12,7 @@ const Game: FC = () => {
         <div className="sea-battle">
             <Ships />
             <Area owns={Owns.Friendly} />
-            {/* <Area owns={Owns.Enemy} /> */}
+            <Area owns={Owns.Enemy} />
         </div>
     );
 };

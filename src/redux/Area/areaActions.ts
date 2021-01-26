@@ -1,11 +1,18 @@
 import { Dispatch } from 'redux';
-import { RENDER_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
+import { RENDER_FRIENDLY_SQUARE, RENDER_ENEMY_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
 import { IField } from '../Field/fieldInterfaces';
 import { IOwns } from './areaInterfaces';
 
-export const renderSquare = (square: Array<Array<IField>>) => (dispatch: Dispatch<AreaDispatchTypes>): void => {
+export const renderFriendlySquare = (square: Array<Array<IField>>) => (dispatch: Dispatch<AreaDispatchTypes>): void => {
     dispatch({
-        type: RENDER_SQUARE,
+        type: RENDER_FRIENDLY_SQUARE,
+        payload: square,
+    });
+};
+
+export const renderEnemySquare = (square: Array<Array<IField>>) => (dispatch: Dispatch<AreaDispatchTypes>): void => {
+    dispatch({
+        type: RENDER_ENEMY_SQUARE,
         payload: square,
     });
 };

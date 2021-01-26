@@ -2,8 +2,8 @@ import React, { FC, MouseEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStore } from '../../redux/store';
-import { renderSquare, changeOwns } from '../../redux/Area/areaActions';
-import { IOwns } from '../../redux/Area/areaInterfaces';
+import { renderFriendlySquare, renderEnemySquare, changeOwns } from '../../redux/Area/areaActions';
+import { IOwns, Owns } from '../../redux/Area/areaInterfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 
@@ -18,10 +18,14 @@ const Area: FC<IOwns> = (owns: IOwns) => {
     const areaState = useSelector((state: RootStore) => state.areaReducer);
     const shipsState = useSelector((state: RootStore) => state.shipsReducer);
 
-    useEffect(() => {
-        const square = createSquare();
+    let { friendlySquare, enemySquare } = areaState.squares;
 
-        dispatch(renderSquare(square));
+    useEffect(() => {
+        friendlySquare = createSquare();
+        enemySquare = createSquare();
+
+        dispatch(renderFriendlySquare(friendlySquare));
+        dispatch(renderEnemySquare(enemySquare));
         dispatch(changeOwns(owns));
     }, []);
 
@@ -33,8 +37,10 @@ const Area: FC<IOwns> = (owns: IOwns) => {
         } = evn;
         const { currentShip } = shipsState;
 
-        dispatch(renderSquare(addShip(areaState.square, id)));
+        dispatch(renderFriendlySquare(addShip(friendlySquare, id)));
     };
+
+    const currentSquare = owns.owns === Owns.Friendly ? friendlySquare : enemySquare;
 
     return (
         <div className="area">
@@ -53,7 +59,7 @@ const Area: FC<IOwns> = (owns: IOwns) => {
                 ))}
             </div>
             <div className="area__wrapper">
-                {areaState.square.map((row, idx) => (
+                {currentSquare.map((row, idx) => (
                     <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} />
                 ))}
             </div>

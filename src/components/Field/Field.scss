@@ -19,16 +19,16 @@
         --field-color: var(--color-white);
     }
 
-    &.hit {
-        --field-background: var(--color-1--4);
-    }
-
     &.past {
         --field-background: var(--color-1--1);
     }
 
     &.ship {
         --field-background: var(--color-2--3);
+    }
+
+    &.hit {
+        --field-background: red;
     }
 
     &.locked {

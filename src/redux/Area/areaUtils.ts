@@ -1,7 +1,6 @@
 import { IField } from '../Field/fieldInterfaces';
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 import getUniqId from '../../helpers';
-import SHIPS from '../../constants/shipsConstants';
 
 export const createSquare = (): Array<Array<IField>> => {
     const square: Array<Array<IField>> = [];
@@ -29,19 +28,25 @@ export const createSquare = (): Array<Array<IField>> => {
     return square;
 };
 
-export const updateCell = (square: Array<Array<IField>>, cellId: string): Array<Array<IField>> => {
-    const newSquare = square;
-    const newSquareLength = square.length;
+export const updateCell = (square: Array<Array<IField>>, currentCellId: string): Array<Array<IField>> => {
+    console.log(square);
+    const array = square;
+    const arrayLength = square.length;
 
-    for (let i = 0; i < newSquareLength; i += 1) {
-        for (let j = 0; j < newSquareLength; j += 1) {
-            if (newSquare[i][j].id === cellId) {
-                newSquare[i][j].past = true;
+    for (let i = 0; i < arrayLength; i += 1) {
+        for (let j = 0; j < arrayLength; j += 1) {
+            const cell = array[i][j];
+            if (cell.id === currentCellId) {
+                if (cell.ship) {
+                    cell.hit = true;
+                } else {
+                    cell.past = true;
+                }
             }
         }
     }
 
-    return newSquare;
+    return array;
 };
 
 let firstClick = true;
@@ -69,13 +74,6 @@ const getDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => 
         cellDownLeft: shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
         cellDownRight: shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
     };
-
-    // return [
-    //     shiftUp >= 0 && shiftLeft >= 0 ? square[shiftUp][shiftLeft] : null,
-    //     shiftUp >= 0 && shiftRight < length ? square[shiftUp][shiftRight] : null,
-    //     shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
-    //     shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
-    // ];
 };
 
 const getNonDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => {
@@ -88,102 +86,18 @@ const getNonDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) 
         cellDown: shiftDown < length ? square[shiftDown][j] : null,
         cellLeft: shiftLeft >= 0 ? square[i][shiftLeft] : null,
     };
-
-    // return [
-    //     shiftUp >= 0 ? square[shiftUp][j] : null,
-    //     shiftRight < length ? square[i][shiftRight] : null,
-    //     shiftDown < length ? square[shiftDown][j] : null,
-    //     shiftLeft >= 0 ? square[i][shiftLeft] : null,
-    // ];
 };
 
-// const changeCellId = (square: any, i: number, j: number, cell: any) => {
-//     getNonDiagonalCell(square, i, j).forEach(el => {
-//         console.log(el);
-//
-//         if (el && el.shipId.length !== 0) {
-//             // eslint-disable-next-line no-param-reassign
-//             cell.shipId = el.shipId;
-//         }
-//     });
-// };
-
-// export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Array<IField>> => {
-//     const newSquare = square;
-//     const newSquareLength = square.length;
-//
-//     for (let i = 0; i < newSquareLength; i += 1) {
-//         for (let j = 0; j < newSquareLength; j += 1) {
-//             const cell = newSquare[i][j];
-//             if (cell.id === cellId) {
-//                 cell.ship = true;
-//
-//                 getNonDiagonalCell(square, i, j).forEach(el => {
-//                     // console.log(el);
-//                     if (el && el.shipId.length !== 0) {
-//                         cell.shipId = el.shipId;
-//                     }
-//                 });
-//
-//                 // changeCellId(newSquare, i, j, cell);
-//
-//                 getDiagonalCell(square, i, j).forEach(el => {
-//                     if (el) {
-//                         // eslint-disable-next-line no-param-reassign
-//                         el.locked = true;
-//                     }
-//                 });
-//
-//                 if (cell.shipId.length === 0) {
-//                     cell.shipId = getUniqId();
-//                 }
-//             }
-//         }
-//     }
-//
-//     // const testSquare = newSquare;
-//     // for (let i = 0; i < newSquareLength; i += 1) {
-//     //     for (let j = 0; j < newSquareLength; j += 1) {
-//     //         const cell = testSquare[i][j];
-//     //         console.log(cell);
-//     //         getNonDiagonalCell(square, i, j).forEach(el => {
-//     //             // console.log(el);
-//     //             if (el && el.shipId.length !== 0 && cell.ship) {
-//     //                 cell.shipId = el.shipId;
-//     //             }
-//     //         });
-//     //
-//     //         if (cell.ship && cell.shipId.length === 0) {
-//     //             cell.shipId = getUniqId();
-//     //         }
-//     //     }
-//     // }
-//     // console.log(testSquare);
-//
-//     const result = {} as any;
-//     newSquare.flat().forEach(cell => {
-//         if (cell.shipId.length !== 0) {
-//             result[cell.shipId] = result[cell.shipId] + 1 || 1;
-//         }
-//     });
-//
-//     // console.clear();
-//     // console.log(ships.sort());
-//     // console.log(Object.values(result).sort());
-//
-//     return newSquare;
-// };
-
 const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
-    const newSquare = square;
-    const newSquareLength = square.length;
+    const array = square;
+    const arrayLength = square.length;
 
-    for (let i = 0; i < newSquareLength; i += 1) {
-        for (let j = 0; j < newSquareLength; j += 1) {
-            const cell = newSquare[i][j];
+    for (let i = 0; i < arrayLength; i += 1) {
+        for (let j = 0; j < arrayLength; j += 1) {
+            const cell = array[i][j];
 
             if (cell.shipId === shipId) {
-                const { cellUp, cellRight, cellDown, cellLeft } = getNonDiagonalCell(newSquare, i, j);
+                const { cellUp, cellRight, cellDown, cellLeft } = getNonDiagonalCell(array, i, j);
 
                 if (cellUp && !cellUp.ship) {
                     cellUp.locked = true;
@@ -216,15 +130,13 @@ const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
     firstClick = true;
     temporarilyShipId = getUniqId();
     currentLength = 0;
-    // temporarilyMaxLength = 4;
-    // temporarilyShipId = `random-${Math.floor(Math.random() * Math.floor(50))}`;
 
-    return newSquare;
+    return array;
 };
 
-// const testCheck = (newSquare: any) => {
+// const testCheck = (array: any) => {
 //     const result = {} as any;
-//     newSquare.flat().forEach((cell: any) => {
+//     array.flat().forEach((cell: any) => {
 //         if (cell.shipId.length !== 0) {
 //             result[cell.shipId] = result[cell.shipId] + 1 || 1;
 //         }
@@ -236,12 +148,12 @@ const finishBuildingShip = (square: Array<Array<IField>>, shipId: string) => {
 // };
 
 const resetShip = (square: Array<Array<IField>>, shipId: string) => {
-    const newSquare = square;
-    const newSquareLength = square.length;
+    const array = square;
+    const arrayLength = square.length;
 
-    for (let i = 0; i < newSquareLength; i += 1) {
-        for (let j = 0; j < newSquareLength; j += 1) {
-            const cell = newSquare[i][j];
+    for (let i = 0; i < arrayLength; i += 1) {
+        for (let j = 0; j < arrayLength; j += 1) {
+            const cell = array[i][j];
 
             if (cell.shipId === shipId || cell.lockedId === `locked-${shipId}`) {
                 cell.ship = false;
@@ -255,21 +167,31 @@ const resetShip = (square: Array<Array<IField>>, shipId: string) => {
     firstClick = true;
     temporarilyMaxLength = 4;
 
-    return newSquare;
+    return array;
 };
 
-// TODO: need finish this code.
-export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Array<IField>> => {
-    let newSquare = square;
-    const newSquareLength = square.length;
+const lockedCell = (cellQwe: IField | null) => {
+    const cell = cellQwe;
 
-    for (let i = 0; i < newSquareLength; i += 1) {
-        for (let j = 0; j < newSquareLength; j += 1) {
-            const cell = newSquare[i][j];
+    if (cell && !cell.ship) {
+        cell.locked = true;
+        if (cell.lockedId.length === 0) {
+            cell.lockedId = `locked-${temporarilyShipId}`;
+        }
+    }
+};
 
-            if (cell.id === cellId) {
-                const { cellUpLeft, cellUpRight, cellDownLeft, cellDownRight } = getDiagonalCell(newSquare, i, j);
-                const { cellUp, cellRight, cellDown, cellLeft } = getNonDiagonalCell(newSquare, i, j);
+export const addShip = (square: Array<Array<IField>>, currentCellId: string): Array<Array<IField>> => {
+    let array = square;
+    const arrayLength = square.length;
+
+    for (let i = 0; i < arrayLength; i += 1) {
+        for (let j = 0; j < arrayLength; j += 1) {
+            const cell = array[i][j];
+
+            if (cell.id === currentCellId) {
+                const { cellUpLeft, cellUpRight, cellDownLeft, cellDownRight } = getDiagonalCell(array, i, j);
+                const { cellUp, cellRight, cellDown, cellLeft } = getNonDiagonalCell(array, i, j);
 
                 if (
                     temporarilyMaxLength > 0 &&
@@ -279,50 +201,78 @@ export const addShip = (square: Array<Array<IField>>, cellId: string): Array<Arr
                         (cellLeft && cellLeft.shipId === temporarilyShipId) ||
                         firstClick)
                 ) {
-                    if (cellUpLeft && !cellUpLeft.ship) {
-                        cellUpLeft.locked = true;
-                        if (cellUpLeft.lockedId.length === 0) {
-                            cellUpLeft.lockedId = `locked-${temporarilyShipId}`;
-                        }
-                    }
-                    if (cellDownLeft && !cellDownLeft.ship) {
-                        cellDownLeft.locked = true;
-                        if (cellDownLeft.lockedId.length === 0) {
-                            cellDownLeft.lockedId = `locked-${temporarilyShipId}`;
-                        }
-                    }
-                    if (cellUpRight && !cellUpRight.ship) {
-                        cellUpRight.locked = true;
-                        if (cellUpRight.lockedId.length === 0) {
-                            cellUpRight.lockedId = `locked-${temporarilyShipId}`;
-                        }
-                    }
-                    if (cellDownRight && !cellDownRight.ship) {
-                        cellDownRight.locked = true;
-                        if (cellDownRight.lockedId.length === 0) {
-                            cellDownRight.lockedId = `locked-${temporarilyShipId}`;
-                        }
-                    }
+                    currentLength += 1;
+                    // eslint-disable-next-line prefer-spread
+                    const maxShipsLength = Math.max.apply(Math, ships);
+                    console.log(ships);
+
+                    lockedCell(cellUpLeft);
+                    lockedCell(cellDownLeft);
+                    lockedCell(cellUpRight);
+                    lockedCell(cellDownRight);
+                    // if (cellUpLeft && !cellUpLeft.ship) {
+                    //     console.log(cellUpLeft);
+                    //     cellUpLeft.locked = true;
+                    //     if (cellUpLeft.lockedId.length === 0) {
+                    //         cellUpLeft.lockedId = `locked-${temporarilyShipId}`;
+                    //     }
+                    // }
+                    // if (cellDownLeft && !cellDownLeft.ship) {
+                    //     cellDownLeft.locked = true;
+                    //     if (cellDownLeft.lockedId.length === 0) {
+                    //         cellDownLeft.lockedId = `locked-${temporarilyShipId}`;
+                    //     }
+                    // }
+                    // if (cellUpRight && !cellUpRight.ship) {
+                    //     cellUpRight.locked = true;
+                    //     if (cellUpRight.lockedId.length === 0) {
+                    //         cellUpRight.lockedId = `locked-${temporarilyShipId}`;
+                    //     }
+                    // }
+                    // if (cellDownRight && !cellDownRight.ship) {
+                    //     cellDownRight.locked = true;
+                    //     if (cellDownRight.lockedId.length === 0) {
+                    //         cellDownRight.lockedId = `locked-${temporarilyShipId}`;
+                    //     }
+                    // }
 
                     cell.ship = true;
                     cell.shipId = temporarilyShipId;
                     firstClick = false;
-                    currentLength += 1;
-                } else {
-                    console.log(ships);
-                    // eslint-disable-next-line @typescript-eslint/no-loop-func
-                    const index = ships.findIndex(ship => ship === currentLength);
-                    console.log(index);
-                    if (index >= 0) {
-                        delete ships[index];
-                        newSquare = finishBuildingShip(newSquare, temporarilyShipId);
-                    } else {
-                        resetShip(newSquare, temporarilyShipId);
+
+                    if (currentLength === maxShipsLength) {
+                        // eslint-disable-next-line @typescript-eslint/no-loop-func
+                        const index: number = ships.findIndex(ship => ship === currentLength);
+                        ships.splice(index, 1);
+                        array = finishBuildingShip(array, temporarilyShipId);
                     }
+                } else {
+                    // eslint-disable-next-line @typescript-eslint/no-loop-func
+                    const index: number = ships.findIndex(ship => ship === currentLength);
+                    if (index >= 0) {
+                        ships.splice(index, 1);
+                        array = finishBuildingShip(array, temporarilyShipId);
+                    } else {
+                        resetShip(array, temporarilyShipId);
+                    }
+
+                    currentLength = 0;
+                    addShip(square, currentCellId);
                 }
             }
         }
     }
 
-    return newSquare;
+    if (ships.length === 0) {
+        for (let i = 0; i < arrayLength; i += 1) {
+            for (let j = 0; j < arrayLength; j += 1) {
+                const cell = array[i][j];
+                if (!cell.ship) {
+                    cell.locked = true;
+                }
+            }
+        }
+    }
+
+    return array;
 };

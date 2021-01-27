@@ -36,8 +36,11 @@ const Area: FC<IOwns> = (owns: IOwns) => {
             currentTarget: { id },
         } = evn;
         const { currentShip } = shipsState;
-
-        dispatch(renderFriendlySquare(addShip(friendlySquare, id)));
+        if (owns.owns === 'FRIENDLY') {
+            dispatch(renderFriendlySquare(addShip(friendlySquare, id)));
+        } else {
+            dispatch(renderEnemySquare(updateCell(friendlySquare, id)));
+        }
     };
 
     const currentSquare = owns.owns === Owns.Friendly ? friendlySquare : enemySquare;
@@ -47,14 +50,14 @@ const Area: FC<IOwns> = (owns: IOwns) => {
             <div className="area__letters">
                 {AREA_LETTERS.map(letter => (
                     <div className="field" key={letter}>
-                        {letter}
+                        {letter.toLocaleUpperCase()}
                     </div>
                 ))}
             </div>
             <div className="area__numbers">
                 {AREA_NUMBERS.map(number => (
                     <div className="field" key={number}>
-                        {number}
+                        {number.toUpperCase()}
                     </div>
                 ))}
             </div>

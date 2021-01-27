@@ -26,7 +26,8 @@
                 "trailingComma": "all"
             }
         ],
-        "react/state-in-constructor": "off"
+        "react/state-in-constructor": "off",
+        "no-param-reassign": 0
     },
     "env": {
         "browser": true,

@@ -84,9 +84,7 @@ const getCellsAround = (square: Array<Array<IField>>, i: number, j: number, dire
     return [];
 };
 
-const lockedCell = (cellQwe: IField | null) => {
-    const cell = cellQwe;
-
+const lockedCell = (cell: IField | null) => {
     if (cell && !cell.ship) {
         cell.locked = true;
         cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;

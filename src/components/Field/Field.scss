@@ -6,7 +6,6 @@
     align-items: center;
     background: var(--field-background);
     color: var(--field-color);
-    cursor: pointer;
     display: flex;
     height: var(--field-size);
     justify-content: center;
@@ -37,6 +36,10 @@
 
     &:focus {
         outline: none;
+    }
+
+    &[type="button"] {
+        cursor: pointer;
     }
 
     &:disabled,

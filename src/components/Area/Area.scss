@@ -1,16 +1,18 @@
 .area {
+    --area-row-size: calc(var(--global-field-size) * 10);
+    
     background-color: var(--color-1--4);
     display: flex;
     flex-wrap: wrap;
     margin: 0 2rem;
     position: relative;
-    width: 550px;
+    width: calc(var(--area-row-size) + var(--global-field-size));
 
     &__wrapper {
         display: flex;
         flex-wrap: wrap;
         margin: 0;
-        width: 500px;
+        width: var(--area-row-size);
     }
 
     &__letters,

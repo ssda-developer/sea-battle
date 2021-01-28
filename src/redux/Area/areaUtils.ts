@@ -29,12 +29,12 @@ export const createSquare = (): Array<Array<IField>> => {
 };
 
 export const updateCell = (square: Array<Array<IField>>, currentCellId: string): Array<Array<IField>> => {
-    const array = square;
-    const arrayLength = square.length;
+    const { length } = square;
 
-    for (let i = 0; i < arrayLength; i += 1) {
-        for (let j = 0; j < arrayLength; j += 1) {
-            const cell = array[i][j];
+    for (let i = 0; i < length; i += 1) {
+        for (let j = 0; j < length; j += 1) {
+            const cell = square[i][j];
+
             if (cell.id === currentCellId) {
                 if (cell.ship) {
                     cell.hit = true;
@@ -45,45 +45,43 @@ export const updateCell = (square: Array<Array<IField>>, currentCellId: string):
         }
     }
 
-    return array;
+    return square;
 };
 
-let firstClick = true;
-let uniqShipId = getUniqId();
-let currentLength = 0;
 const ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+let isStartClickBuildShip = true;
+let uniqShipId = getUniqId();
+let currentShipLength = 0;
 
-const getShifts = (i: number, j: number) => {
-    return {
-        shiftUp: i - 1,
-        shiftRight: j + 1,
-        shiftDown: i + 1,
-        shiftLeft: j - 1,
-    };
+const resetStartingValues = () => {
+    isStartClickBuildShip = true;
+    uniqShipId = getUniqId();
+    currentShipLength = 0;
 };
 
-const getDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => {
-    const { shiftUp, shiftRight, shiftDown, shiftLeft } = getShifts(i, j);
+const getCellsAround = (square: Array<Array<IField>>, i: number, j: number, direction: 'diagonal' | 'non-diagonal') => {
     const { length } = square;
+    const [shiftUp, shiftRight, shiftDown, shiftLeft] = [i - 1, j + 1, i + 1, j - 1];
 
-    return [
-        shiftUp >= 0 && shiftLeft >= 0 ? square[shiftUp][shiftLeft] : null,
-        shiftUp >= 0 && shiftRight < length ? square[shiftUp][shiftRight] : null,
-        shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
-        shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
-    ];
-};
+    if (direction === 'diagonal') {
+        return [
+            shiftUp >= 0 && shiftLeft >= 0 ? square[shiftUp][shiftLeft] : null,
+            shiftUp >= 0 && shiftRight < length ? square[shiftUp][shiftRight] : null,
+            shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
+            shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
+        ];
+    }
 
-const getNonDiagonalCell = (square: Array<Array<IField>>, i: number, j: number) => {
-    const { shiftUp, shiftRight, shiftDown, shiftLeft } = getShifts(i, j);
-    const { length } = square;
+    if (direction === 'non-diagonal') {
+        return [
+            shiftUp >= 0 ? square[shiftUp][j] : null,
+            shiftRight < length ? square[i][shiftRight] : null,
+            shiftDown < length ? square[shiftDown][j] : null,
+            shiftLeft >= 0 ? square[i][shiftLeft] : null,
+        ];
+    }
 
-    return [
-        shiftUp >= 0 ? square[shiftUp][j] : null,
-        shiftRight < length ? square[i][shiftRight] : null,
-        shiftDown < length ? square[shiftDown][j] : null,
-        shiftLeft >= 0 ? square[i][shiftLeft] : null,
-    ];
+    return [];
 };
 
 const lockedCell = (cellQwe: IField | null) => {
@@ -91,9 +89,7 @@ const lockedCell = (cellQwe: IField | null) => {
 
     if (cell && !cell.ship) {
         cell.locked = true;
-        if (cell.lockedId.length === 0) {
-            cell.lockedId = `locked-${uniqShipId}`;
-        }
+        cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;
     }
 };
 
@@ -105,14 +101,12 @@ const finishBuildingShip = (square: Array<Array<IField>>, currentShipId: string)
             const cell = square[i][j];
 
             if (cell.shipId === currentShipId) {
-                getNonDiagonalCell(square, i, j).forEach(nonDiagonalCell => lockedCell(nonDiagonalCell));
+                getCellsAround(square, i, j, 'non-diagonal').forEach(nonDiagonalCell => lockedCell(nonDiagonalCell));
             }
         }
     }
 
-    firstClick = true;
-    uniqShipId = getUniqId();
-    currentLength = 0;
+    resetStartingValues();
 
     return square;
 };
@@ -127,7 +121,7 @@ const removeWrongShip = (square: Array<Array<IField>>, currentShipId: string): A
         }
     });
 
-    firstClick = true;
+    resetStartingValues();
 
     return square;
 };
@@ -141,33 +135,30 @@ export const addShip = (square: Array<Array<IField>>, currentCellId: string): Ar
             const cell = array[i][j];
 
             if (cell.id === currentCellId) {
-                const [cellUp, cellRight, cellDown, cellLeft] = getNonDiagonalCell(array, i, j);
+                const [cellUp, cellRight, cellDown, cellLeft] = getCellsAround(array, i, j, 'non-diagonal');
 
                 if (
                     (cellUp && cellUp.shipId === uniqShipId) ||
                     (cellRight && cellRight.shipId === uniqShipId) ||
                     (cellDown && cellDown.shipId === uniqShipId) ||
                     (cellLeft && cellLeft.shipId === uniqShipId) ||
-                    firstClick
+                    isStartClickBuildShip
                 ) {
-                    currentLength += 1;
-                    const maxLengthShip = Math.max(...ships);
+                    const maxShipLength = Math.max(...ships);
+                    currentShipLength += 1;
 
-                    getDiagonalCell(array, i, j).forEach(diagonalCell => lockedCell(diagonalCell));
+                    getCellsAround(array, i, j, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
 
                     cell.ship = true;
                     cell.shipId = uniqShipId;
-                    firstClick = false;
+                    isStartClickBuildShip = false;
 
-                    if (currentLength === maxLengthShip) {
-                        // eslint-disable-next-line @typescript-eslint/no-loop-func
-                        const index: number = ships.findIndex(ship => ship === currentLength);
-                        ships.splice(index, 1);
+                    if (currentShipLength === maxShipLength) {
+                        ships.splice(ships.indexOf(currentShipLength), 1);
                         array = finishBuildingShip(array, uniqShipId);
                     }
                 } else {
-                    // eslint-disable-next-line @typescript-eslint/no-loop-func
-                    const index: number = ships.findIndex(ship => ship === currentLength);
+                    const index = ships.indexOf(currentShipLength);
                     if (index >= 0) {
                         ships.splice(index, 1);
                         array = finishBuildingShip(array, uniqShipId);
@@ -175,7 +166,6 @@ export const addShip = (square: Array<Array<IField>>, currentCellId: string): Ar
                         removeWrongShip(array, uniqShipId);
                     }
 
-                    currentLength = 0;
                     addShip(square, currentCellId);
                 }
             }
@@ -192,18 +182,3 @@ export const addShip = (square: Array<Array<IField>>, currentCellId: string): Ar
 
     return array;
 };
-
-// const [cellUpLeft, cellUpRight, cellDownLeft, cellDownRight] = getDiagonalCell(array, i, j);
-
-// const testCheck = (array: any) => {
-//     const result = {} as any;
-//     array.flat().forEach((cell: any) => {
-//         if (cell.shipId.length !== 0) {
-//             result[cell.shipId] = result[cell.shipId] + 1 || 1;
-//         }
-//     });
-//
-//     console.clear();
-//     console.log(ships.sort());
-//     console.log(Object.values(result).sort());
-// };

@@ -7,10 +7,9 @@ import { IOwns, Owns } from '../../redux/Area/areaInterfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 
-import { createSquare, addShip, updateCell } from '../../redux/Area/areaUtils';
+import { addShip, updateCell } from '../../redux/Area/areaUtils';
 
 import BuildSquare from '../Square/BuildSquare/BuildSquare';
-import FieldRow from '../FieldRow/FieldRow';
 
 import './Area.scss';
 
@@ -22,9 +21,6 @@ const Area: FC<IOwns> = (owns: IOwns) => {
     let { friendlySquare, enemySquare } = areaState.squares;
 
     useEffect(() => {
-        friendlySquare = createSquare();
-        enemySquare = createSquare();
-
         dispatch(renderFriendlySquare(friendlySquare));
         dispatch(renderEnemySquare(enemySquare));
         dispatch(changeOwns(owns));
@@ -63,10 +59,7 @@ const Area: FC<IOwns> = (owns: IOwns) => {
                 ))}
             </div>
             <div className="area__wrapper">
-                <BuildSquare cellHandler={updateCellHandler} />
-                {currentSquare.map((row, idx) => (
-                    <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} />
-                ))}
+                <BuildSquare currentSquare={currentSquare} cellHandler={updateCellHandler} />
             </div>
         </div>
     );

@@ -2,32 +2,6 @@ import { IField } from '../Field/fieldInterfaces';
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 import getUniqId from '../../helpers';
 
-export const createSquare = (): Array<Array<IField>> => {
-    const square: Array<Array<IField>> = [];
-
-    AREA_NUMBERS.forEach(number => {
-        const row: Array<IField> = [];
-
-        AREA_LETTERS.forEach(letter => {
-            const cell = {
-                id: `${number}${letter}`,
-                ship: false,
-                shipId: '',
-                hit: false,
-                past: false,
-                locked: false,
-                lockedId: '',
-            };
-
-            row.push(cell);
-        });
-
-        square.push(row);
-    });
-
-    return square;
-};
-
 export const updateCell = (square: Array<Array<IField>>, currentCellId: string): Array<Array<IField>> => {
     const { length } = square;
 

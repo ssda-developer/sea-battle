@@ -1,11 +1,16 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 
 import { IField } from '../../../redux/Field/fieldInterfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
 import FieldRow from '../../FieldRow/FieldRow';
 
-const BuildSquare: FC = ({ cellHandler }) => {
+interface BuildSquareProps {
+    currentSquare: Array<Array<IField>>;
+    cellHandler: (evn: MouseEvent<HTMLButtonElement>) => void;
+}
+
+const BuildSquare: FC<BuildSquareProps> = ({ currentSquare, cellHandler }: BuildSquareProps) => {
     const square: Array<Array<IField>> = [];
 
     AREA_NUMBERS.forEach(number => {
@@ -28,7 +33,13 @@ const BuildSquare: FC = ({ cellHandler }) => {
         square.push(row);
     });
 
-    return square.map((row: IField[], idx: number) => <FieldRow key={row[idx].id} row={row} updateCellHandler={cellHandler} />);
+    return (
+        <>
+            {square.map((row: IField[], idx: number) => (
+                <FieldRow key={row[idx].id} row={row} updateCellHandler={cellHandler} />
+            ))}
+        </>
+    );
 };
 
 export default BuildSquare;

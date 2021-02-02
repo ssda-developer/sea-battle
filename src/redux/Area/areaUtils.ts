@@ -104,6 +104,8 @@ const finishBuildingShip = (square: Array<Array<IField>>, currentShipId: string)
         }
     }
 
+    console.log(1111);
+
     resetStartingValues();
 
     return square;

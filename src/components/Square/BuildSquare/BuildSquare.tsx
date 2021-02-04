@@ -16,14 +16,15 @@ interface BuildSquareProps {
     playerAffiliation: IOwns;
 }
 
-const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
+const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: BuildSquareProps) => {
     const dispatch = useDispatch();
     const areaState = useSelector((state: RootStore) => state.areaReducer);
 
     const { friendlySquare, enemySquare } = areaState.squares;
+    const { Friendly } = Owns;
     const square: Array<Array<IField>> = [];
 
-    // const currentSquare = playerAffiliation.owns === Owns.Friendly ? friendlySquare : enemySquare;
+    let currentSquare = owns === Owns.Friendly ? friendlySquare : enemySquare;
 
     const createSquare = () => {
         AREA_NUMBERS.forEach(number => {
@@ -50,9 +51,13 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
     };
 
     useEffect(() => {
-        const currentSquare = createSquare();
-        dispatch(renderFriendlySquare(currentSquare));
-        dispatch(renderEnemySquare(currentSquare));
+        currentSquare = createSquare();
+
+        if (owns === Friendly) {
+            dispatch(renderFriendlySquare(currentSquare));
+        } else {
+            dispatch(renderEnemySquare(currentSquare));
+        }
     }, []);
 
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
@@ -62,16 +67,16 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
             currentTarget: { id },
         } = evn;
 
-        if (playerAffiliation.owns === 'FRIENDLY') {
-            dispatch(renderFriendlySquare(addShip(friendlySquare, id)));
+        if (owns === Friendly) {
+            dispatch(renderFriendlySquare(addShip(currentSquare, id)));
         } else {
-            dispatch(renderEnemySquare(updateCell(friendlySquare, id)));
+            dispatch(renderEnemySquare(updateCell(currentSquare, id)));
         }
     };
 
     return (
         <>
-            {friendlySquare.map((row: IField[], idx: number) => (
+            {currentSquare.map((row: IField[], idx: number) => (
                 <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} />
             ))}
         </>

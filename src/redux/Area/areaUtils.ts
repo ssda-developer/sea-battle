@@ -1,5 +1,4 @@
 import { IField } from '../Field/fieldInterfaces';
-import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 import getUniqId from '../../helpers';
 
 export const updateCell = (square: Array<Array<IField>>, currentCellId: string): Array<Array<IField>> => {
@@ -77,8 +76,6 @@ const finishBuildingShip = (square: Array<Array<IField>>, currentShipId: string)
             }
         }
     }
-
-    console.log(1111);
 
     resetStartingValues();
 

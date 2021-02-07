@@ -1,18 +1,17 @@
-import React, { FC, MouseEvent } from 'react';
-
-import getUniqId from '../../helpers';
+import React, { FC } from 'react';
 
 import './Ship.scss';
 
 interface IShipProps {
     cellCount: number;
+    id: string;
 }
 
-const Ship: FC<IShipProps> = ({ cellCount }: IShipProps) => {
+const Ship: FC<IShipProps> = ({ cellCount, id }: IShipProps) => {
     return (
-        <div id={`ship-${getUniqId()}`} className="ship__button">
+        <div id={id} className="ship__button">
             {[...Array(cellCount).keys()].map(partShip => (
-                <div className="ship__button-cell" key={partShip} />
+                <span className="ship__button-cell" key={partShip} />
             ))}
         </div>
     );

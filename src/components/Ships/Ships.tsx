@@ -2,27 +2,51 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStore } from '../../redux/store';
+import { renderShips } from '../../redux/Ships/shipsActions';
 
 import SHIPS from '../../constants/shipsConstants';
 
 import ShipsRow from '../ShipsRow/ShipsRow';
 
 import './Ships.scss';
+import getUniqId from '../../helpers';
+import { IShip } from '../../redux/Ships/shipsInterfaces';
 
 const Ships: FC = () => {
     const dispatch = useDispatch();
     const { ships } = useSelector((state: RootStore) => state.shipsReducer);
 
+    const shipsArray: Array<Array<IShip>> = [];
+
+    const createShips = () => {
+        SHIPS.forEach(ship => {
+            const shipsRow: Array<IShip> = [];
+
+            [...Array(ship.maxCount).keys()].forEach(() => {
+                shipsRow.push({
+                    id: getUniqId(),
+                    length: ship.length,
+                });
+            });
+
+            shipsArray.push(shipsRow);
+        });
+
+        return shipsArray;
+    };
+
     useEffect(() => {
-        console.log(ships);
-    }, [ships]);
+        dispatch(renderShips(createShips()));
+    }, []);
 
     return (
-        <div className="ships">
-            {SHIPS.map(ship => (
-                <ShipsRow key={ship.name} shipsCount={ship.maxCount} shipLength={ship.length} />
-            ))}
-        </div>
+        <>
+            <div className="ships">
+                {ships.map((shipRow: IShip[], idx: number) => (
+                    <ShipsRow key={shipRow[idx].id} shipRow={shipRow} />
+                ))}
+            </div>
+        </>
     );
 };
 

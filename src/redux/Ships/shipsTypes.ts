@@ -1,9 +1,12 @@
+import { IShip } from './shipsInterfaces';
+
 export const RENDER_SHIPS = 'RENDER_SHIPS';
 export const GET_CURRENT_SHIP_ID = 'GET_CURRENT_SHIP_ID';
 export const GET_CURRENT_SHIP_LENGTH = 'GET_CURRENT_SHIP_LENGTH';
 
 export type RenderShips = {
     type: typeof RENDER_SHIPS;
+    payload: Array<Array<IShip>>;
 };
 
 export type GetCurrentShipId = {

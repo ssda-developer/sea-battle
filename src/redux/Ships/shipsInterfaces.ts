@@ -1,6 +1,5 @@
 export interface IShip {
-    name: string;
-    maxCount: number;
+    id: string;
     length: number;
 }
 
@@ -10,6 +9,6 @@ export type CurrentShip = {
 };
 
 export interface IShips {
-    ships: Array<IShip>;
+    ships: Array<Array<IShip>>;
     currentShip: CurrentShip;
 }

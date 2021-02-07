@@ -2,18 +2,19 @@ import React, { FC } from 'react';
 
 import Ship from '../Ship/Ship';
 
+import { IShip } from '../../redux/Ships/shipsInterfaces';
+
 import './ShipsRow.scss';
 
 interface IShipsRowProps {
-    shipsCount: number;
-    shipLength: number;
+    shipRow: Array<IShip>;
 }
 
-const ShipsRow: FC<IShipsRowProps> = ({ shipsCount, shipLength }: IShipsRowProps) => {
+const ShipsRow: FC<IShipsRowProps> = ({ shipRow }: IShipsRowProps) => {
     return (
         <div className="ships__row ship">
-            {[...Array(shipsCount).keys()].map(ship => (
-                <Ship key={ship} cellCount={shipLength} />
+            {shipRow.map(({ id, length }) => (
+                <Ship key={id} id={id} cellCount={length} />
             ))}
         </div>
     );

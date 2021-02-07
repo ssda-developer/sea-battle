@@ -12,7 +12,10 @@ const initialState: IShips = {
 const shipsReducer = (state: IShips = initialState, action: ShipsDispatchTypes): IShips => {
     switch (action.type) {
         case RENDER_SHIPS:
-            return state;
+            return {
+                ...state,
+                ships: action.payload,
+            };
         case GET_CURRENT_SHIP_ID:
             return {
                 ...state,

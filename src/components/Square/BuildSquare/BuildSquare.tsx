@@ -70,7 +70,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
         if (owns === Friendly) {
             dispatch(renderFriendlySquare(addShip(currentSquare, id)));
         } else {
-            dispatch(renderEnemySquare(updateCell(currentSquare, id)));
+            currentSquare = updateCell(enemySquare, friendlySquare, id);
+            dispatch(renderEnemySquare(currentSquare));
         }
     };
 

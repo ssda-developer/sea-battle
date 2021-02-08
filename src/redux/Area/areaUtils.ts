@@ -1,24 +1,40 @@
 import { IField } from '../Field/fieldInterfaces';
 import getUniqId from '../../helpers';
 
-export const updateCell = (square: Array<Array<IField>>, currentCellId: string): Array<Array<IField>> => {
+const getCellById = (square: Array<Array<IField>>, id: string): IField | null => {
     const { length } = square;
+    let cell: IField | null = null;
 
     for (let i = 0; i < length; i += 1) {
         for (let j = 0; j < length; j += 1) {
-            const cell = square[i][j];
+            cell = square[i][j];
 
-            if (cell.id === currentCellId) {
-                if (cell.ship) {
-                    cell.hit = true;
-                } else {
-                    cell.past = true;
-                }
+            if (cell.id === id) {
+                return cell;
             }
         }
     }
 
-    return square;
+    return cell;
+};
+
+export const updateCell = (
+    enemySquare: Array<Array<IField>>,
+    friendlySquare: Array<Array<IField>>,
+    currentCellId: string,
+): Array<Array<IField>> => {
+    const currentEnemyCell = getCellById(enemySquare, currentCellId);
+    const currentFriendlyCell = getCellById(friendlySquare, currentCellId);
+
+    if (currentFriendlyCell && currentEnemyCell) {
+        if (currentFriendlyCell.ship) {
+            currentEnemyCell.hit = true;
+        } else {
+            currentEnemyCell.past = true;
+        }
+    }
+
+    return enemySquare;
 };
 
 const ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];

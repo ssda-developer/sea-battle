@@ -1,5 +1,7 @@
 import React, { FC, MouseEvent } from 'react';
+
 import { IField } from '../../redux/Field/fieldInterfaces';
+
 import Field from '../Field/Field';
 
 interface IFieldRowProps {

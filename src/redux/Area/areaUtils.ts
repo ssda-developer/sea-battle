@@ -1,4 +1,5 @@
 import { IField } from '../Field/fieldInterfaces';
+
 import getUniqId from '../../helpers';
 
 const getCellById = (square: Array<Array<IField>>, id: string): IField | null => {

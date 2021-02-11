@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { RootStore } from '../../redux/store';
 import { renderShips } from '../../redux/Ships/shipsActions';
+import { IShip } from '../../redux/Ships/shipsInterfaces';
 
 import SHIPS from '../../constants/shipsConstants';
+import getUniqId from '../../helpers';
 
 import ShipsRow from '../ShipsRow/ShipsRow';
 
 import './Ships.scss';
-import getUniqId from '../../helpers';
-import { IShip } from '../../redux/Ships/shipsInterfaces';
 
 const Ships: FC = () => {
     const dispatch = useDispatch();
@@ -40,13 +40,11 @@ const Ships: FC = () => {
     }, []);
 
     return (
-        <>
-            <div className="ships">
-                {ships.map((shipRow: IShip[], idx: number) => (
-                    <ShipsRow key={shipRow[idx].id} shipRow={shipRow} />
-                ))}
-            </div>
-        </>
+        <div className="ships">
+            {ships.map((shipRow: IShip[], idx: number) => (
+                <ShipsRow key={shipRow[idx].id} shipRow={shipRow} />
+            ))}
+        </div>
     );
 };
 

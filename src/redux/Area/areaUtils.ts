@@ -1,6 +1,6 @@
 import { IField } from '../Field/fieldInterfaces';
 
-import getUniqId from '../../helpers';
+import { getUniqId } from '../../helpers';
 
 const getCellById = (square: Array<Array<IField>>, id: string): IField | null => {
     const { length } = square;
@@ -49,7 +49,7 @@ const resetStartingValues = () => {
     currentShipLength = 0;
 };
 
-const getCellsAround = (square: Array<Array<IField>>, i: number, j: number, direction: 'diagonal' | 'non-diagonal') => {
+export const getCellsAround = (square: Array<Array<IField>>, i: number, j: number, direction: 'diagonal' | 'non-diagonal') => {
     const { length } = square;
     const [shiftUp, shiftRight, shiftDown, shiftLeft] = [i - 1, j + 1, i + 1, j - 1];
 
@@ -74,7 +74,7 @@ const getCellsAround = (square: Array<Array<IField>>, i: number, j: number, dire
     return [];
 };
 
-const lockedCell = (cell: IField | null) => {
+export const lockedCell = (cell: IField | null) => {
     if (cell && !cell.ship) {
         cell.locked = true;
         cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;

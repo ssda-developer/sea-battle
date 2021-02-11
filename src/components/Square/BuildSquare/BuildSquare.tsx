@@ -6,7 +6,7 @@ import { IOwns, Owns } from '../../../redux/Area/areaInterfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
 import { addShip, updateCell } from '../../../redux/Area/areaUtils';
-import buildRandomShips from '../../utils/botUtils';
+import { buildRandomShips } from '../../utils/botUtils';
 
 import { RootStore } from '../../../redux/store';
 import { renderEnemySquare, renderFriendlySquare } from '../../../redux/Area/areaActions';
@@ -70,10 +70,11 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
 
         if (owns === Friendly) {
             dispatch(renderFriendlySquare(addShip(currentSquare, id)));
+            // buildRandomShips(enemySquare);
+            // dispatch(renderEnemySquare(enemySquare));
         } else {
             currentSquare = updateCell(enemySquare, friendlySquare, id);
             dispatch(renderEnemySquare(currentSquare));
-            buildRandomShips(friendlySquare);
         }
     };
 

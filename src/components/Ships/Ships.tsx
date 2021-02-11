@@ -6,7 +6,7 @@ import { renderShips } from '../../redux/Ships/shipsActions';
 import { IShip } from '../../redux/Ships/shipsInterfaces';
 
 import SHIPS from '../../constants/shipsConstants';
-import getUniqId from '../../helpers';
+import { getUniqId } from '../../helpers';
 
 import ShipsRow from '../ShipsRow/ShipsRow';
 

@@ -2,7 +2,7 @@ import { IField } from '../Field/fieldInterfaces';
 
 import { getUniqId } from '../../helpers';
 
-const getCellById = (square: Array<Array<IField>>, id: string): IField | null => {
+export const getCellById = (square: IField[][], id: string): IField | null => {
     const { length } = square;
     let cell: IField | null = null;
 
@@ -19,11 +19,37 @@ const getCellById = (square: Array<Array<IField>>, id: string): IField | null =>
     return cell;
 };
 
-export const updateCell = (
-    enemySquare: Array<Array<IField>>,
-    friendlySquare: Array<Array<IField>>,
-    currentCellId: string,
-): Array<Array<IField>> => {
+export const getPositionById = (square: IField[][], id: string) => {
+    const { length } = square;
+    let cell: IField | null = null;
+    let position: number[] = [];
+
+    for (let i = 0; i < length; i += 1) {
+        for (let j = 0; j < length; j += 1) {
+            cell = square[i][j];
+
+            if (cell.id === id) {
+                position = [i, j];
+            }
+        }
+    }
+
+    return position;
+};
+
+export const updateCellNew = (array: IField[][], currentCellId: string): IField[][] => {
+    const arrayCell = getCellById(array, currentCellId) as IField;
+
+    if (arrayCell.ship) {
+        arrayCell.hit = true;
+    } else {
+        arrayCell.past = true;
+    }
+
+    return array;
+};
+
+export const updateCell = (enemySquare: IField[][], friendlySquare: IField[][], currentCellId: string): IField[][] => {
     const currentEnemyCell = getCellById(enemySquare, currentCellId);
     const currentFriendlyCell = getCellById(friendlySquare, currentCellId);
 
@@ -49,7 +75,7 @@ const resetStartingValues = () => {
     currentShipLength = 0;
 };
 
-export const getCellsAround = (square: Array<Array<IField>>, i: number, j: number, direction: 'diagonal' | 'non-diagonal') => {
+export const getCellsAround = (square: IField[][], i: number, j: number, direction: 'diagonal' | 'non-diagonal') => {
     const { length } = square;
     const [shiftUp, shiftRight, shiftDown, shiftLeft] = [i - 1, j + 1, i + 1, j - 1];
 
@@ -81,7 +107,7 @@ export const lockedCell = (cell: IField | null) => {
     }
 };
 
-const finishBuildingShip = (square: Array<Array<IField>>, currentShipId: string): Array<Array<IField>> => {
+const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
     const { length } = square;
 
     for (let i = 0; i < length; i += 1) {
@@ -99,7 +125,7 @@ const finishBuildingShip = (square: Array<Array<IField>>, currentShipId: string)
     return square;
 };
 
-const removeWrongShip = (square: Array<Array<IField>>, currentShipId: string): Array<Array<IField>> => {
+const removeWrongShip = (square: IField[][], currentShipId: string): IField[][] => {
     square.flat().forEach(cell => {
         if (cell.shipId === currentShipId || cell.lockedId === `locked-${currentShipId}`) {
             cell.ship = false;
@@ -114,7 +140,7 @@ const removeWrongShip = (square: Array<Array<IField>>, currentShipId: string): A
     return square;
 };
 
-export const addShip = (square: Array<Array<IField>>, currentCellId: string): Array<Array<IField>> => {
+export const addShip = (square: IField[][], currentCellId: string): IField[][] => {
     let array = square;
     const arrayLength = square.length;
 

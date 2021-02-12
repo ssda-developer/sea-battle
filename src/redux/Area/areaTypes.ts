@@ -7,12 +7,12 @@ export const CHANGE_OWNS = 'CHANGE_OWNS';
 
 export type RenderFriendlySquare = {
     type: typeof RENDER_FRIENDLY_SQUARE;
-    payload: Array<Array<IField>>;
+    payload: IField[][];
 };
 
 export type RenderEnemySquare = {
     type: typeof RENDER_ENEMY_SQUARE;
-    payload: Array<Array<IField>>;
+    payload: IField[][];
 };
 
 export type ChangeOwns = {

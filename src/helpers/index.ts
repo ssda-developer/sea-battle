@@ -8,4 +8,4 @@ export const getUniqId = (): string => Math.random().toString(36).substr(2, 16);
  *
  * @param maxValue
  */
-export const getRandomValue = (maxValue: number): number => Math.floor(Math.random() * maxValue);
+export const getRandomValue = (maxValue: number): number => Math.ceil(Math.random() * maxValue - 1);

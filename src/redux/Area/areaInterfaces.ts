@@ -6,8 +6,8 @@ export enum Owns {
 }
 
 export type Squares = {
-    friendlySquare: Array<Array<IField>>;
-    enemySquare: Array<Array<IField>>;
+    friendlySquare: IField[][];
+    enemySquare: IField[][];
 };
 
 export interface IOwns {

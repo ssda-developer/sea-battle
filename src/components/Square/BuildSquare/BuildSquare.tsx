@@ -12,6 +12,7 @@ import { RootStore } from '../../../redux/store';
 import { renderEnemySquare, renderFriendlySquare } from '../../../redux/Area/areaActions';
 
 import FieldRow from '../../FieldRow/FieldRow';
+import enemyHit from '../../utils/botHit';
 
 interface BuildSquareProps {
     playerAffiliation: IOwns;
@@ -33,7 +34,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
 
             AREA_LETTERS.forEach(letter => {
                 const cell = {
-                    id: `${number}${letter}`,
+                    id: `${letter}${number}`,
                     ship: false,
                     shipId: '',
                     hit: false,
@@ -78,11 +79,19 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
         }
     };
 
+    const enemyHitHandler = () => {
+        currentSquare = enemyHit(friendlySquare);
+        dispatch(renderFriendlySquare(currentSquare));
+    };
+
     return (
         <>
             {currentSquare.map((row: IField[], idx: number) => (
                 <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} />
             ))}
+            <button type="button" onClick={enemyHitHandler}>
+                HIT
+            </button>
         </>
     );
 };

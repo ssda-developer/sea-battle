@@ -71,8 +71,6 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
 
         if (owns === Friendly) {
             dispatch(renderFriendlySquare(addShip(currentSquare, id)));
-            // buildRandomShips(enemySquare);
-            // dispatch(renderEnemySquare(enemySquare));
         } else {
             currentSquare = updateCell(enemySquare, friendlySquare, id);
             dispatch(renderEnemySquare(currentSquare));
@@ -84,6 +82,11 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
         dispatch(renderFriendlySquare(currentSquare));
     };
 
+    const enemyBuildRandomShipsHandler = () => {
+        buildRandomShips(enemySquare);
+        dispatch(renderEnemySquare(enemySquare));
+    };
+
     return (
         <>
             {currentSquare.map((row: IField[], idx: number) => (
@@ -91,6 +94,9 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
             ))}
             <button type="button" onClick={enemyHitHandler}>
                 HIT
+            </button>
+            <button type="button" onClick={enemyBuildRandomShipsHandler}>
+                Build Random Ships
             </button>
         </>
     );

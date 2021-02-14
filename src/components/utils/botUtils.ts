@@ -51,12 +51,9 @@ const manageShipDirection = (
     const { Horizontal, Vertical } = ShipDirection;
     let direction;
 
-    if (positionNumber + shipLength < arrayLength && checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
+    if (checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
         direction = Vertical;
-    } else if (
-        positionLetter + shipLength < arrayLength &&
-        checkEmptyCells(square, positionLetter, positionLetter, shipLength, Horizontal)
-    ) {
+    } else if (checkEmptyCells(square, positionLetter, positionLetter, shipLength, Horizontal)) {
         direction = Horizontal;
     } else {
         getRandomCellCoordinates(square);
@@ -69,38 +66,48 @@ const manageShipDirection = (
 export const buildRandomShips = (square: Array<Array<IField>>): Array<Array<IField>> => {
     const { length } = square;
 
+    // console.log(`----------------------`);
+    // console.log(`buildRandomShips start`);
+    // console.log(`----------------------`);
+
     // [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
     [4].forEach(shipLength => {
+        // let [startNumber, startLetter] = getRandomCellCoordinates(square);
         let [startNumber, startLetter] = getRandomCellCoordinates(square);
+        // console.log(startingPoint);
 
-        console.log(`startNumber: ${startNumber}`);
-        console.log(`startLetter: ${startLetter}`);
+        if (startNumber + shipLength > length || startLetter + shipLength > length) {
+            [startNumber, startLetter] = getRandomCellCoordinates(square);
+        }
+
+        // console.log(`startNumber: ${startNumber}`);
+        // console.log(`startLetter: ${startLetter}`);
+        //
+        // console.log(`startNumber + shipLength: ${startNumber + shipLength}`);
+        // console.log(`startLetter + shipLength: ${startLetter + shipLength}`);
 
         const startingPoint = square[startNumber][startLetter];
 
+        // need to remove
         startingPoint.past = true;
-
-        console.log(startingPoint);
-        console.log(`startLetter + shipLength: ${startLetter + shipLength}`);
 
         const shipDirection = manageShipDirection(square, startNumber, startLetter, shipLength, length);
 
-        console.log(shipDirection);
+        // console.log(`shipDirection: ${shipDirection}`);
 
         for (let i = 0; i < shipLength; i += 1) {
-            let shipCoordinates;
+            let posX = startNumber;
+            let posY = startLetter;
 
             if (shipDirection === ShipDirection.Vertical) {
-                shipCoordinates = square[startNumber + i][startLetter];
-                startNumber += i;
+                posX += i;
             } else {
-                shipCoordinates = square[startNumber][startLetter + i];
-                startLetter += i;
+                posY += i;
             }
 
-            shipCoordinates.ship = true;
+            square[posX][posY].ship = true;
 
-            getCellsAround(square, startNumber, startLetter, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
+            getCellsAround(square, posX, posY, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
         }
     });
 

@@ -1,11 +1,7 @@
 import { IField } from '../../redux/Field/fieldInterfaces';
 import { getRandomValue } from '../../helpers';
 import { getCellsAround, lockedCell } from '../../redux/Area/areaUtils';
-
-export enum ShipDirection {
-    Horizontal = 'HORIZONTAL',
-    Vertical = 'VERTICAL',
-}
+import { ShipDirection } from '../../constants/shipsConstants';
 
 const getRandomCellCoordinates = (square: Array<Array<IField>>): number[] => {
     const { length } = square;

@@ -12,7 +12,7 @@ interface IFieldRowProps {
 const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler }: IFieldRowProps) => {
     return (
         <div className="area__row">
-            {row.map(({ id, ship, shipId, hit, past, locked, lockedId }) => (
+            {row.map(({ id, ship, shipId, hit, past, locked, lockedId, explode }) => (
                 <Field
                     key={id}
                     id={id}
@@ -22,6 +22,7 @@ const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler }: IFieldRowProps
                     past={past}
                     locked={locked}
                     lockedId={lockedId}
+                    explode={explode}
                     updateCellHandler={updateCellHandler}
                 />
             ))}

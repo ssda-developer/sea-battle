@@ -37,11 +37,35 @@ export const getPositionById = (square: IField[][], id: string) => {
     return position;
 };
 
+const shipExplosion = (array: IField[][], currentShipId: string) => {
+    let shipField = 0;
+    let shipHit = 0;
+    array.flat().forEach(cell => {
+        if (cell.shipId === currentShipId) {
+            shipField += 1;
+            if (cell.hit) {
+                shipHit += 1;
+            }
+        }
+    });
+
+    if (shipField === shipHit) {
+        array.flat().forEach(cell => {
+            if (cell.shipId === currentShipId) {
+                cell.explode = true;
+            }
+        });
+    }
+
+    return array;
+};
+
 export const updateCellNew = (array: IField[][], currentCellId: string): IField[][] => {
     const arrayCell = getCellById(array, currentCellId) as IField;
 
     if (arrayCell.ship) {
         arrayCell.hit = true;
+        array = shipExplosion(array, arrayCell.shipId);
     } else {
         arrayCell.past = true;
     }
@@ -77,23 +101,23 @@ const resetStartingValues = () => {
 
 export const getCellsAround = (square: IField[][], i: number, j: number, direction: 'diagonal' | 'non-diagonal') => {
     const { length } = square;
-    const [shiftUp, shiftRight, shiftDown, shiftLeft] = [i - 1, j + 1, i + 1, j - 1];
+    const [numberUp, letterRight, numberDown, letterLeft] = [i - 1, j + 1, i + 1, j - 1];
 
     if (direction === 'diagonal') {
         return [
-            shiftUp >= 0 && shiftLeft >= 0 ? square[shiftUp][shiftLeft] : null,
-            shiftUp >= 0 && shiftRight < length ? square[shiftUp][shiftRight] : null,
-            shiftDown < length && shiftLeft >= 0 ? square[shiftDown][shiftLeft] : null,
-            shiftDown < length && shiftRight < length ? square[shiftDown][shiftRight] : null,
+            numberUp >= 0 && letterLeft >= 0 ? square[numberUp][letterLeft] : null,
+            numberUp >= 0 && letterRight < length ? square[numberUp][letterRight] : null,
+            numberDown < length && letterLeft >= 0 ? square[numberDown][letterLeft] : null,
+            numberDown < length && letterRight < length ? square[numberDown][letterRight] : null,
         ];
     }
 
     if (direction === 'non-diagonal') {
         return [
-            shiftUp >= 0 ? square[shiftUp][j] : null,
-            shiftRight < length ? square[i][shiftRight] : null,
-            shiftDown < length ? square[shiftDown][j] : null,
-            shiftLeft >= 0 ? square[i][shiftLeft] : null,
+            numberUp >= 0 ? square[numberUp][j] : null,
+            letterRight < length ? square[i][letterRight] : null,
+            numberDown < length ? square[numberDown][j] : null,
+            letterLeft >= 0 ? square[i][letterLeft] : null,
         ];
     }
 

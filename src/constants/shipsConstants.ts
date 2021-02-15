@@ -18,3 +18,8 @@ const SHIPS = [
 ];
 
 export default SHIPS;
+
+export enum ShipDirection {
+    Horizontal = 'HORIZONTAL',
+    Vertical = 'VERTICAL',
+}

@@ -30,6 +30,10 @@
         --field-background: red;
     }
 
+    &.explode {
+        --field-background: green;
+    }
+
     &.locked {
         opacity: 0.65;
     }

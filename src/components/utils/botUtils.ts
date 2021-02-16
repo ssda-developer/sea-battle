@@ -10,8 +10,16 @@ export enum ShipDirection {
 const getRandomCellCoordinates = (square: Array<Array<IField>>): number[] => {
     const { length } = square;
     const coordinates: number[] = [];
-    const number = getRandomValue(length);
-    const letter = getRandomValue(length);
+    let number = getRandomValue(length);
+    let letter = getRandomValue(length);
+
+    console.log(number);
+    console.log(letter);
+
+    if (number + 4 > length && letter + 4 > length) {
+        console.log('big number');
+        [number, letter] = getRandomCellCoordinates(square);
+    }
 
     coordinates.push(number, letter);
 
@@ -29,7 +37,12 @@ export const checkEmptyCells = (
 ): boolean => {
     const isEmpty = true;
 
+    console.log('checkEmptyCells');
+    console.log(`calculableValue: ${calculableValue}`);
+    console.log(`nonCalculableValue: ${nonCalculableValue}`);
+
     for (let i = calculableValue; i < calculableValue + shipLength; i += 1) {
+        console.log(square[i][nonCalculableValue]);
         const { hit, locked, ship } =
             direction === ShipDirection.Horizontal ? square[i][nonCalculableValue] : square[nonCalculableValue][i];
 
@@ -37,6 +50,8 @@ export const checkEmptyCells = (
             return !isEmpty;
         }
     }
+
+    console.log(`isEmpty: ${isEmpty}`);
 
     return isEmpty;
 };
@@ -48,54 +63,59 @@ const manageShipDirection = (
     shipLength: number,
     arrayLength: number,
 ) => {
+    console.log('manageShipDirection');
     const { Horizontal, Vertical } = ShipDirection;
     let direction;
 
-    if (checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
+    if (positionNumber + shipLength < arrayLength && checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
+        console.log('manageShipDirection Vertical');
         direction = Vertical;
-    } else if (checkEmptyCells(square, positionLetter, positionLetter, shipLength, Horizontal)) {
-        direction = Horizontal;
-    } else {
-        getRandomCellCoordinates(square);
-        manageShipDirection(square, positionNumber, positionLetter, shipLength, arrayLength);
+        return direction;
     }
 
-    return direction;
+    if (positionLetter + shipLength < arrayLength && checkEmptyCells(square, positionLetter, positionNumber, shipLength, Horizontal)) {
+        console.log('manageShipDirection Vertical');
+        direction = Horizontal;
+        return direction;
+    }
+
+    console.log('manageShipDirection else');
+    const [newPositionNumber, newPositionLetter] = getRandomCellCoordinates(square);
+    manageShipDirection(square, newPositionNumber, newPositionLetter, shipLength, arrayLength);
+
+    return null;
 };
 
 export const buildRandomShips = (square: Array<Array<IField>>): Array<Array<IField>> => {
     const { length } = square;
 
-    // console.log(`----------------------`);
-    // console.log(`buildRandomShips start`);
-    // console.log(`----------------------`);
+    console.log(`----------------------`);
+    console.log(`buildRandomShips start`);
+    console.log(`----------------------`);
 
     // [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
     [4].forEach(shipLength => {
-        // let [startNumber, startLetter] = getRandomCellCoordinates(square);
-        let [startNumber, startLetter] = getRandomCellCoordinates(square);
-        // console.log(startingPoint);
+        const [startNumber, startLetter] = getRandomCellCoordinates(square);
 
-        if (startNumber + shipLength > length || startLetter + shipLength > length) {
-            [startNumber, startLetter] = getRandomCellCoordinates(square);
-        }
+        console.log(`startNumber: ${startNumber}`);
+        console.log(`startLetter: ${startLetter}`);
 
-        // console.log(`startNumber: ${startNumber}`);
-        // console.log(`startLetter: ${startLetter}`);
-        //
-        // console.log(`startNumber + shipLength: ${startNumber + shipLength}`);
-        // console.log(`startLetter + shipLength: ${startLetter + shipLength}`);
+        console.log(`startNumber + shipLength: ${startNumber + shipLength}`);
+        console.log(`startLetter + shipLength: ${startLetter + shipLength}`);
 
         const startingPoint = square[startNumber][startLetter];
+
+        console.log(startingPoint);
 
         // need to remove
         startingPoint.past = true;
 
         const shipDirection = manageShipDirection(square, startNumber, startLetter, shipLength, length);
 
-        // console.log(`shipDirection: ${shipDirection}`);
+        console.log(`shipDirection: ${shipDirection}`);
 
         for (let i = 0; i < shipLength; i += 1) {
+            console.log('in loop');
             let posX = startNumber;
             let posY = startLetter;
 
@@ -104,6 +124,8 @@ export const buildRandomShips = (square: Array<Array<IField>>): Array<Array<IFie
             } else {
                 posY += i;
             }
+
+            console.log(`posX and posY ${posX} ${posY}`);
 
             square[posX][posY].ship = true;
 

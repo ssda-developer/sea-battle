@@ -83,8 +83,10 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
     };
 
     const enemyBuildRandomShipsHandler = () => {
-        buildRandomShips(enemySquare);
-        dispatch(renderEnemySquare(enemySquare));
+        [4, 3, 3, 2, 2, 2, 1, 1, 1, 1].forEach(shipLength => {
+            currentSquare = buildRandomShips(enemySquare, shipLength);
+            dispatch(renderEnemySquare(currentSquare));
+        });
     };
 
     return (

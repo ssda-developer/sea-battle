@@ -19,7 +19,7 @@ export const getCellById = (square: IField[][], id: string): IField | null => {
     return cell;
 };
 
-export const getPositionById = (square: IField[][], id: string) => {
+export const getPositionById = (square: IField[][], id: string): number[] => {
     const { length } = square;
     let cell: IField | null = null;
     let position: number[] = [];
@@ -99,7 +99,7 @@ const resetStartingValues = () => {
     currentShipLength = 0;
 };
 
-export const getCellsAround = (square: IField[][], i: number, j: number, direction: 'diagonal' | 'non-diagonal') => {
+export const getCellsAround = (square: IField[][], i: number, j: number, direction: 'diagonal' | 'non-diagonal'): (IField | null)[] => {
     const { length } = square;
     const [numberUp, letterRight, numberDown, letterLeft] = [i - 1, j + 1, i + 1, j - 1];
 
@@ -124,14 +124,14 @@ export const getCellsAround = (square: IField[][], i: number, j: number, directi
     return [];
 };
 
-export const lockedCell = (cell: IField | null) => {
+export const lockedCell = (cell: IField | null): void => {
     if (cell && !cell.ship) {
         cell.locked = true;
         cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;
     }
 };
 
-const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
+export const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
     const { length } = square;
 
     for (let i = 0; i < length; i += 1) {

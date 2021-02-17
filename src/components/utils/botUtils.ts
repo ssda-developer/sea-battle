@@ -1,6 +1,6 @@
 import { IField } from '../../redux/Field/fieldInterfaces';
-import { getRandomValue } from '../../helpers';
-import { getCellsAround, lockedCell } from '../../redux/Area/areaUtils';
+import { getRandomValue, getUniqId } from '../../helpers';
+import { getCellsAround, lockedCell, finishBuildingShip } from '../../redux/Area/areaUtils';
 
 export enum ShipDirection {
     Horizontal = 'HORIZONTAL',
@@ -107,11 +107,13 @@ export const buildRandomShips = (square: Array<Array<IField>>, shipLength: numbe
     // console.log(startingPoint);
 
     // need to remove
-    startingPoint.past = true;
+    // startingPoint.past = true;
 
     const shipDirection = manageShipDirection(square, startNumber, startLetter, shipLength, length);
 
     // console.log(`shipDirection: ${shipDirection}`);
+
+    const uniqShipId = getUniqId();
 
     for (let i = 0; i < shipLength; i += 1) {
         // console.log('in loop');
@@ -127,9 +129,12 @@ export const buildRandomShips = (square: Array<Array<IField>>, shipLength: numbe
         // console.log(`posX and posY ${posX} ${posY}`);
 
         square[posX][posY].ship = true;
+        square[posX][posY].shipId = uniqShipId;
 
         getCellsAround(square, posX, posY, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
     }
+
+    finishBuildingShip(square, uniqShipId);
 
     return square;
 };

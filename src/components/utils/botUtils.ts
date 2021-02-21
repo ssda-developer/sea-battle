@@ -1,15 +1,11 @@
 import { IField } from '../../redux/Field/fieldInterfaces';
 import { getRandomValue, getUniqId } from '../../helpers';
 import { getCellsAround, lockedCell, finishBuildingShip } from '../../redux/Area/areaUtils';
-
-export enum ShipDirection {
-    Horizontal = 'HORIZONTAL',
-    Vertical = 'VERTICAL',
-}
+import { ShipDirection } from '../../constants/shipsConstants';
 
 const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: number): number[] => {
+    console.log(`getRandomCellCoordinates`);
     const { length } = square;
-    const coordinates: number[] = [];
     let number = getRandomValue(length);
     let letter = getRandomValue(length);
 
@@ -21,10 +17,8 @@ const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: numb
         [number, letter] = getRandomCellCoordinates(square, shipLength);
     }
 
-    coordinates.push(number, letter);
-
     return !square[number][letter].hit && !square[number][letter].locked && !square[number][letter].ship
-        ? coordinates
+        ? [number, letter]
         : getRandomCellCoordinates(square, shipLength);
 };
 
@@ -67,10 +61,10 @@ const manageShipDirection = (
     positionLetter: number,
     shipLength: number,
     arrayLength: number,
-): ShipDirection | (number | ShipDirection)[] => {
+): ShipDirection | undefined => {
     console.log('manageShipDirection');
     const { Horizontal, Vertical } = ShipDirection;
-    let direction: ShipDirection;
+    let direction;
 
     if (positionNumber + shipLength < arrayLength && checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
         console.log('manageShipDirection Vertical');
@@ -84,36 +78,45 @@ const manageShipDirection = (
         return direction;
     }
 
-    console.log('manageShipDirection else');
-    const [newPositionNumber, newPositionLetter] = getRandomCellCoordinates(square, shipLength);
-    direction = manageShipDirection(square, newPositionNumber, newPositionLetter, shipLength, arrayLength) as ShipDirection;
-
-    return [direction, newPositionNumber, newPositionLetter];
+    return direction;
 };
 
-export const buildRandomShips = (square: Array<Array<IField>>, shipLength: number): Array<Array<IField>> => {
-    const { length } = square;
+const checkBeforeBuild = (square: Array<Array<IField>>, shipLength: number) => {
+    console.log('checkBeforeBuild');
 
+    const { length } = square;
+    const [startNumber, startLetter] = getRandomCellCoordinates(square, shipLength);
+
+    const shipDirection = manageShipDirection(square, startNumber, startLetter, shipLength, length);
+
+    console.log(`11111111111111111111111111111${shipDirection}`);
+
+    if (typeof shipDirection !== 'string') {
+        console.log(`22222222222222222222222222222222${shipDirection}`);
+        checkBeforeBuild(square, shipLength);
+    }
+
+    console.log(`checkBeforeBuild!!! startNumber: ${startNumber}, startLetter: ${startLetter}`);
+
+    return {
+        shipDirection,
+        coordinates: [startNumber, startLetter],
+    };
+};
+
+export const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Array<Array<IField>> => {
     console.log(`----------------------`);
     console.log(`buildRandomShips start`);
     console.log(`----------------------`);
 
-    // [4, 3, 3, 2, 2, 2, 1, 1, 1, 1]
-    const [startNumber, startLetter] = getRandomCellCoordinates(square, shipLength);
+    const { shipDirection, coordinates } = checkBeforeBuild(square, shipLength);
+    const [startNumber, startLetter] = coordinates;
 
     console.log(`startNumber: ${startNumber}`);
     console.log(`startLetter: ${startLetter}`);
 
     console.log(`startNumber + shipLength: ${startNumber + shipLength}`);
     console.log(`startLetter + shipLength: ${startLetter + shipLength}`);
-
-    const startingPoint = square[startNumber][startLetter];
-
-    console.log(startingPoint);
-
-    const [shipDirection] = manageShipDirection(square, startNumber, startLetter, shipLength, length);
-
-    console.log(`shipDirection: ${shipDirection}`);
 
     const uniqShipId = getUniqId();
 

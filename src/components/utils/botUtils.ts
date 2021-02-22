@@ -1,25 +1,23 @@
 import { IField } from '../../redux/Field/fieldInterfaces';
 import { getRandomValue, getUniqId } from '../../helpers';
-import { getCellsAround, lockedCell, finishBuildingShip } from '../../redux/Area/areaUtils';
+import { finishBuildingShip, getCellsAround, lockedCell } from '../../redux/Area/areaUtils';
 import { ShipDirection } from '../../constants/shipsConstants';
 
 const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: number): number[] => {
-    console.log(`getRandomCellCoordinates`);
     const { length } = square;
-    let number = getRandomValue(length);
-    let letter = getRandomValue(length);
+    const number = getRandomValue(length);
+    const letter = getRandomValue(length);
 
-    console.log(number);
-    console.log(letter);
-
-    if (number + shipLength > length && letter + shipLength > length) {
-        console.log('big number');
-        [number, letter] = getRandomCellCoordinates(square, shipLength);
+    if (
+        (number + shipLength > length && letter + shipLength > length) ||
+        square[number][letter].hit ||
+        square[number][letter].locked ||
+        square[number][letter].ship
+    ) {
+        getRandomCellCoordinates(square, shipLength);
     }
 
-    return !square[number][letter].hit && !square[number][letter].locked && !square[number][letter].ship
-        ? [number, letter]
-        : getRandomCellCoordinates(square, shipLength);
+    return [number, letter];
 };
 
 export const checkEmptyCells = (
@@ -31,17 +29,7 @@ export const checkEmptyCells = (
 ): boolean => {
     const isEmpty = true;
 
-    console.log(`checkEmptyCells ${direction}`);
-    console.log(`calculableValue: ${calculableValue}`);
-    console.log(`nonCalculableValue: ${nonCalculableValue}`);
-
     for (let i = calculableValue; i < calculableValue + shipLength; i += 1) {
-        if (direction === ShipDirection.Horizontal) {
-            console.log(square[nonCalculableValue][i]);
-        } else {
-            console.log(square[i][nonCalculableValue]);
-        }
-
         const { hit, locked, ship } =
             direction === ShipDirection.Horizontal ? square[nonCalculableValue][i] : square[i][nonCalculableValue];
 
@@ -49,8 +37,6 @@ export const checkEmptyCells = (
             return !isEmpty;
         }
     }
-
-    console.log(`isEmpty: ${isEmpty}`);
 
     return isEmpty;
 };
@@ -62,18 +48,15 @@ const manageShipDirection = (
     shipLength: number,
     arrayLength: number,
 ): ShipDirection | undefined => {
-    console.log('manageShipDirection');
     const { Horizontal, Vertical } = ShipDirection;
     let direction;
 
-    if (positionNumber + shipLength < arrayLength && checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
-        console.log('manageShipDirection Vertical');
+    if (positionNumber + shipLength <= arrayLength && checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
         direction = Vertical;
         return direction;
     }
 
-    if (positionLetter + shipLength < arrayLength && checkEmptyCells(square, positionLetter, positionNumber, shipLength, Horizontal)) {
-        console.log('manageShipDirection Horizontal');
+    if (positionLetter + shipLength <= arrayLength && checkEmptyCells(square, positionLetter, positionNumber, shipLength, Horizontal)) {
         direction = Horizontal;
         return direction;
     }
@@ -81,22 +64,19 @@ const manageShipDirection = (
     return direction;
 };
 
-const checkBeforeBuild = (square: Array<Array<IField>>, shipLength: number) => {
-    console.log('checkBeforeBuild');
+interface CheckBeforeBuild {
+    shipDirection: ShipDirection;
+    coordinates: number[];
+}
 
+const checkBeforeBuild = (square: Array<Array<IField>>, shipLength: number): CheckBeforeBuild => {
     const { length } = square;
     const [startNumber, startLetter] = getRandomCellCoordinates(square, shipLength);
-
     const shipDirection = manageShipDirection(square, startNumber, startLetter, shipLength, length);
 
-    console.log(`11111111111111111111111111111${shipDirection}`);
-
     if (typeof shipDirection !== 'string') {
-        console.log(`22222222222222222222222222222222${shipDirection}`);
-        checkBeforeBuild(square, shipLength);
+        return checkBeforeBuild(square, shipLength);
     }
-
-    console.log(`checkBeforeBuild!!! startNumber: ${startNumber}, startLetter: ${startLetter}`);
 
     return {
         shipDirection,
@@ -105,23 +85,14 @@ const checkBeforeBuild = (square: Array<Array<IField>>, shipLength: number) => {
 };
 
 export const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Array<Array<IField>> => {
-    console.log(`----------------------`);
-    console.log(`buildRandomShips start`);
-    console.log(`----------------------`);
-
-    const { shipDirection, coordinates } = checkBeforeBuild(square, shipLength);
-    const [startNumber, startLetter] = coordinates;
-
-    console.log(`startNumber: ${startNumber}`);
-    console.log(`startLetter: ${startLetter}`);
-
-    console.log(`startNumber + shipLength: ${startNumber + shipLength}`);
-    console.log(`startLetter + shipLength: ${startLetter + shipLength}`);
+    const {
+        shipDirection,
+        coordinates: [startNumber, startLetter],
+    } = checkBeforeBuild(square, shipLength);
 
     const uniqShipId = getUniqId();
 
     for (let i = 0; i < shipLength; i += 1) {
-        console.log('in loop');
         let posX = startNumber;
         let posY = startLetter;
 
@@ -130,8 +101,6 @@ export const buildRandomShip = (square: Array<Array<IField>>, shipLength: number
         } else {
             posY += i;
         }
-
-        console.log(`posX and posY ${posX} ${posY}`);
 
         square[posX][posY].ship = true;
         square[posX][posY].shipId = uniqShipId;

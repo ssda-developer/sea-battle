@@ -17,7 +17,7 @@ const randomCellInfo = (array: IField[][]): any => {
     return !array[randomX][randomY].hit && !array[randomX][randomY].past ? array[randomX][randomY] : randomCellInfo(array);
 };
 
-let possibleShots: any[] = [];
+const possibleShots: any[] = [];
 let direction = '';
 let firstShipHit: null | IField = null;
 
@@ -30,56 +30,83 @@ const removeCellInfoFromPossibleShots = (cellInfo: IField) => {
 
 const randomHit = (friendlySquare: IField[][]) => {
     const { Horizontal, Vertical } = ShipDirection;
-    let cellInfo = randomCellInfo(friendlySquare);
     const randomIndexForPossibleShots = getRandomValue(possibleShots.length);
-    // console.log(cellInfo);
-
+    let cellInfo = randomCellInfo(friendlySquare);
     if (possibleShots.length > 0) {
         cellInfo = possibleShots[randomIndexForPossibleShots];
-        // console.log(cellInfo);
     }
 
     if (cellInfo.ship) {
-        const [i, j] = getPositionById(friendlySquare, cellInfo.id);
+        const [i, j] = getPositionById(friendlySquare, cellInfo.id) as number[];
         const nonDiagonalCell = getCellsAround(friendlySquare, i, j, 'non-diagonal');
+        if (possibleShots.length === 0) {
+            possibleShots.push(...nonDiagonalCell);
+        }
         if (!firstShipHit) {
             firstShipHit = cellInfo;
         } else {
-            const [fI] = getPositionById(friendlySquare, firstShipHit.id);
+            const [iFirstShip] = getPositionById(friendlySquare, firstShipHit.id) as number[];
             if (!direction) {
-                direction = i === fI ? Horizontal : Vertical;
+                direction = i === iFirstShip ? Horizontal : Vertical;
             }
         }
-        removeCellInfoFromPossibleShots(cellInfo);
-        if (direction && direction === Vertical) {
-            possibleShots = [nonDiagonalCell[0], nonDiagonalCell[2]];
-        } else if (direction && direction === Horizontal) {
-            possibleShots = [nonDiagonalCell[1], nonDiagonalCell[3]];
-        } else {
-            possibleShots = [...possibleShots, ...nonDiagonalCell];
-        }
-        randomHit(friendlySquare);
-    } else if (cellInfo.hit) {
-        randomHit(friendlySquare);
-    } else if (cellInfo.past) {
-        direction = '';
-        removeCellInfoFromPossibleShots(cellInfo);
-        // randomHit(friendlySquare);
-    } else {
-        removeCellInfoFromPossibleShots(cellInfo);
-        direction = '';
+        console.log(possibleShots);
     }
-
-    console.log(direction);
-    console.log(possibleShots);
     updateCellNew(friendlySquare, cellInfo.id);
-
-    if (cellInfo.explode) {
-        direction = '';
-        firstShipHit = null;
-        possibleShots = [];
-    }
 };
+
+// const randomHit = (friendlySquare: IField[][]) => {
+//     const { Horizontal, Vertical } = ShipDirection;
+//     let cellInfo = randomCellInfo(friendlySquare);
+//     const randomIndexForPossibleShots = getRandomValue(possibleShots.length);
+//     // console.log(cellInfo);
+//
+//     if (possibleShots.length > 0) {
+//         cellInfo = possibleShots[randomIndexForPossibleShots];
+//         // console.log(cellInfo);
+//     }
+//
+//     if (cellInfo.ship) {
+//         const [i, j] = getPositionById(friendlySquare, cellInfo.id);
+//         const nonDiagonalCell = getCellsAround(friendlySquare, i, j, 'non-diagonal');
+//         if (!firstShipHit) {
+//             firstShipHit = cellInfo;
+//         } else {
+//             const [fI] = getPositionById(friendlySquare, firstShipHit.id);
+//             if (!direction) {
+//                 direction = i === fI ? Horizontal : Vertical;
+//             }
+//         }
+//         removeCellInfoFromPossibleShots(cellInfo);
+//         if (direction && direction === Vertical) {
+//             possibleShots = [nonDiagonalCell[0], nonDiagonalCell[2]];
+//         } else if (direction && direction === Horizontal) {
+//             possibleShots = [nonDiagonalCell[1], nonDiagonalCell[3]];
+//         } else {
+//             possibleShots = [...possibleShots, ...nonDiagonalCell];
+//         }
+//         randomHit(friendlySquare);
+//     } else if (cellInfo.hit) {
+//         randomHit(friendlySquare);
+//     } else if (cellInfo.past) {
+//         direction = '';
+//         removeCellInfoFromPossibleShots(cellInfo);
+//         // randomHit(friendlySquare);
+//     } else {
+//         removeCellInfoFromPossibleShots(cellInfo);
+//         direction = '';
+//     }
+//
+//     console.log(direction);
+//     console.log(possibleShots);
+//     updateCellNew(friendlySquare, cellInfo.id);
+//
+//     if (cellInfo.explode) {
+//         direction = '';
+//         firstShipHit = null;
+//         possibleShots = [];
+//     }
+// };
 
 // const randomHit = (friendlySquare: IField[][]) => {
 //     console.log('randomHit');

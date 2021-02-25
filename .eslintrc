@@ -23,7 +23,8 @@
                 "jsxBracketSameLine": false,
                 "useTabs": false,
                 "arrowParens": "avoid",
-                "trailingComma": "all"
+                "trailingComma": "all",
+                "endOfLine": "auto"
             }
         ],
         "react/state-in-constructor": "off",

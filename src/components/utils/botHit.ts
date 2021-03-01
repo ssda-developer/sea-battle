@@ -1,5 +1,5 @@
-import { IField } from '../../redux/Field/fieldInterfaces';
-import { updateCellNew, getPositionById, getCellsAround } from '../../redux/Area/areaUtils';
+import { IField } from '../../store/field/interfaces';
+import { updateCellNew, getPositionById, getCellsAround } from '../../store/area/areaUtils';
 import { getRandomValue } from '../../helpers';
 import { ShipDirection } from '../../constants/shipsConstants';
 

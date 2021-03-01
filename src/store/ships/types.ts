@@ -1,4 +1,4 @@
-import { IShip } from './shipsInterfaces';
+import { IShip } from './interfaces';
 
 export const RENDER_SHIPS = 'RENDER_SHIPS';
 export const GET_CURRENT_SHIP_ID = 'GET_CURRENT_SHIP_ID';

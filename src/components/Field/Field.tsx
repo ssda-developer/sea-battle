@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { IField } from '../../redux/Field/fieldInterfaces';
+import { IField } from '../../store/field/interfaces';
 
 import './Field.scss';
 

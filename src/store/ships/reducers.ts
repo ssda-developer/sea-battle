@@ -1,5 +1,5 @@
-import { IShips } from './shipsInterfaces';
-import { RENDER_SHIPS, GET_CURRENT_SHIP_ID, GET_CURRENT_SHIP_LENGTH, ShipsDispatchTypes } from './shipsTypes';
+import { IShips } from './interfaces';
+import { RENDER_SHIPS, GET_CURRENT_SHIP_ID, GET_CURRENT_SHIP_LENGTH, ShipsDispatchTypes } from './types';
 
 const initialState: IShips = {
     ships: [],
@@ -9,7 +9,7 @@ const initialState: IShips = {
     },
 };
 
-const shipsReducer = (state: IShips = initialState, action: ShipsDispatchTypes): IShips => {
+const reducers = (state: IShips = initialState, action: ShipsDispatchTypes): IShips => {
     switch (action.type) {
         case RENDER_SHIPS:
             return {
@@ -37,4 +37,4 @@ const shipsReducer = (state: IShips = initialState, action: ShipsDispatchTypes):
     }
 };
 
-export default shipsReducer;
+export default reducers;

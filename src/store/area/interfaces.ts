@@ -1,4 +1,4 @@
-import { IField } from '../Field/fieldInterfaces';
+import { IField } from '../field/interfaces';
 
 export enum Owns {
     Friendly = 'FRIENDLY',

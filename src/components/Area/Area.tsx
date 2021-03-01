@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { IOwns } from '../../redux/Area/areaInterfaces';
+import { IOwns } from '../../store/area/interfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 

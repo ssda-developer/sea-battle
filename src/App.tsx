@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Owns } from './redux/Area/areaInterfaces';
+import { Owns } from './store/area/interfaces';
 
 import Area from './components/Area/Area';
 import Ships from './components/Ships/Ships';

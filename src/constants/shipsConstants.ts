@@ -1,4 +1,4 @@
-const SHIPS = [
+export const SHIPS = [
     {
         maxCount: 1,
         length: 4,
@@ -16,8 +16,6 @@ const SHIPS = [
         length: 1,
     },
 ];
-
-export default SHIPS;
 
 export enum ShipDirection {
     Horizontal = 'HORIZONTAL',

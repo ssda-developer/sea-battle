@@ -1,11 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { RootStore } from '../../redux/store';
-import { renderShips } from '../../redux/Ships/shipsActions';
-import { IShip } from '../../redux/Ships/shipsInterfaces';
+import { RootStore } from '../../store/store';
+import { renderShips } from '../../store/ships/actions';
+import { IShip } from '../../store/ships/interfaces';
 
-import SHIPS from '../../constants/shipsConstants';
+import { SHIPS } from '../../constants/shipsConstants';
 import { getUniqId } from '../../helpers';
 
 import ShipsRow from '../ShipsRow/ShipsRow';

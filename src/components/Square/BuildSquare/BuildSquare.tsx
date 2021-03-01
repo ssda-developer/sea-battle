@@ -1,15 +1,15 @@
 import React, { FC, MouseEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { IField } from '../../../redux/Field/fieldInterfaces';
-import { IOwns, Owns } from '../../../redux/Area/areaInterfaces';
+import { IField } from '../../../store/field/interfaces';
+import { IOwns, Owns } from '../../../store/area/interfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
-import { addShip, updateCell } from '../../../redux/Area/areaUtils';
+import { addShip, updateCell } from '../../../store/area/areaUtils';
 import { buildRandomShip } from '../../utils/botUtils';
 
-import { RootStore } from '../../../redux/store';
-import { renderEnemySquare, renderFriendlySquare } from '../../../redux/Area/areaActions';
+import { RootStore } from '../../../store/store';
+import { renderEnemySquare, renderFriendlySquare } from '../../../store/area/actions';
 
 import FieldRow from '../../FieldRow/FieldRow';
 import enemyHit from '../../utils/botHit';
@@ -58,7 +58,15 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
         if (owns === Friendly) {
             dispatch(renderFriendlySquare(currentSquare));
         } else {
-            dispatch(renderEnemySquare(currentSquare));
+            [4, 3, 3, 2, 2, 2, 1, 1, 1, 1].forEach(shipLength => {
+                dispatch(renderEnemySquare(buildRandomShip(currentSquare, shipLength)));
+            });
+
+            currentSquare.flat().forEach(cell => {
+                if (!cell.ship) {
+                    cell.locked = true;
+                }
+            });
         }
     }, []);
 

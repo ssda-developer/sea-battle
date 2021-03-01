@@ -1,5 +1,5 @@
-import { ShipsDispatchTypes, RENDER_SHIPS, GET_CURRENT_SHIP_ID, GET_CURRENT_SHIP_LENGTH } from './shipsTypes';
-import { IShip } from './shipsInterfaces';
+import { ShipsDispatchTypes, RENDER_SHIPS, GET_CURRENT_SHIP_ID, GET_CURRENT_SHIP_LENGTH } from './types';
+import { IShip } from './interfaces';
 
 export const renderShips = (ships: Array<Array<IShip>>): ShipsDispatchTypes => {
     return {

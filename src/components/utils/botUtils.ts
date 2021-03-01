@@ -1,6 +1,6 @@
-import { IField } from '../../redux/Field/fieldInterfaces';
+import { IField } from '../../store/field/interfaces';
 import { getRandomValue, getUniqId } from '../../helpers';
-import { finishBuildingShip, getCellsAround, lockedCell } from '../../redux/Area/areaUtils';
+import { finishBuildingShip, getCellsAround, lockedCell } from '../../store/area/areaUtils';
 import { ShipDirection } from '../../constants/shipsConstants';
 
 const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: number): number[] => {

@@ -1,5 +1,5 @@
-import { RENDER_FRIENDLY_SQUARE, RENDER_ENEMY_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './areaTypes';
-import { IArea } from './areaInterfaces';
+import { RENDER_FRIENDLY_SQUARE, RENDER_ENEMY_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './types';
+import { IArea } from './interfaces';
 
 const initialState: IArea = {
     squares: {
@@ -9,7 +9,7 @@ const initialState: IArea = {
     owns: null,
 };
 
-const areaReducer = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {
+const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {
     switch (action.type) {
         case RENDER_FRIENDLY_SQUARE:
             return {
@@ -34,4 +34,4 @@ const areaReducer = (state: IArea = initialState, action: AreaDispatchTypes): IA
     }
 };
 
-export default areaReducer;
+export default reducers;

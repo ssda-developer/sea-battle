@@ -1,4 +1,4 @@
-import { IField } from '../Field/fieldInterfaces';
+import { IField } from '../field/interfaces';
 import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../../helpers';
 
 export const getCellById = (square: IField[][], id: string): IField | null => {

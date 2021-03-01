@@ -1,5 +1,5 @@
-import { IField } from '../Field/fieldInterfaces';
-import { IOwns } from './areaInterfaces';
+import { IField } from '../field/interfaces';
+import { IOwns } from './interfaces';
 
 export const RENDER_FRIENDLY_SQUARE = 'RENDER_FRIENDLY_SQUARE';
 export const RENDER_ENEMY_SQUARE = 'RENDER_ENEMY_SQUARE';

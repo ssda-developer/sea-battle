@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 
 import Ship from '../Ship/Ship';
 
-import { IShip } from '../../redux/Ships/shipsInterfaces';
+import { IShip } from '../../store/ships/interfaces';
 
 import './ShipsRow.scss';
 

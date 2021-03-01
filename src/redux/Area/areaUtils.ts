@@ -1,38 +1,30 @@
 import { IField } from '../Field/fieldInterfaces';
-
-import { getUniqId } from '../../helpers';
+import { getUniqId, iteratingTwoDimensionalArray } from '../../helpers';
 
 export const getCellById = (square: IField[][], id: string): IField | null => {
-    const { length } = square;
     let cell: IField | null = null;
 
-    for (let i = 0; i < length; i += 1) {
-        for (let j = 0; j < length; j += 1) {
-            cell = square[i][j];
+    iteratingTwoDimensionalArray(square, (i, j) => {
+        const currentCell = square[i][j];
 
-            if (cell.id === id) {
-                return cell;
-            }
+        if (currentCell.id === id) {
+            cell = currentCell;
         }
-    }
+    });
 
     return cell;
 };
 
 export const getPositionById = (square: IField[][], id: string): number[] => {
-    const { length } = square;
-    let cell: IField | null = null;
     let position: number[] = [];
 
-    for (let i = 0; i < length; i += 1) {
-        for (let j = 0; j < length; j += 1) {
-            cell = square[i][j];
+    iteratingTwoDimensionalArray(square, (i, j) => {
+        const cell = square[i][j];
 
-            if (cell.id === id) {
-                position = [i, j];
-            }
+        if (cell.id === id) {
+            position = [i, j];
         }
-    }
+    });
 
     return position;
 };
@@ -40,6 +32,7 @@ export const getPositionById = (square: IField[][], id: string): number[] => {
 const shipExplosion = (array: IField[][], currentShipId: string) => {
     let shipField = 0;
     let shipHit = 0;
+
     array.flat().forEach(cell => {
         if (cell.shipId === currentShipId) {
             shipField += 1;
@@ -132,18 +125,13 @@ export const lockedCell = (cell: IField | null): void => {
 };
 
 export const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
-    const { length } = square;
+    iteratingTwoDimensionalArray(square, (i, j) => {
+        const cell = square[i][j];
 
-    for (let i = 0; i < length; i += 1) {
-        for (let j = 0; j < length; j += 1) {
-            const cell = square[i][j];
-
-            if (cell.shipId === currentShipId) {
-                getCellsAround(square, i, j, 'non-diagonal').forEach(nonDiagonalCell => lockedCell(nonDiagonalCell));
-            }
+        if (cell.shipId === currentShipId) {
+            getCellsAround(square, i, j, 'non-diagonal').forEach(nonDiagonalCell => lockedCell(nonDiagonalCell));
         }
-    }
-
+    });
     resetStartingValues();
 
     return square;
@@ -166,49 +154,46 @@ const removeWrongShip = (square: IField[][], currentShipId: string): IField[][] 
 
 export const addShip = (square: IField[][], currentCellId: string): IField[][] => {
     let array = square;
-    const arrayLength = square.length;
 
-    for (let i = 0; i < arrayLength; i += 1) {
-        for (let j = 0; j < arrayLength; j += 1) {
-            const cell = array[i][j];
+    iteratingTwoDimensionalArray(square, (i, j) => {
+        const cell = array[i][j];
 
-            if (cell.id === currentCellId) {
-                const [cellUp, cellRight, cellDown, cellLeft] = getCellsAround(array, i, j, 'non-diagonal');
+        if (cell.id === currentCellId) {
+            const [cellUp, cellRight, cellDown, cellLeft] = getCellsAround(array, i, j, 'non-diagonal');
 
-                if (
-                    cellUp?.shipId === uniqShipId ||
-                    cellRight?.shipId === uniqShipId ||
-                    cellDown?.shipId === uniqShipId ||
-                    cellLeft?.shipId === uniqShipId ||
-                    isStartClickBuildShip
-                ) {
-                    const maxShipLength = Math.max(...ships);
-                    currentShipLength += 1;
+            if (
+                cellUp?.shipId === uniqShipId ||
+                cellRight?.shipId === uniqShipId ||
+                cellDown?.shipId === uniqShipId ||
+                cellLeft?.shipId === uniqShipId ||
+                isStartClickBuildShip
+            ) {
+                const maxShipLength = Math.max(...ships);
+                currentShipLength += 1;
 
-                    getCellsAround(array, i, j, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
+                getCellsAround(array, i, j, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
 
-                    cell.ship = true;
-                    cell.shipId = uniqShipId;
-                    isStartClickBuildShip = false;
+                cell.ship = true;
+                cell.shipId = uniqShipId;
+                isStartClickBuildShip = false;
 
-                    if (currentShipLength === maxShipLength) {
-                        ships.splice(ships.indexOf(currentShipLength), 1);
-                        array = finishBuildingShip(array, uniqShipId);
-                    }
-                } else {
-                    const index = ships.indexOf(currentShipLength);
-                    if (index >= 0) {
-                        ships.splice(index, 1);
-                        array = finishBuildingShip(array, uniqShipId);
-                    } else {
-                        removeWrongShip(array, uniqShipId);
-                    }
-
-                    addShip(square, currentCellId);
+                if (currentShipLength === maxShipLength) {
+                    ships.splice(ships.indexOf(currentShipLength), 1);
+                    array = finishBuildingShip(array, uniqShipId);
                 }
+            } else {
+                const index = ships.indexOf(currentShipLength);
+                if (index >= 0) {
+                    ships.splice(index, 1);
+                    array = finishBuildingShip(array, uniqShipId);
+                } else {
+                    removeWrongShip(array, uniqShipId);
+                }
+
+                addShip(square, currentCellId);
             }
         }
-    }
+    });
 
     if (ships.length === 0) {
         array.flat().forEach(cell => {

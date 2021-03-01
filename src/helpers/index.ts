@@ -11,13 +11,12 @@ export const getUniqId = (): string => Math.random().toString(36).substr(2, 16);
  */
 export const getRandomValue = (maxValue: number): number => Math.floor(Math.random() * maxValue);
 
-// TODO: need finish - iterateArray.
 /**
- * Iterating over an array.
+ * Iterating over a two-dimensional array.
  * @param array
  * @param func
  */
-export const iterateArray = (array: IField[][], func: (i: number, j: number) => void): void => {
+export const iteratingTwoDimensionalArray = (array: IField[][], func: (i: number, j: number) => void): void => {
     const { length } = array;
 
     for (let i = 0; i < length; i += 1) {

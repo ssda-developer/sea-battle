@@ -1,5 +1,5 @@
 import { IField } from '../Field/fieldInterfaces';
-import { getUniqId, iteratingTwoDimensionalArray } from '../../helpers';
+import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../../helpers';
 
 export const getCellById = (square: IField[][], id: string): IField | null => {
     let cell: IField | null = null;
@@ -33,7 +33,7 @@ const shipExplosion = (array: IField[][], currentShipId: string) => {
     let shipField = 0;
     let shipHit = 0;
 
-    array.flat().forEach(cell => {
+    iteratingFlatArray(array, cell => {
         if (cell.shipId === currentShipId) {
             shipField += 1;
             if (cell.hit) {
@@ -43,7 +43,7 @@ const shipExplosion = (array: IField[][], currentShipId: string) => {
     });
 
     if (shipField === shipHit) {
-        array.flat().forEach(cell => {
+        iteratingFlatArray(array, cell => {
             if (cell.shipId === currentShipId) {
                 cell.explode = true;
             }
@@ -137,8 +137,8 @@ export const finishBuildingShip = (square: IField[][], currentShipId: string): I
     return square;
 };
 
-const removeWrongShip = (square: IField[][], currentShipId: string): IField[][] => {
-    square.flat().forEach(cell => {
+const removeWrongShip = (array: IField[][], currentShipId: string): IField[][] => {
+    iteratingFlatArray(array, cell => {
         if (cell.shipId === currentShipId || cell.lockedId === `locked-${currentShipId}`) {
             cell.ship = false;
             cell.shipId = '';
@@ -146,10 +146,9 @@ const removeWrongShip = (square: IField[][], currentShipId: string): IField[][] 
             cell.lockedId = '';
         }
     });
-
     resetStartingValues();
 
-    return square;
+    return array;
 };
 
 export const addShip = (square: IField[][], currentCellId: string): IField[][] => {
@@ -196,7 +195,7 @@ export const addShip = (square: IField[][], currentCellId: string): IField[][] =
     });
 
     if (ships.length === 0) {
-        array.flat().forEach(cell => {
+        iteratingFlatArray(array, cell => {
             if (!cell.ship) {
                 cell.locked = true;
             }

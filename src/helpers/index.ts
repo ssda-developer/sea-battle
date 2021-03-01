@@ -25,3 +25,16 @@ export const iteratingTwoDimensionalArray = (array: IField[][], func: (i: number
         }
     }
 };
+
+/**
+ * Iterating the flat array.
+ * @param array
+ * @param func
+ * example:
+ * iteratingFlatArray(array, cell => {});
+ */
+export const iteratingFlatArray = (array: IField[][], func: (cell: IField) => void): void => {
+    array.flat().forEach(cell => {
+        func(cell);
+    });
+};

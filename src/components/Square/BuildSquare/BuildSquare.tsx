@@ -10,7 +10,7 @@ import { buildRandomShip } from '../../utils/botUtils';
 import { iteratingFlatArray } from '../../../helpers';
 
 import { RootStore } from '../../../store/store';
-import { renderEnemySquare, renderFriendlySquare, clearFriendlySquare } from '../../../store/area/actions';
+import { renderEnemySquare, renderFriendlySquare } from '../../../store/area/actions';
 
 import FieldRow from '../../FieldRow/FieldRow';
 import enemyHit from '../../utils/botHit';
@@ -92,11 +92,12 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
     };
 
     const enemyBuildRandomShipsHandler = () => {
-        // dispatch(clearFriendlySquare());
-        // dispatch(renderFriendlySquare(friendlySquare));
+        currentSquare = createSquare();
+
+        dispatch(renderFriendlySquare(currentSquare));
 
         [4, 3, 3, 2, 2, 2, 1, 1, 1, 1].forEach(shipLength => {
-            dispatch(renderFriendlySquare(buildRandomShip(friendlySquare, shipLength)));
+            dispatch(renderFriendlySquare(buildRandomShip(currentSquare, shipLength)));
         });
     };
 

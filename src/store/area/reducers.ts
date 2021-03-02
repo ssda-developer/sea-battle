@@ -1,4 +1,4 @@
-import { RENDER_FRIENDLY_SQUARE, RENDER_ENEMY_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './types';
+import { RENDER_FRIENDLY_SQUARE, RENDER_ENEMY_SQUARE, CLEAR_FRIENDLY_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './types';
 import { IArea } from './interfaces';
 
 const initialState: IArea = {
@@ -25,6 +25,14 @@ const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea
                 squares: {
                     ...state.squares,
                     enemySquare: action.payload,
+                },
+            };
+        case CLEAR_FRIENDLY_SQUARE:
+            return {
+                ...state,
+                squares: {
+                    ...state.squares,
+                    friendlySquare: [],
                 },
             };
         case CHANGE_OWNS:

@@ -7,9 +7,10 @@ import { IOwns, Owns } from '../../../store/area/interfaces';
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
 import { addShip, updateCell } from '../../../store/area/areaUtils';
 import { buildRandomShip } from '../../utils/botUtils';
+import { iteratingFlatArray } from '../../../helpers';
 
 import { RootStore } from '../../../store/store';
-import { renderEnemySquare, renderFriendlySquare } from '../../../store/area/actions';
+import { renderEnemySquare, renderFriendlySquare, clearFriendlySquare } from '../../../store/area/actions';
 
 import FieldRow from '../../FieldRow/FieldRow';
 import enemyHit from '../../utils/botHit';
@@ -62,7 +63,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
                 dispatch(renderEnemySquare(buildRandomShip(currentSquare, shipLength)));
             });
 
-            currentSquare.flat().forEach(cell => {
+            iteratingFlatArray(currentSquare, cell => {
                 if (!cell.ship) {
                     cell.locked = true;
                 }
@@ -91,8 +92,11 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owns } }: Buil
     };
 
     const enemyBuildRandomShipsHandler = () => {
+        // dispatch(clearFriendlySquare());
+        // dispatch(renderFriendlySquare(friendlySquare));
+
         [4, 3, 3, 2, 2, 2, 1, 1, 1, 1].forEach(shipLength => {
-            dispatch(renderEnemySquare(buildRandomShip(friendlySquare, shipLength)));
+            dispatch(renderFriendlySquare(buildRandomShip(friendlySquare, shipLength)));
         });
     };
 

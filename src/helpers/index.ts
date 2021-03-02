@@ -15,6 +15,8 @@ export const getRandomValue = (maxValue: number): number => Math.floor(Math.rand
  * Iterating over a two-dimensional array.
  * @param array
  * @param func
+ * example:
+ * iteratingTwoDimensionalArray(square, (i, j) => {});
  */
 export const iteratingTwoDimensionalArray = (array: IField[][], func: (i: number, j: number) => void): void => {
     const { length } = array;

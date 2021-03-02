@@ -66,6 +66,7 @@ export const updateCellNew = (array: IField[][], currentCellId: string): IField[
     return array;
 };
 
+// TODO: need to get rid of and use the updateCellNew function.
 export const updateCell = (enemySquare: IField[][], friendlySquare: IField[][], currentCellId: string): IField[][] => {
     const currentEnemyCell = getCellById(enemySquare, currentCellId);
     const currentFriendlyCell = getCellById(friendlySquare, currentCellId);

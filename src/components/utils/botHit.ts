@@ -11,47 +11,50 @@ const randomCellInfo = (array: IField[][]): IField => {
     const { length } = array;
     const randomX = getRandomValue(length);
     const randomY = getRandomValue(length);
+    const cell = array[randomX][randomY];
 
-    return !array[randomX][randomY].hit && !array[randomX][randomY].past ? array[randomX][randomY] : randomCellInfo(array);
+    return !cell.hit && !cell.past ? cell : randomCellInfo(array);
 };
 
-const randomHit = (friendlySquare: IField[][]) => {
+const randomHit = (array: IField[][]) => {
     const { Horizontal, Vertical } = ShipDirection;
     const randomIndexForPossibleShots = getRandomValue(possibleShots.length);
-    let cellInfo = randomCellInfo(friendlySquare);
+    let cell = randomCellInfo(array);
 
-    if (possibleShots.length > 0) {
-        cellInfo = possibleShots[randomIndexForPossibleShots];
-        possibleShots.splice(possibleShots.indexOf(cellInfo), 1);
+    if (possibleShots.length) {
+        cell = possibleShots[randomIndexForPossibleShots];
+        possibleShots.splice(possibleShots.indexOf(cell), 1);
     }
 
-    if (cellInfo.ship) {
-        const [i, j] = getPositionById(friendlySquare, cellInfo.id) as number[];
-        const nonDiagonalCell = getCellsAround(friendlySquare, i, j, 'non-diagonal') as IField[];
-        if (possibleShots.length === 0) {
+    if (cell.ship) {
+        const [i, j] = getPositionById(array, cell.id) as number[];
+        const nonDiagonalCell = getCellsAround(array, i, j, 'non-diagonal') as IField[];
+
+        if (!possibleShots.length) {
             possibleShots.push(...nonDiagonalCell);
         }
+
         if (!firstShipHit) {
-            firstShipHit = cellInfo;
+            firstShipHit = cell;
         } else {
-            const [xFirstShip, yFirstShip] = getPositionById(friendlySquare, firstShipHit.id) as number[];
-            const nonDiagonalCellFirstShip = getCellsAround(friendlySquare, xFirstShip, yFirstShip, 'non-diagonal') as IField[];
+            const [xFirstShip, yFirstShip] = getPositionById(array, firstShipHit.id) as number[];
+            const nonDiagonalCellFirstShip = getCellsAround(array, xFirstShip, yFirstShip, 'non-diagonal') as IField[];
 
             if (!direction) {
                 direction = i === xFirstShip ? Horizontal : Vertical;
                 possibleShots = [];
             }
             if (direction === Vertical) {
-                possibleShots = [nonDiagonalCell[0], nonDiagonalCell[2], nonDiagonalCellFirstShip[0], nonDiagonalCellFirstShip[2]];
+                possibleShots = [...[...nonDiagonalCell, ...nonDiagonalCellFirstShip].filter((e, idx) => !(idx % 2))];
             } else if (direction === Horizontal) {
-                possibleShots = [nonDiagonalCell[1], nonDiagonalCell[3], nonDiagonalCellFirstShip[1], nonDiagonalCellFirstShip[3]];
+                possibleShots = [...[...nonDiagonalCell, ...nonDiagonalCellFirstShip].filter((e, idx) => idx % 2)];
             }
         }
     }
 
-    updateCellNew(friendlySquare, cellInfo.id);
+    updateCellNew(array, cell.id);
 
-    if (cellInfo.explode) {
+    if (cell.explode) {
         possibleShots = [];
         firstShipHit = null;
         direction = '';
@@ -60,10 +63,10 @@ const randomHit = (friendlySquare: IField[][]) => {
     possibleShots = possibleShots.filter(el => el !== null && !el.hit && !el.past);
 };
 
-const enemyHit = (friendlySquare: IField[][]) => {
-    randomHit(friendlySquare);
+const enemyHit = (array: IField[][]): IField[][] => {
+    randomHit(array);
 
-    return friendlySquare;
+    return array;
 };
 
 export default enemyHit;

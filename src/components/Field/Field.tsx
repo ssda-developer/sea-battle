@@ -20,7 +20,6 @@ const Field: FC<IField> = ({ id, ship, shipId, hit, past, locked, lockedId, expl
             data-locked-id={lockedId}
         >
             {id}
-            {/* {shipId} */}
         </button>
     );
 };

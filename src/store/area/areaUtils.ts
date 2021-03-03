@@ -1,5 +1,6 @@
 import { IField } from '../field/interfaces';
 import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../../helpers';
+import { SHIPS } from '../../constants/shipsConstants';
 
 export const getCellById = (square: IField[][], id: string): IField | null => {
     let cell: IField | null = null;
@@ -67,9 +68,9 @@ export const updateCellNew = (array: IField[][], currentCellId: string): IField[
 };
 
 // TODO: need to get rid of and use the updateCellNew function.
-export const updateCell = (enemySquare: IField[][], friendlySquare: IField[][], currentCellId: string): IField[][] => {
-    const currentEnemyCell = getCellById(enemySquare, currentCellId);
-    const currentFriendlyCell = getCellById(friendlySquare, currentCellId);
+export const updateCell = (computerSquare: IField[][], userSquare: IField[][], currentCellId: string): IField[][] => {
+    const currentEnemyCell = getCellById(computerSquare, currentCellId);
+    const currentFriendlyCell = getCellById(userSquare, currentCellId);
 
     if (currentFriendlyCell && currentEnemyCell) {
         if (currentFriendlyCell.ship) {
@@ -79,10 +80,10 @@ export const updateCell = (enemySquare: IField[][], friendlySquare: IField[][], 
         }
     }
 
-    return enemySquare;
+    return computerSquare;
 };
 
-const ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+const ships = SHIPS;
 let isStartClickBuildShip = true;
 let uniqShipId = getUniqId();
 let currentShipLength = 0;
@@ -123,6 +124,14 @@ export const lockedCell = (cell: IField | null): void => {
         cell.locked = true;
         cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;
     }
+};
+
+export const lockedAllEmptyCell = (array: IField[][]): void => {
+    iteratingFlatArray(array, cell => {
+        if (!cell.ship) {
+            cell.locked = true;
+        }
+    });
 };
 
 export const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
@@ -195,12 +204,8 @@ export const addShip = (square: IField[][], currentCellId: string): IField[][] =
         }
     });
 
-    if (ships.length === 0) {
-        iteratingFlatArray(array, cell => {
-            if (!cell.ship) {
-                cell.locked = true;
-            }
-        });
+    if (!ships.length) {
+        lockedAllEmptyCell(array);
     }
 
     return array;

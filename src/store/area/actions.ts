@@ -1,6 +1,6 @@
 import { RENDER_FRIENDLY_SQUARE, RENDER_ENEMY_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './types';
 import { IField } from '../field/interfaces';
-import { IOwns } from './interfaces';
+import { IOwner } from './interfaces';
 
 export const renderFriendlySquare = (square: IField[][]): AreaDispatchTypes => {
     return {
@@ -16,9 +16,9 @@ export const renderEnemySquare = (square: IField[][]): AreaDispatchTypes => {
     };
 };
 
-export const changeOwns = (owns: IOwns): AreaDispatchTypes => {
+export const changeOwns = (owner: IOwner): AreaDispatchTypes => {
     return {
         type: CHANGE_OWNS,
-        payload: owns,
+        payload: owner,
     };
 };

@@ -19,17 +19,16 @@ const Ships: FC = () => {
     const shipsArray: Array<Array<IShip>> = [];
 
     const createShips = () => {
-        SHIPS.forEach(ship => {
-            const shipsRow: Array<IShip> = [];
+        let shipsRow: Array<IShip> = [];
 
-            [...Array(ship.maxCount).keys()].forEach(() => {
-                shipsRow.push({
-                    id: getUniqId(),
-                    length: ship.length,
-                });
-            });
-
-            shipsArray.push(shipsRow);
+        // TODO: refactoring code, if you need it at all.
+        [...SHIPS, ''].reduce((prValue, crValue) => {
+            shipsRow.push({ id: getUniqId(), length: prValue as number });
+            if (prValue !== crValue) {
+                shipsArray.push(shipsRow);
+                shipsRow = [];
+            }
+            return crValue;
         });
 
         return shipsArray;

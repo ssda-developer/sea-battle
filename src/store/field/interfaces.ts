@@ -8,6 +8,6 @@ export interface IField {
     past: boolean;
     locked: boolean;
     lockedId: string;
-    explode?: boolean;
+    explode: boolean;
     updateCellHandler?: (event: MouseEvent<HTMLButtonElement>) => void;
 }

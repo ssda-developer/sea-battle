@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { IOwns } from '../../store/area/interfaces';
+import { IOwner } from '../../store/area/interfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 
@@ -8,7 +8,7 @@ import BuildSquare from '../Square/BuildSquare/BuildSquare';
 
 import './Area.scss';
 
-const Area: FC<IOwns> = (owns: IOwns) => {
+const Area: FC<IOwner> = (owner: IOwner) => {
     return (
         <div className="area">
             <div className="area__letters">
@@ -26,7 +26,7 @@ const Area: FC<IOwns> = (owns: IOwns) => {
                 ))}
             </div>
             <div className="area__wrapper">
-                <BuildSquare playerAffiliation={owns} />
+                <BuildSquare playerAffiliation={owner} />
             </div>
         </div>
     );

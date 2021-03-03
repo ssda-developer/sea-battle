@@ -16,8 +16,8 @@ const Field: FC<IField> = ({ id, ship, shipId, hit, past, locked, lockedId, expl
             }`}
             onClick={updateCellHandler}
             disabled={disabled}
-            data-ship-id={shipId}
-            data-locked-id={lockedId}
+            // data-ship-id={shipId}
+            // data-locked-id={lockedId}
         >
             {id}
         </button>

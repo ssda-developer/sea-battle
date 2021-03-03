@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Owns } from './store/area/interfaces';
+import { Owner } from './store/area/interfaces';
 
 import Area from './components/Area/Area';
 import Ships from './components/Ships/Ships';
@@ -11,8 +11,8 @@ const Game: FC = () => {
     return (
         <div className="sea-battle">
             <Ships />
-            <Area owns={Owns.Friendly} />
-            <Area owns={Owns.Enemy} />
+            <Area owner={Owner.User} />
+            <Area owner={Owner.Computer} />
         </div>
     );
 };

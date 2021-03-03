@@ -3,10 +3,10 @@ import { IArea } from './interfaces';
 
 const initialState: IArea = {
     squares: {
-        friendlySquare: [],
-        enemySquare: [],
+        userSquare: [],
+        computerSquare: [],
     },
-    owns: null,
+    owner: null,
 };
 
 const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {
@@ -16,7 +16,7 @@ const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea
                 ...state,
                 squares: {
                     ...state.squares,
-                    friendlySquare: action.payload,
+                    userSquare: action.payload,
                 },
             };
         case RENDER_ENEMY_SQUARE:
@@ -24,11 +24,11 @@ const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea
                 ...state,
                 squares: {
                     ...state.squares,
-                    enemySquare: action.payload,
+                    computerSquare: action.payload,
                 },
             };
         case CHANGE_OWNS:
-            return { ...state, owns: action.payload };
+            return { ...state, owner: action.payload };
         default:
             return state;
     }

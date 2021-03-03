@@ -12,8 +12,12 @@ const randomCellInfo = (array: IField[][]): IField => {
     const randomX = getRandomValue(length);
     const randomY = getRandomValue(length);
     const cell = array[randomX][randomY];
+    const isNearShip = [
+        ...getCellsAround(array, randomX, randomY, 'non-diagonal'),
+        ...getCellsAround(array, randomX, randomY, 'diagonal'),
+    ].filter(c => c?.explode);
 
-    return !cell.hit && !cell.past ? cell : randomCellInfo(array);
+    return !cell.hit && !cell.past && !isNearShip.length ? cell : randomCellInfo(array);
 };
 
 const randomHit = (array: IField[][]) => {
@@ -44,6 +48,7 @@ const randomHit = (array: IField[][]) => {
                 direction = i === xFirstShip ? Horizontal : Vertical;
                 possibleShots = [];
             }
+
             if (direction === Vertical) {
                 possibleShots = [...[...nonDiagonalCell, ...nonDiagonalCellFirstShip].filter((e, idx) => !(idx % 2))];
             } else if (direction === Horizontal) {

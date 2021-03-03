@@ -1,7 +1,8 @@
 import { IField } from '../../store/field/interfaces';
 import { getRandomValue, getUniqId } from '../../helpers';
-import { finishBuildingShip, getCellsAround, lockedCell } from '../../store/area/areaUtils';
-import { ShipDirection } from '../../constants/shipsConstants';
+import { getCellsAround, lockedAllEmptyCell } from '../../store/area/areaUtils';
+import { CellDirection, ShipDirection, SHIPS } from '../../constants/shipsConstants';
+import { finishBuildingShip, lockedCell } from './customShipPlacement';
 
 const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: number): number[] => {
     const { length } = square;
@@ -20,7 +21,7 @@ const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: numb
     return [number, letter];
 };
 
-export const checkEmptyCells = (
+const checkEmptyCells = (
     square: Array<Array<IField>>,
     calculableValue: number,
     nonCalculableValue: number,
@@ -84,7 +85,8 @@ const checkBeforeBuild = (square: Array<Array<IField>>, shipLength: number): Che
     };
 };
 
-export const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Array<Array<IField>> => {
+const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Array<Array<IField>> => {
+    const { Diagonal } = CellDirection;
     const {
         shipDirection,
         coordinates: [startNumber, startLetter],
@@ -105,10 +107,21 @@ export const buildRandomShip = (square: Array<Array<IField>>, shipLength: number
         square[posX][posY].ship = true;
         square[posX][posY].shipId = uniqShipId;
 
-        getCellsAround(square, posX, posY, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
+        getCellsAround(square, posX, posY, Diagonal).forEach(diagonalCell => lockedCell(diagonalCell));
     }
 
     finishBuildingShip(square, uniqShipId);
 
     return square;
 };
+
+const randomShipPlacement = (square: Array<Array<IField>>): Array<Array<IField>> => {
+    SHIPS.forEach(shipLength => {
+        buildRandomShip(square, shipLength);
+    });
+    lockedAllEmptyCell(square);
+
+    return square;
+};
+
+export default randomShipPlacement;

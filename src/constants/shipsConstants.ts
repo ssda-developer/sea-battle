@@ -4,3 +4,8 @@ export enum ShipDirection {
     Horizontal = 'HORIZONTAL',
     Vertical = 'VERTICAL',
 }
+
+export enum CellDirection {
+    Diagonal = 'DIAGONAL',
+    NonDiagonal = 'NON-DIAGONAL',
+}

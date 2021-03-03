@@ -5,16 +5,15 @@ import { IField } from '../../../store/field/interfaces';
 import { IOwner, Owner } from '../../../store/area/interfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
-import { addShip, updateCell } from '../../../store/area/areaUtils';
-import { buildRandomShip } from '../../utils/botUtils';
-import { iteratingFlatArray } from '../../../helpers';
+import { updateCell } from '../../../store/area/areaUtils';
+import randomShipPlacement from '../../utils/randomShipPlacement';
 
 import { RootStore } from '../../../store/store';
 import { renderEnemySquare, renderFriendlySquare } from '../../../store/area/actions';
 
 import FieldRow from '../../FieldRow/FieldRow';
-import enemyHit from '../../utils/botHit';
-import { SHIPS } from '../../../constants/shipsConstants';
+import computerShot from '../../utils/computerShot';
+import addShip from '../../utils/customShipPlacement';
 
 interface BuildSquareProps {
     playerAffiliation: IOwner;
@@ -61,15 +60,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         if (owner === User) {
             dispatch(renderFriendlySquare(currentSquare));
         } else {
-            SHIPS.forEach(shipLength => {
-                dispatch(renderEnemySquare(buildRandomShip(currentSquare, shipLength)));
-            });
-
-            iteratingFlatArray(currentSquare, cell => {
-                if (!cell.ship) {
-                    cell.locked = true;
-                }
-            });
+            dispatch(renderEnemySquare(randomShipPlacement(currentSquare)));
         }
     }, []);
 
@@ -83,13 +74,13 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         if (owner === User) {
             dispatch(renderFriendlySquare(addShip(currentSquare, id)));
         } else {
-            currentSquare = updateCell(computerSquare, userSquare, id);
+            currentSquare = updateCell(userSquare, id);
             dispatch(renderEnemySquare(currentSquare));
         }
     };
 
     const enemyHitHandler = () => {
-        currentSquare = enemyHit(userSquare);
+        currentSquare = computerShot(userSquare);
         dispatch(renderFriendlySquare(currentSquare));
     };
 
@@ -97,10 +88,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         currentSquare = createSquare();
 
         dispatch(renderFriendlySquare(currentSquare));
-
-        SHIPS.forEach(shipLength => {
-            dispatch(renderFriendlySquare(buildRandomShip(currentSquare, shipLength)));
-        });
+        dispatch(renderFriendlySquare(randomShipPlacement(currentSquare)));
     };
 
     return (

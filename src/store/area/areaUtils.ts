@@ -1,6 +1,6 @@
 import { IField } from '../field/interfaces';
-import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../../helpers';
-import { SHIPS } from '../../constants/shipsConstants';
+import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../../helpers';
+import { CellDirection } from '../../constants/shipsConstants';
 
 export const getCellById = (square: IField[][], id: string): IField | null => {
     let cell: IField | null = null;
@@ -16,7 +16,7 @@ export const getCellById = (square: IField[][], id: string): IField | null => {
     return cell;
 };
 
-export const getPositionById = (square: IField[][], id: string): number[] => {
+export const getPositionCellById = (square: IField[][], id: string): number[] => {
     let position: number[] = [];
 
     iteratingTwoDimensionalArray(square, (i, j) => {
@@ -54,7 +54,7 @@ const shipExplosion = (array: IField[][], currentShipId: string) => {
     return array;
 };
 
-export const updateCellNew = (array: IField[][], currentCellId: string): IField[][] => {
+export const updateCell = (array: IField[][], currentCellId: string): IField[][] => {
     const arrayCell = getCellById(array, currentCellId) as IField;
 
     if (arrayCell.ship) {
@@ -67,38 +67,12 @@ export const updateCellNew = (array: IField[][], currentCellId: string): IField[
     return array;
 };
 
-// TODO: need to get rid of and use the updateCellNew function.
-export const updateCell = (computerSquare: IField[][], userSquare: IField[][], currentCellId: string): IField[][] => {
-    const currentEnemyCell = getCellById(computerSquare, currentCellId);
-    const currentFriendlyCell = getCellById(userSquare, currentCellId);
-
-    if (currentFriendlyCell && currentEnemyCell) {
-        if (currentFriendlyCell.ship) {
-            currentEnemyCell.hit = true;
-        } else {
-            currentEnemyCell.past = true;
-        }
-    }
-
-    return computerSquare;
-};
-
-const ships = SHIPS;
-let isStartClickBuildShip = true;
-let uniqShipId = getUniqId();
-let currentShipLength = 0;
-
-const resetStartingValues = () => {
-    isStartClickBuildShip = true;
-    uniqShipId = getUniqId();
-    currentShipLength = 0;
-};
-
-export const getCellsAround = (square: IField[][], i: number, j: number, direction: 'diagonal' | 'non-diagonal'): (IField | null)[] => {
+export const getCellsAround = (square: IField[][], i: number, j: number, direction: CellDirection): (IField | null)[] => {
+    const { Diagonal, NonDiagonal } = CellDirection;
     const { length } = square;
     const [numberUp, letterRight, numberDown, letterLeft] = [i - 1, j + 1, i + 1, j - 1];
 
-    if (direction === 'diagonal') {
+    if (direction === Diagonal) {
         return [
             numberUp >= 0 && letterLeft >= 0 ? square[numberUp][letterLeft] : null,
             numberUp >= 0 && letterRight < length ? square[numberUp][letterRight] : null,
@@ -107,7 +81,7 @@ export const getCellsAround = (square: IField[][], i: number, j: number, directi
         ];
     }
 
-    if (direction === 'non-diagonal') {
+    if (direction === NonDiagonal) {
         return [
             numberUp >= 0 ? square[numberUp][j] : null,
             letterRight < length ? square[i][letterRight] : null,
@@ -119,94 +93,10 @@ export const getCellsAround = (square: IField[][], i: number, j: number, directi
     return [];
 };
 
-export const lockedCell = (cell: IField | null): void => {
-    if (cell && !cell.ship) {
-        cell.locked = true;
-        cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;
-    }
-};
-
 export const lockedAllEmptyCell = (array: IField[][]): void => {
     iteratingFlatArray(array, cell => {
         if (!cell.ship) {
             cell.locked = true;
         }
     });
-};
-
-export const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
-    iteratingTwoDimensionalArray(square, (i, j) => {
-        const cell = square[i][j];
-
-        if (cell.shipId === currentShipId) {
-            getCellsAround(square, i, j, 'non-diagonal').forEach(nonDiagonalCell => lockedCell(nonDiagonalCell));
-        }
-    });
-    resetStartingValues();
-
-    return square;
-};
-
-const removeWrongShip = (array: IField[][], currentShipId: string): IField[][] => {
-    iteratingFlatArray(array, cell => {
-        if (cell.shipId === currentShipId || cell.lockedId === `locked-${currentShipId}`) {
-            cell.ship = false;
-            cell.shipId = '';
-            cell.locked = false;
-            cell.lockedId = '';
-        }
-    });
-    resetStartingValues();
-
-    return array;
-};
-
-export const addShip = (square: IField[][], currentCellId: string): IField[][] => {
-    let array = square;
-
-    iteratingTwoDimensionalArray(square, (i, j) => {
-        const cell = array[i][j];
-
-        if (cell.id === currentCellId) {
-            const [cellUp, cellRight, cellDown, cellLeft] = getCellsAround(array, i, j, 'non-diagonal');
-
-            if (
-                cellUp?.shipId === uniqShipId ||
-                cellRight?.shipId === uniqShipId ||
-                cellDown?.shipId === uniqShipId ||
-                cellLeft?.shipId === uniqShipId ||
-                isStartClickBuildShip
-            ) {
-                const maxShipLength = Math.max(...ships);
-                currentShipLength += 1;
-
-                getCellsAround(array, i, j, 'diagonal').forEach(diagonalCell => lockedCell(diagonalCell));
-
-                cell.ship = true;
-                cell.shipId = uniqShipId;
-                isStartClickBuildShip = false;
-
-                if (currentShipLength === maxShipLength) {
-                    ships.splice(ships.indexOf(currentShipLength), 1);
-                    array = finishBuildingShip(array, uniqShipId);
-                }
-            } else {
-                const index = ships.indexOf(currentShipLength);
-                if (index >= 0) {
-                    ships.splice(index, 1);
-                    array = finishBuildingShip(array, uniqShipId);
-                } else {
-                    removeWrongShip(array, uniqShipId);
-                }
-
-                addShip(square, currentCellId);
-            }
-        }
-    });
-
-    if (!ships.length) {
-        lockedAllEmptyCell(array);
-    }
-
-    return array;
 };

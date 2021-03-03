@@ -16,22 +16,14 @@ const Ships: FC = () => {
     const dispatch = useDispatch();
     const { ships } = useSelector((state: RootStore) => state.shipsReducer);
 
-    const shipsArray: Array<Array<IShip>> = [];
-
     const createShips = () => {
-        let shipsRow: Array<IShip> = [];
-
-        // TODO: refactoring code, if you need it at all.
-        [...SHIPS, ''].reduce((prValue, crValue) => {
-            shipsRow.push({ id: getUniqId(), length: prValue as number });
-            if (prValue !== crValue) {
-                shipsArray.push(shipsRow);
-                shipsRow = [];
+        return SHIPS.reduce((shipsRow: IShip[][], length, idx, array) => {
+            if (!idx || array[idx - 1] !== length) {
+                shipsRow.push([]);
             }
-            return crValue;
-        });
-
-        return shipsArray;
+            shipsRow[shipsRow.length - 1].push({ id: getUniqId(), length });
+            return shipsRow;
+        }, []);
     };
 
     useEffect(() => {

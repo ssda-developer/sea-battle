@@ -6,14 +6,14 @@ import { IOwner, Owner } from '../../../store/area/interfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
 import { updateCell } from '../../../store/area/areaUtils';
-import randomShipPlacement from '../../utils/randomShipPlacement';
+import randomShipPlacement from '../../../utils/randomShipPlacement';
 
 import { RootStore } from '../../../store/store';
 import { renderEnemySquare, renderFriendlySquare } from '../../../store/area/actions';
 
 import FieldRow from '../../FieldRow/FieldRow';
-import computerShot from '../../utils/computerShot';
-import addShip from '../../utils/customShipPlacement';
+import computerShot from '../../../utils/computerShot';
+import addShip from '../../../utils/customShipPlacement';
 
 interface BuildSquareProps {
     playerAffiliation: IOwner;
@@ -21,9 +21,10 @@ interface BuildSquareProps {
 
 const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: BuildSquareProps) => {
     const dispatch = useDispatch();
-    const areaState = useSelector((state: RootStore) => state.areaReducer);
+    const {
+        squares: { userSquare, computerSquare },
+    } = useSelector((state: RootStore) => state.areaReducer);
 
-    const { userSquare, computerSquare } = areaState.squares;
     const { User } = Owner;
     const square: Array<Array<IField>> = [];
 
@@ -84,10 +85,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         dispatch(renderFriendlySquare(currentSquare));
     };
 
-    const enemyBuildRandomShipsHandler = () => {
+    const userBuildRandomShipsHandler = () => {
         currentSquare = createSquare();
-
-        dispatch(renderFriendlySquare(currentSquare));
         dispatch(renderFriendlySquare(randomShipPlacement(currentSquare)));
     };
 
@@ -99,7 +98,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
             <button type="button" onClick={enemyHitHandler}>
                 HIT
             </button>
-            <button type="button" onClick={enemyBuildRandomShipsHandler}>
+            <button type="button" onClick={userBuildRandomShipsHandler}>
                 Build Random Ships
             </button>
         </>

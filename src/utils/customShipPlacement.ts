@@ -1,7 +1,7 @@
-import { CellDirection, SHIPS } from '../../constants/shipsConstants';
-import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../../helpers';
-import { IField } from '../../store/field/interfaces';
-import { getCellsAround, lockedAllEmptyCell } from '../../store/area/areaUtils';
+import { CellDirection, SHIPS } from '../constants/shipsConstants';
+import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
+import { IField } from '../store/field/interfaces';
+import { getCellsAround, lockedAllEmptyCell } from '../store/area/areaUtils';
 
 const ships = SHIPS;
 let isStartClickBuildShip = true;

@@ -99,7 +99,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
                 HIT
             </button>
             <button type="button" onClick={userBuildRandomShipsHandler}>
-                Build Random Ships
+                Random
             </button>
         </>
     );

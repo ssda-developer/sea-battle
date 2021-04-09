@@ -1,6 +1,13 @@
 .sea-battle {
+    align-items: center;
     display: flex;
-    max-width: 100%;
+    flex-direction: column;
     margin: 30px auto;
+    max-width: 100%;
     padding: 0 30px;
+
+    &__container {
+        display: flex;
+        margin-bottom: 20px;
+    }
 }

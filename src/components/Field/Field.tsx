@@ -7,7 +7,7 @@ import { Owner } from '../../store/area/interfaces';
 
 const Field: FC<IField> = ({ id, ship, shipId, hit, past, locked, lockedId, explode, updateCellHandler, owner }: IField) => {
     const { User } = Owner;
-    const disabled = hit || ship || past || locked;
+    const disabled = owner === User ? hit || ship || past || locked : false;
     const className =
         owner === User
             ? `field${hit ? ' hit' : ''}${past ? ' past' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
@@ -19,12 +19,11 @@ const Field: FC<IField> = ({ id, ship, shipId, hit, past, locked, lockedId, expl
             id={id}
             className={className}
             onClick={updateCellHandler}
-            // disabled={disabled}
+            aria-label={id}
+            disabled={disabled}
             // data-ship-id={shipId}
             // data-locked-id={lockedId}
-        >
-            {id}
-        </button>
+        />
     );
 };
 

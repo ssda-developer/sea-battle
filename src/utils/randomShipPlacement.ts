@@ -1,6 +1,6 @@
 import { IField } from '../store/field/interfaces';
 import { getRandomValue, getUniqId } from '../helpers';
-import { getCellsAround, lockedAllEmptyCell } from '../store/area/areaUtils';
+import { getCellsAround, unlockedAllEmptyCell } from '../store/area/areaUtils';
 import { CellDirection, ShipDirection, SHIPS } from '../constants/shipsConstants';
 import { finishBuildingShip, lockedCell } from './customShipPlacement';
 
@@ -154,7 +154,7 @@ const randomShipPlacement = (square: Array<Array<IField>>): Array<Array<IField>>
     SHIPS.forEach(shipLength => {
         buildRandomShip(square, shipLength);
     });
-    lockedAllEmptyCell(square);
+    unlockedAllEmptyCell(square);
 
     return square;
 };

@@ -7,9 +7,10 @@ import Field from '../Field/Field';
 interface IFieldRowProps {
     row: Array<IField>;
     updateCellHandler: (event: MouseEvent<HTMLButtonElement>) => void;
+    owner: any;
 }
 
-const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler }: IFieldRowProps) => {
+const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler, owner }: IFieldRowProps) => {
     return (
         <div className="area__row">
             {row.map(({ id, ship, shipId, hit, past, locked, lockedId, explode }) => (
@@ -24,6 +25,7 @@ const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler }: IFieldRowProps
                     lockedId={lockedId}
                     explode={explode}
                     updateCellHandler={updateCellHandler}
+                    owner={owner}
                 />
             ))}
         </div>

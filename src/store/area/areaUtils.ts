@@ -54,7 +54,7 @@ const shipExplosion = (array: IField[][], currentShipId: string) => {
     return array;
 };
 
-export const updateCell = (array: IField[][], currentCellId: string): IField[][] => {
+export const updateCell = (array: IField[][], currentCellId: string, updateArray = false): IField[][] => {
     const arrayCell = getCellById(array, currentCellId) as IField;
 
     if (arrayCell.ship) {
@@ -97,6 +97,14 @@ export const lockedAllEmptyCell = (array: IField[][]): void => {
     iteratingFlatArray(array, cell => {
         if (!cell.ship) {
             cell.locked = true;
+        }
+    });
+};
+
+export const unlockedAllEmptyCell = (array: IField[][]): void => {
+    iteratingFlatArray(array, cell => {
+        if (!cell.ship) {
+            cell.locked = false;
         }
     });
 };

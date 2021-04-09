@@ -10,4 +10,5 @@ export interface IField {
     lockedId: string;
     explode: boolean;
     updateCellHandler?: (event: MouseEvent<HTMLButtonElement>) => void;
+    owner?: any;
 }

@@ -75,7 +75,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         if (owner === User) {
             dispatch(renderFriendlySquare(addShip(currentSquare, id)));
         } else {
-            currentSquare = updateCell(userSquare, id);
+            currentSquare = updateCell(computerSquare, id);
             dispatch(renderEnemySquare(currentSquare));
         }
     };
@@ -93,7 +93,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
     return (
         <>
             {currentSquare.map((row: IField[], idx: number) => (
-                <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} />
+                <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} owner={owner} />
             ))}
             <button type="button" onClick={enemyHitHandler}>
                 HIT

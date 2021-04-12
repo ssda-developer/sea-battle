@@ -21,6 +21,7 @@ const getRandomCell = (array: IField[][]): IField => {
 };
 
 const randomShot = (array: IField[][]) => {
+    console.log(123);
     const { Horizontal, Vertical } = ShipDirection;
     const { NonDiagonal } = CellDirection;
     let cell = getRandomCell(array);
@@ -66,6 +67,10 @@ const randomShot = (array: IField[][]) => {
     }
 
     possibleShots = possibleShots.filter(el => el !== null && !el.hit && !el.past);
+
+    if (cell.ship) {
+        randomShot(array);
+    }
 };
 
 const computerShot = (array: IField[][]): IField[][] => {

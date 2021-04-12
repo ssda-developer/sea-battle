@@ -1,11 +1,11 @@
 .area {
-    --area-row-size: calc(var(--global-field-size) * 10);
-    
     background-color: var(--color-1--4);
+
     display: flex;
     flex-wrap: wrap;
     margin: 0 2rem;
     position: relative;
+    --area-row-size: calc(var(--global-field-size) * 10);
     width: calc(var(--area-row-size) + var(--global-field-size));
 
     &__wrapper {
@@ -30,5 +30,22 @@
 
     &__row {
         display: flex;
+    }
+
+    &__random-button {
+        align-items: center;
+        cursor: pointer;
+        display: flex;
+        height: var(--global-field-size);
+        justify-content: center;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: var(--global-field-size);
+
+        svg {
+            fill: var(--color-white);
+            width: 50%;
+        }
     }
 }

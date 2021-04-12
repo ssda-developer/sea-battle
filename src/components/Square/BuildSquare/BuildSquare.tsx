@@ -14,6 +14,7 @@ import { renderEnemySquare, renderFriendlySquare } from '../../../store/area/act
 import FieldRow from '../../FieldRow/FieldRow';
 import computerShot from '../../../utils/computerShot';
 import addShip from '../../../utils/customShipPlacement';
+import { iteratingFlatArray } from '../../../helpers';
 
 interface BuildSquareProps {
     playerAffiliation: IOwner;
@@ -65,6 +66,11 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         }
     }, []);
 
+    const enemyHitHandler = () => {
+        currentSquare = computerShot(userSquare);
+        dispatch(renderFriendlySquare(currentSquare));
+    };
+
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
         evn.preventDefault();
 
@@ -77,12 +83,12 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         } else {
             currentSquare = updateCell(computerSquare, id);
             dispatch(renderEnemySquare(currentSquare));
-        }
-    };
 
-    const enemyHitHandler = () => {
-        currentSquare = computerShot(userSquare);
-        dispatch(renderFriendlySquare(currentSquare));
+            const currentCell = computerSquare.flat().filter(cell => cell.id === id);
+            if (currentCell[0].past) {
+                enemyHitHandler();
+            }
+        }
     };
 
     const userBuildRandomShipsHandler = () => {
@@ -95,11 +101,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
             {currentSquare.map((row: IField[], idx: number) => (
                 <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} owner={owner} />
             ))}
-            <button type="button" onClick={enemyHitHandler}>
-                HIT
-            </button>
             <button type="button" onClick={userBuildRandomShipsHandler}>
-                Random
+                RRRRRR
             </button>
         </>
     );

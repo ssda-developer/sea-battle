@@ -1,6 +1,6 @@
-import { IField } from '../field/interfaces';
-import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../../helpers';
-import { CellDirection } from '../../constants/shipsConstants';
+import { IField } from '../store/field/interfaces';
+import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
+import { CellDirection } from '../constants/shipsConstants';
 
 export const getCellById = (square: IField[][], id: string): IField | null => {
     let cell: IField | null = null;

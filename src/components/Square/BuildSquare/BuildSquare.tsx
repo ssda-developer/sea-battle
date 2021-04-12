@@ -5,7 +5,7 @@ import { IField } from '../../../store/field/interfaces';
 import { IOwner, Owner } from '../../../store/area/interfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
-import { updateCell } from '../../../store/area/areaUtils';
+import { updateCell } from '../../../utils/areaUtils';
 import randomShipPlacement from '../../../utils/randomShipPlacement';
 
 import { RootStore } from '../../../store/store';

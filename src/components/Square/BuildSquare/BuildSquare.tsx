@@ -24,7 +24,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
     const dispatch = useDispatch();
     const {
         squares: { userSquare, computerSquare },
-    } = useSelector((state: RootStore) => state.areaReducer);
+    } = useSelector(({ areaReducer }: RootStore) => areaReducer);
+    const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
     const { User } = Owner;
     const square: Array<Array<IField>> = [];
@@ -66,6 +67,17 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         }
     }, []);
 
+    const userBuildRandomShipsHandler = () => {
+        currentSquare = createSquare();
+        dispatch(renderFriendlySquare(randomShipPlacement(currentSquare)));
+    };
+
+    useEffect(() => {
+        if (gameStatus) {
+            userBuildRandomShipsHandler();
+        }
+    }, [gameStatus]);
+
     const enemyHitHandler = () => {
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
@@ -96,11 +108,6 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
                 enemyHitHandler();
             }
         }
-    };
-
-    const userBuildRandomShipsHandler = () => {
-        currentSquare = createSquare();
-        dispatch(renderFriendlySquare(randomShipPlacement(currentSquare)));
     };
 
     return (

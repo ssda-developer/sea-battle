@@ -1,9 +1,10 @@
-import { GAME_STATUS, CHANGE_HINT, GameDispatchTypes } from './types';
+import { CHANGE_GAME_STATUS, CHANGE_HINT, GameDispatchTypes } from './types';
 import { IHints } from './interfaces';
 
-export const gameStatus = (): GameDispatchTypes => {
+export const changeGameStatus = (status: boolean): GameDispatchTypes => {
     return {
-        type: GAME_STATUS,
+        type: CHANGE_GAME_STATUS,
+        payload: status,
     };
 };
 

@@ -1,10 +1,11 @@
 import { IHints } from './interfaces';
 
-export const GAME_STATUS = 'GAME_STATUS';
+export const CHANGE_GAME_STATUS = 'CHANGE_GAME_STATUS';
 export const CHANGE_HINT = 'CHANGE_HINT';
 
-export type GameStatus = {
-    type: typeof GAME_STATUS;
+export type ChangeGameStatus = {
+    type: typeof CHANGE_GAME_STATUS;
+    payload: boolean;
 };
 
 export type ChangeHint = {
@@ -12,4 +13,4 @@ export type ChangeHint = {
     payload: IHints;
 };
 
-export type GameDispatchTypes = GameStatus | ChangeHint;
+export type GameDispatchTypes = ChangeGameStatus | ChangeHint;

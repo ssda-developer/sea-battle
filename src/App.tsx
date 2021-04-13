@@ -1,6 +1,9 @@
 import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Owner } from './store/area/interfaces';
+
+import { changeGameStatus } from './store/game/actions';
 
 import Area from './components/Area/Area';
 import Hints from './components/Hints/Hints';
@@ -8,8 +11,10 @@ import Hints from './components/Hints/Hints';
 import './App.scss';
 
 const Game: FC = () => {
-    const startGameEvent = () => {
-        console.log('start game');
+    const dispatch = useDispatch();
+
+    const startGameHandler = () => {
+        dispatch(changeGameStatus(true));
     };
 
     const hint = 'Расстановка кораблей';
@@ -21,7 +26,7 @@ const Game: FC = () => {
                 <Area owner={Owner.User} />
                 <Area owner={Owner.Computer} />
             </div>
-            <button type="button" onClick={startGameEvent}>
+            <button type="button" onClick={startGameHandler}>
                 Start game
             </button>
         </div>

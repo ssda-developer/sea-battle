@@ -67,8 +67,15 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
     }, []);
 
     const enemyHitHandler = () => {
-        currentSquare = computerShot(userSquare);
+        const [array, again] = computerShot(userSquare);
+        currentSquare = array;
         dispatch(renderFriendlySquare(currentSquare));
+
+        if (again) {
+            setTimeout(() => {
+                enemyHitHandler();
+            }, 300);
+        }
     };
 
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
@@ -84,8 +91,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
             currentSquare = updateCell(computerSquare, id);
             dispatch(renderEnemySquare(currentSquare));
 
-            const currentCell = computerSquare.flat().filter(cell => cell.id === id);
-            if (currentCell[0].past) {
+            const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);
+            if (past) {
                 enemyHitHandler();
             }
         }

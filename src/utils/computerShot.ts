@@ -21,10 +21,10 @@ const getRandomCell = (array: IField[][]): IField => {
 };
 
 const randomShot = (array: IField[][]) => {
-    console.log(123);
     const { Horizontal, Vertical } = ShipDirection;
     const { NonDiagonal } = CellDirection;
     let cell = getRandomCell(array);
+    let again = false;
 
     if (possibleShots.length) {
         cell = possibleShots[getRandomValue(possibleShots.length)];
@@ -56,6 +56,8 @@ const randomShot = (array: IField[][]) => {
                 possibleShots = [...[...nonDiagonalCell, ...nonDiagonalCellsFirstHitOnShip].filter((c, idx) => idx % 2)];
             }
         }
+
+        again = true;
     }
 
     updateCell(array, cell.id);
@@ -68,15 +70,13 @@ const randomShot = (array: IField[][]) => {
 
     possibleShots = possibleShots.filter(el => el !== null && !el.hit && !el.past);
 
-    if (cell.ship) {
-        randomShot(array);
-    }
+    return again;
 };
 
-const computerShot = (array: IField[][]): IField[][] => {
-    randomShot(array);
+const computerShot = (array: IField[][]): [IField[][], boolean] => {
+    const again = randomShot(array);
 
-    return array;
+    return [array, again];
 };
 
 export default computerShot;

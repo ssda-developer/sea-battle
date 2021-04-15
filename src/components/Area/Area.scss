@@ -1,12 +1,14 @@
 .area {
-    background-color: var(--color-1--4);
-
-    display: flex;
-    flex-wrap: wrap;
     margin: 0 2rem;
-    position: relative;
     --area-row-size: calc(var(--global-field-size) * 10);
     width: calc(var(--area-row-size) + var(--global-field-size));
+
+    &__container {
+        background-color: var(--color-1--4);
+        display: flex;
+        flex-wrap: wrap;
+        position: relative;
+    }
 
     &__wrapper {
         display: flex;

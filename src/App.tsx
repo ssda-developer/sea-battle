@@ -2,13 +2,11 @@ import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Owner } from './store/area/interfaces';
-import HintOptions from './constants/hintsConstants';
 
 import { RootStore } from './store/store';
 import { changeGameStatus } from './store/game/actions';
 
 import Area from './components/Area/Area';
-import Hints from './components/Hints/Hints';
 import Rules from './components/Rules/Rules';
 
 import './App.scss';
@@ -25,9 +23,8 @@ const Game: FC = () => {
 
     return (
         <div className="sea-battle">
-            <Hints hintText={HintOptions.PlaceShips} />
+            {!gameStatus && <Rules />}
             <div className="sea-battle__container">
-                {!gameStatus && <Rules />}
                 <div className="sea-battle__wrapper">
                     <div className="sea-battle__areas">
                         <Area owner={User} />

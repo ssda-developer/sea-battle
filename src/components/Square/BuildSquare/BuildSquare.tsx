@@ -1,5 +1,5 @@
 import React, { FC, MouseEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { IField } from '../../../store/field/interfaces';
 import { IOwner, Owner } from '../../../store/area/interfaces';
@@ -9,19 +9,18 @@ import { updateCell } from '../../../utils/areaUtils';
 import randomShipPlacement from '../../../utils/randomShipPlacement';
 
 import { RootStore } from '../../../store/store';
-import { renderEnemySquare, renderFriendlySquare } from '../../../store/area/actions';
 
 import FieldRow from '../../FieldRow/FieldRow';
 import computerShot from '../../../utils/computerShot';
 import addShip from '../../../utils/customShipPlacement';
-import { iteratingFlatArray } from '../../../helpers';
+import useActions from '../../../hooks/useActions';
 
 interface BuildSquareProps {
     playerAffiliation: IOwner;
 }
 
 const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: BuildSquareProps) => {
-    const dispatch = useDispatch();
+    const { renderFriendlySquare, renderEnemySquare } = useActions();
     const {
         squares: { userSquare, computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
@@ -61,15 +60,15 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         currentSquare = createSquare();
 
         if (owner === User) {
-            dispatch(renderFriendlySquare(currentSquare));
+            renderFriendlySquare(currentSquare);
         } else {
-            dispatch(renderEnemySquare(randomShipPlacement(currentSquare)));
+            renderEnemySquare(randomShipPlacement(currentSquare));
         }
     }, []);
 
     const userBuildRandomShipsHandler = () => {
         currentSquare = createSquare();
-        dispatch(renderFriendlySquare(randomShipPlacement(currentSquare)));
+        renderFriendlySquare(randomShipPlacement(currentSquare));
     };
 
     useEffect(() => {
@@ -81,7 +80,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
     const enemyHitHandler = () => {
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
-        dispatch(renderFriendlySquare(currentSquare));
+        renderFriendlySquare(currentSquare);
 
         if (again) {
             setTimeout(() => {
@@ -98,10 +97,10 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
         } = evn;
 
         if (owner === User) {
-            dispatch(renderFriendlySquare(addShip(currentSquare, id)));
+            renderFriendlySquare(addShip(currentSquare, id));
         } else {
             currentSquare = updateCell(computerSquare, id);
-            dispatch(renderEnemySquare(currentSquare));
+            renderEnemySquare(currentSquare);
 
             const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);
             if (past) {

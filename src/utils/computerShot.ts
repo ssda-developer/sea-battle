@@ -7,7 +7,11 @@ let possibleShots: IField[] = [];
 let direction = '';
 let firstHitOnShip: null | IField = null;
 
-const getRandomCell = (array: IField[][]): IField => {
+/**
+ * Get a random empty cell.
+ * @param array
+ */
+const getRandomEmptyCell = (array: IField[][]): IField => {
     const { Diagonal, NonDiagonal } = CellDirection;
     const { length } = array;
     const xPoint = getRandomValue(length);
@@ -17,13 +21,17 @@ const getRandomCell = (array: IField[][]): IField => {
         c => c?.explode,
     );
 
-    return !cell.hit && !cell.past && !isNearShip.length ? cell : getRandomCell(array);
+    return !cell.hit && !cell.past && !isNearShip.length ? cell : getRandomEmptyCell(array);
 };
 
+/**
+ * Random shot.
+ * @param array
+ */
 const randomShot = (array: IField[][]) => {
     const { Horizontal, Vertical } = ShipDirection;
     const { NonDiagonal } = CellDirection;
-    let cell = getRandomCell(array);
+    let cell = getRandomEmptyCell(array);
     let again = false;
 
     if (possibleShots.length) {
@@ -73,6 +81,10 @@ const randomShot = (array: IField[][]) => {
     return again;
 };
 
+/**
+ * Computer shot.
+ * @param array
+ */
 const computerShot = (array: IField[][]): [IField[][], boolean] => {
     const again = randomShot(array);
 

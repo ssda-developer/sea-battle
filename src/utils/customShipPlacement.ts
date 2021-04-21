@@ -3,7 +3,7 @@ import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../
 import { IField } from '../store/field/interfaces';
 import { getCellsAround, lockedAllEmptyCell } from './areaUtils';
 
-const ships = SHIPS;
+const ships = [...SHIPS];
 let isStartClickBuildShip = true;
 let uniqShipId = getUniqId();
 let currentShipLength = 0;

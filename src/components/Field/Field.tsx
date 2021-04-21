@@ -8,7 +8,7 @@ import { RootStore } from '../../store/store';
 
 import './Field.scss';
 
-const Field: FC<IField> = ({ id, ship, shipId, hit, past, locked, lockedId, explode, updateCellHandler, owner }: IField) => {
+const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, updateCellHandler, owner }: IField) => {
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
     const { User, Computer } = Owner;
@@ -22,18 +22,7 @@ const Field: FC<IField> = ({ id, ship, shipId, hit, past, locked, lockedId, expl
         disabled = true;
     }
 
-    return (
-        <button
-            type="button"
-            id={id}
-            className={className}
-            onClick={updateCellHandler}
-            aria-label={id}
-            disabled={disabled}
-            // data-ship-id={shipId}
-            // data-locked-id={lockedId}
-        />
-    );
+    return <button type="button" id={id} className={className} onClick={updateCellHandler} aria-label={id} disabled={disabled} />;
 };
 
 export default Field;

@@ -1,8 +1,9 @@
 import { IField } from '../field/interfaces';
 
-export enum Owner {
+export enum Owners {
     User = 'USER',
     Computer = 'COMPUTER',
+    Nobody = 'NOBODY',
 }
 
 export type Squares = {
@@ -10,11 +11,7 @@ export type Squares = {
     computerSquare: IField[][];
 };
 
-export interface IOwner {
-    owner: Owner.User | Owner.Computer;
-}
-
 export interface IArea {
     squares: Squares;
-    owner: IOwner | null;
+    owner: Owners;
 }

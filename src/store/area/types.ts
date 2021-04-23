@@ -1,5 +1,5 @@
 import { IField } from '../field/interfaces';
-import { IOwner } from './interfaces';
+import { Owners } from './interfaces';
 
 export const RENDER_FRIENDLY_SQUARE = 'RENDER_FRIENDLY_SQUARE';
 export const RENDER_ENEMY_SQUARE = 'RENDER_ENEMY_SQUARE';
@@ -17,7 +17,7 @@ export type RenderEnemySquare = {
 
 export type ChangeOwns = {
     type: typeof CHANGE_OWNS;
-    payload: IOwner;
+    payload: Owners;
 };
 
 export type AreaDispatchTypes = RenderFriendlySquare | RenderEnemySquare | ChangeOwns;

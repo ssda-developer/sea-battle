@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Owner } from './store/area/interfaces';
+import { Owners } from './store/area/interfaces';
 
 import { RootStore } from './store/store';
-import { changeGameStatus } from './store/game/actions';
+import useActions from './hooks/useActions';
 
 import Area from './components/Area/Area';
 import Rules from './components/Rules/Rules';
@@ -12,13 +12,12 @@ import Rules from './components/Rules/Rules';
 import './App.scss';
 
 const Game: FC = () => {
-    const dispatch = useDispatch();
+    const { changeGameStatus } = useActions();
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
-
-    const { User, Computer } = Owner;
+    const { User, Computer } = Owners;
 
     const startGameHandler = () => {
-        dispatch(changeGameStatus(true));
+        changeGameStatus(true);
     };
 
     return (

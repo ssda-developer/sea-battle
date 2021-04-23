@@ -54,7 +54,7 @@ const shipExplosion = (array: IField[][], currentShipId: string) => {
     return array;
 };
 
-export const updateCell = (array: IField[][], currentCellId: string, updateArray = false): IField[][] => {
+export const updateCell = (array: IField[][], currentCellId: string): IField[][] => {
     const arrayCell = getCellById(array, currentCellId) as IField;
 
     if (arrayCell.ship) {

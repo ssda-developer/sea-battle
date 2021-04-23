@@ -2,7 +2,7 @@ import React, { FC, MouseEvent, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { IField } from '../../../store/field/interfaces';
-import { IOwner, Owner } from '../../../store/area/interfaces';
+import { Owners } from '../../../store/area/interfaces';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
 import { updateCell } from '../../../utils/areaUtils';
@@ -16,20 +16,18 @@ import addShip from '../../../utils/customShipPlacement';
 import useActions from '../../../hooks/useActions';
 
 interface BuildSquareProps {
-    playerAffiliation: IOwner;
+    playerAffiliation: Owners;
 }
 
-const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: BuildSquareProps) => {
-    const { renderFriendlySquare, renderEnemySquare } = useActions();
+const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
+    const { renderFriendlySquare, renderEnemySquare, changeOwns } = useActions();
     const {
         squares: { userSquare, computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
-
-    const { User } = Owner;
+    const { User, Computer } = Owners;
     const square: Array<Array<IField>> = [];
-
-    let currentSquare = owner === Owner.User ? userSquare : computerSquare;
+    let currentSquare = playerAffiliation === User ? userSquare : computerSquare;
 
     const createSquare = () => {
         AREA_NUMBERS.forEach(number => {
@@ -59,7 +57,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
     useEffect(() => {
         currentSquare = createSquare();
 
-        if (owner === User) {
+        if (playerAffiliation === User) {
             renderFriendlySquare(currentSquare);
         } else {
             renderEnemySquare(randomShipPlacement(currentSquare));
@@ -96,9 +94,10 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
             currentTarget: { id },
         } = evn;
 
-        if (owner === User) {
+        if (playerAffiliation === User) {
             renderFriendlySquare(addShip(currentSquare, id));
         } else {
+            changeOwns(Computer);
             currentSquare = updateCell(computerSquare, id);
             renderEnemySquare(currentSquare);
 
@@ -112,7 +111,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation: { owner } }: Bui
     return (
         <>
             {currentSquare.map((row: IField[], idx: number) => (
-                <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} owner={owner} />
+                <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} owner={playerAffiliation} />
             ))}
             <button type="button" onClick={userBuildRandomShipsHandler}>
                 RRRRRR

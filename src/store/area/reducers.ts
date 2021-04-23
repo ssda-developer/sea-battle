@@ -1,12 +1,12 @@
 import { RENDER_FRIENDLY_SQUARE, RENDER_ENEMY_SQUARE, CHANGE_OWNS, AreaDispatchTypes } from './types';
-import { IArea } from './interfaces';
+import { IArea, Owners } from './interfaces';
 
 const initialState: IArea = {
     squares: {
         userSquare: [],
         computerSquare: [],
     },
-    owner: null,
+    owner: Owners.Nobody,
 };
 
 const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {

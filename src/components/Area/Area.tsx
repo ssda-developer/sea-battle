@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { IOwner, Owner } from '../../store/area/interfaces';
+import { Owners } from '../../store/area/interfaces';
 
 import HintOptions from '../../constants/hintsConstants';
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
@@ -10,7 +10,12 @@ import Hints from '../Hints/Hints';
 
 import './Area.scss';
 
-const Area: FC<IOwner> = (owner: IOwner) => {
+interface AreaProps {
+    owner: Owners;
+}
+
+const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
+    const { User } = Owners;
     return (
         <div className="area">
             <div className="area__container">
@@ -40,8 +45,7 @@ const Area: FC<IOwner> = (owner: IOwner) => {
                     <BuildSquare playerAffiliation={owner} />
                 </div>
             </div>
-            {owner.owner === Owner.User && <Hints hintText={HintOptions.PlayerShot} />}
-            {/* onClick={userBuildRandomShipsHandler} */}
+            {owner === User && <Hints hintText={HintOptions.PlayerShot} />}
         </div>
     );
 };

@@ -10,7 +10,7 @@ import './Field.scss';
 
 const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, updateCellHandler, owner }: IField) => {
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
-
+    const { owner: currentOwner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { User, Computer } = Owners;
     let disabled = owner === User ? hit || ship || past || locked : false;
     const className =
@@ -18,7 +18,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, updateCellHan
             ? `field${hit ? ' hit' : ''}${past ? ' past' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
             : `field${hit ? ' hit' : ''}${past ? ' past' : ''}${explode ? ' explode' : ''}`;
 
-    if (owner === Computer && !gameStatus) {
+    if ((owner === Computer && !gameStatus) || currentOwner === Computer) {
         disabled = true;
     }
 

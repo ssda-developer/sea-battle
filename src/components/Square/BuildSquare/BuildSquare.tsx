@@ -24,6 +24,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
     const {
         squares: { userSquare, computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
+    // const { owner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
+    // console.log(owner);
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
     const { User, Computer } = Owners;
     const square: Array<Array<IField>> = [];
@@ -83,7 +85,9 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         if (again) {
             setTimeout(() => {
                 enemyHitHandler();
-            }, 300);
+            }, 500);
+        } else {
+            changeOwns(User);
         }
     };
 
@@ -97,13 +101,15 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         if (playerAffiliation === User) {
             renderFriendlySquare(addShip(currentSquare, id));
         } else {
-            changeOwns(Computer);
             currentSquare = updateCell(computerSquare, id);
             renderEnemySquare(currentSquare);
 
             const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);
             if (past) {
-                enemyHitHandler();
+                changeOwns(Computer);
+                setTimeout(() => {
+                    enemyHitHandler();
+                }, 500);
             }
         }
     };

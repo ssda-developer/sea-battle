@@ -3,7 +3,6 @@ import { IField } from '../field/interfaces';
 export enum Owners {
     User = 'USER',
     Computer = 'COMPUTER',
-    Nobody = 'NOBODY',
 }
 
 export type Squares = {
@@ -13,5 +12,5 @@ export type Squares = {
 
 export interface IArea {
     squares: Squares;
-    owner: Owners;
+    owner: Owners | null;
 }

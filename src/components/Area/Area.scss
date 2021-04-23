@@ -34,20 +34,31 @@
         display: flex;
     }
 
+    &__buttons {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+        transform: translateX(-100%);
+    }
+
     &__random-button {
         align-items: center;
         cursor: pointer;
+        background-color: var(--color-black);
         display: flex;
         height: var(--global-field-size);
         justify-content: center;
-        left: 0;
-        position: absolute;
-        top: 0;
         width: var(--global-field-size);
 
         svg {
             fill: var(--color-white);
             width: 50%;
         }
+    }
+}
+
+body {
+    * {
+        overflow: visible !important;
     }
 }

@@ -24,8 +24,6 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
     const {
         squares: { userSquare, computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
-    // const { owner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
-    // console.log(owner);
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
     const { User, Computer } = Owners;
     const square: Array<Array<IField>> = [];

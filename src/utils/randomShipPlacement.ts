@@ -1,8 +1,8 @@
 import { IField } from '../store/field/interfaces';
 import { getRandomValue, getUniqId } from '../helpers';
-import { getCellsAround, lockedAllEmptyCell } from './areaUtils';
+import { getCellsAround, lockAllEmptyCell } from './areaUtils';
 import { CellDirection, ShipDirection, SHIPS } from '../constants/shipsConstants';
-import { finishBuildingShip, lockedCell } from './customShipPlacement';
+import { finishBuildingShip, lockCell } from './customShipPlacement';
 
 /**
  * Generate random cell coordinates.
@@ -27,7 +27,7 @@ const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: numb
 };
 
 /**
- *
+ * Check empty cells.
  * @param square - Array of cells.
  * @param calculableValue
  * @param nonCalculableValue
@@ -138,7 +138,7 @@ const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Arra
         square[posX][posY].ship = true;
         square[posX][posY].shipId = uniqShipId;
 
-        getCellsAround(square, posX, posY, Diagonal).forEach(diagonalCell => lockedCell(diagonalCell));
+        getCellsAround(square, posX, posY, Diagonal).forEach(diagonalCell => lockCell(diagonalCell));
     }
 
     finishBuildingShip(square, uniqShipId);
@@ -147,14 +147,14 @@ const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Arra
 };
 
 /**
- *
+ * Randomly place the ships.
  * @param square - Array of cells.
  */
 const randomShipPlacement = (square: Array<Array<IField>>): Array<Array<IField>> => {
     SHIPS.forEach(shipLength => {
         buildRandomShip(square, shipLength);
     });
-    lockedAllEmptyCell(square);
+    lockAllEmptyCell(square);
 
     return square;
 };

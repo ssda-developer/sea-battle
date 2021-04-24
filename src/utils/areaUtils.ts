@@ -3,6 +3,9 @@ import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 import { CellDirection } from '../constants/shipsConstants';
 import { AREA_LETTERS, AREA_NUMBERS } from '../constants/areaConstants';
 
+/**
+ * Create a  two-dimensional array with empty cells.
+ */
 export const createSquare = (): IField[][] => {
     const square: IField[][] = [];
 
@@ -30,6 +33,11 @@ export const createSquare = (): IField[][] => {
     return square;
 };
 
+/**
+ * Get a cell by ID.
+ * @param square
+ * @param id
+ */
 export const getCellById = (square: IField[][], id: string): IField | null => {
     let cell: IField | null = null;
 
@@ -44,6 +52,11 @@ export const getCellById = (square: IField[][], id: string): IField | null => {
     return cell;
 };
 
+/**
+ * Get the position of a cell by ID.
+ * @param square
+ * @param id
+ */
 export const getPositionCellById = (square: IField[][], id: string): number[] => {
     let position: number[] = [];
 
@@ -58,6 +71,11 @@ export const getPositionCellById = (square: IField[][], id: string): number[] =>
     return position;
 };
 
+/**
+ * Blowing up the ship.
+ * @param array
+ * @param currentShipId
+ */
 const shipExplosion = (array: IField[][], currentShipId: string) => {
     let shipField = 0;
     let shipHit = 0;
@@ -82,6 +100,11 @@ const shipExplosion = (array: IField[][], currentShipId: string) => {
     return array;
 };
 
+/**
+ * Update cell.
+ * @param array
+ * @param currentCellId
+ */
 export const updateCell = (array: IField[][], currentCellId: string): IField[][] => {
     const arrayCell = getCellById(array, currentCellId) as IField;
 
@@ -95,6 +118,13 @@ export const updateCell = (array: IField[][], currentCellId: string): IField[][]
     return array;
 };
 
+/**
+ * Get the cells around the current cell.
+ * @param square
+ * @param i
+ * @param j
+ * @param direction
+ */
 export const getCellsAround = (square: IField[][], i: number, j: number, direction: CellDirection): (IField | null)[] => {
     const { Diagonal, NonDiagonal } = CellDirection;
     const { length } = square;
@@ -121,7 +151,11 @@ export const getCellsAround = (square: IField[][], i: number, j: number, directi
     return [];
 };
 
-export const lockedAllEmptyCell = (array: IField[][]): void => {
+/**
+ * Lock all empty cells.
+ * @param array
+ */
+export const lockAllEmptyCell = (array: IField[][]): void => {
     iteratingFlatArray(array, cell => {
         if (!cell.ship) {
             cell.locked = true;
@@ -129,7 +163,11 @@ export const lockedAllEmptyCell = (array: IField[][]): void => {
     });
 };
 
-export const unlockedAllEmptyCell = (array: IField[][]): void => {
+/**
+ * Unlock all empty cells.
+ * @param array
+ */
+export const unlockAllEmptyCell = (array: IField[][]): void => {
     iteratingFlatArray(array, cell => {
         if (!cell.ship) {
             cell.locked = false;

@@ -1,33 +1,45 @@
 import { CellDirection, SHIPS } from '../constants/shipsConstants';
 import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 import { IField } from '../store/field/interfaces';
-import { getCellsAround, lockedAllEmptyCell } from './areaUtils';
+import { getCellsAround, lockAllEmptyCell } from './areaUtils';
 
-const ships = [...SHIPS];
-let isStartClickBuildShip = true;
+let ships = [...SHIPS];
+let isStartBuildShip = true;
 let uniqShipId = getUniqId();
 let currentShipLength = 0;
 
+/**
+ * Return the variables to their initial values.
+ */
 const resetStartingValues = () => {
-    isStartClickBuildShip = true;
+    isStartBuildShip = true;
     uniqShipId = getUniqId();
     currentShipLength = 0;
 };
 
-export const lockedCell = (cell: IField | null): void => {
+/**
+ * Lock cell.
+ * @param cell
+ */
+export const lockCell = (cell: IField | null): void => {
     if (cell && !cell.ship) {
         cell.locked = true;
         cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;
     }
 };
 
+/**
+ * Finishing the construction of the ship.
+ * @param square
+ * @param currentShipId
+ */
 export const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
     const { NonDiagonal } = CellDirection;
     iteratingTwoDimensionalArray(square, (i, j) => {
         const cell = square[i][j];
 
         if (cell.shipId === currentShipId) {
-            getCellsAround(square, i, j, NonDiagonal).forEach(nonDiagonalCell => lockedCell(nonDiagonalCell));
+            getCellsAround(square, i, j, NonDiagonal).forEach(nonDiagonalCell => lockCell(nonDiagonalCell));
         }
     });
     resetStartingValues();
@@ -35,6 +47,11 @@ export const finishBuildingShip = (square: IField[][], currentShipId: string): I
     return square;
 };
 
+/**
+ * Removing unfinished / wrong ship.
+ * @param array
+ * @param currentShipId
+ */
 const removeWrongShip = (array: IField[][], currentShipId: string): IField[][] => {
     iteratingFlatArray(array, cell => {
         if (cell.shipId === currentShipId || cell.lockedId === `locked-${currentShipId}`) {
@@ -49,7 +66,12 @@ const removeWrongShip = (array: IField[][], currentShipId: string): IField[][] =
     return array;
 };
 
-const addShip = (square: IField[][], currentCellId: string): IField[][] => {
+/**
+ * Add a part of the ship.
+ * @param square
+ * @param currentCellId
+ */
+const addPartShip = (square: IField[][], currentCellId: string): IField[][] => {
     const { Diagonal, NonDiagonal } = CellDirection;
     let array = square;
 
@@ -64,16 +86,16 @@ const addShip = (square: IField[][], currentCellId: string): IField[][] => {
                 cellRight?.shipId === uniqShipId ||
                 cellDown?.shipId === uniqShipId ||
                 cellLeft?.shipId === uniqShipId ||
-                isStartClickBuildShip
+                isStartBuildShip
             ) {
                 const maxShipLength = Math.max(...ships);
                 currentShipLength += 1;
 
-                getCellsAround(array, i, j, Diagonal).forEach(diagonalCell => lockedCell(diagonalCell));
+                getCellsAround(array, i, j, Diagonal).forEach(diagonalCell => lockCell(diagonalCell));
 
                 cell.ship = true;
                 cell.shipId = uniqShipId;
-                isStartClickBuildShip = false;
+                isStartBuildShip = false;
 
                 if (currentShipLength === maxShipLength) {
                     ships.splice(ships.indexOf(currentShipLength), 1);
@@ -88,16 +110,18 @@ const addShip = (square: IField[][], currentCellId: string): IField[][] => {
                     removeWrongShip(array, uniqShipId);
                 }
 
-                addShip(square, currentCellId);
+                addPartShip(square, currentCellId);
             }
         }
     });
 
     if (!ships.length) {
-        lockedAllEmptyCell(array);
+        lockAllEmptyCell(array);
+        resetStartingValues();
+        ships = [...SHIPS];
     }
 
     return array;
 };
 
-export default addShip;
+export default addPartShip;

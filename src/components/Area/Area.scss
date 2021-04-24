@@ -1,6 +1,7 @@
 .area {
-    margin: 0 2rem;
     --area-row-size: calc(var(--global-field-size) * 10);
+
+    margin: 0 2rem;
     width: calc(var(--area-row-size) + var(--global-field-size));
 
     &__container {

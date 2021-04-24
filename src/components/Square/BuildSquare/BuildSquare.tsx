@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { IField } from '../../../store/field/interfaces';
 import { Owners } from '../../../store/area/interfaces';
 
-import { createSquare, updateCell } from '../../../utils/areaUtils';
+import { checkFinishGame, createSquare, updateCell } from '../../../utils/areaUtils';
 import randomShipPlacement from '../../../utils/randomShipPlacement';
 
 import { RootStore } from '../../../store/store';
@@ -19,7 +19,7 @@ interface BuildSquareProps {
 }
 
 const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
-    const { renderFriendlySquare, renderEnemySquare, changeOwns } = useActions();
+    const { renderFriendlySquare, renderEnemySquare, changeOwns, changeGameStatus } = useActions();
     const {
         squares: { userSquare, computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
@@ -40,6 +40,7 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
         renderFriendlySquare(currentSquare);
+        changeGameStatus(!checkFinishGame(currentSquare));
 
         if (again) {
             setTimeout(() => {
@@ -62,6 +63,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         } else {
             currentSquare = updateCell(computerSquare, id);
             renderEnemySquare(currentSquare);
+            changeGameStatus(true);
+            changeGameStatus(!checkFinishGame(currentSquare));
 
             const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);
             if (past) {

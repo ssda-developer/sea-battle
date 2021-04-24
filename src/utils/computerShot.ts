@@ -1,5 +1,5 @@
 import { IField } from '../store/field/interfaces';
-import { updateCell, getPositionCellById, getCellsAround } from './areaUtils';
+import { updateCell, getPositionCellById, getCellsAround, checkFinishGame } from './areaUtils';
 import { getRandomValue } from '../helpers';
 import { CellDirection, ShipDirection } from '../constants/shipsConstants';
 
@@ -86,7 +86,7 @@ const randomShot = (array: IField[][]) => {
  * @param array
  */
 const computerShot = (array: IField[][]): [IField[][], boolean] => {
-    const again = randomShot(array);
+    const again = !checkFinishGame(array) ? randomShot(array) : false;
 
     return [array, again];
 };

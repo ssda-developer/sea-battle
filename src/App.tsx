@@ -15,12 +15,13 @@ import Rules from './components/Rules/Rules';
 import './App.scss';
 
 const Game: FC = () => {
-    const { renderFriendlySquare, changeGameStatus } = useActions();
+    const { renderFriendlySquare, renderEnemySquare, changeGameStatus } = useActions();
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
     const { User, Computer } = Owners;
 
     const startGameHandler = () => {
         renderFriendlySquare(randomShipPlacement(createSquare()));
+        renderEnemySquare(randomShipPlacement(createSquare()));
         changeGameStatus(true);
     };
 

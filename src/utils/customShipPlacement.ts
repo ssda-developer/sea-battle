@@ -17,6 +17,10 @@ const resetStartingValues = () => {
     currentShipLength = 0;
 };
 
+export const resetShipsValues = () => {
+    ships = [...SHIPS];
+};
+
 /**
  * Lock cell.
  * @param cell
@@ -118,7 +122,7 @@ const addPartShip = (square: IField[][], currentCellId: string): IField[][] => {
     if (!ships.length) {
         lockAllEmptyCell(array);
         resetStartingValues();
-        ships = [...SHIPS];
+        resetShipsValues();
     }
 
     return array;

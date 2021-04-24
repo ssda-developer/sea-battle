@@ -14,6 +14,7 @@ import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
 import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
 
 import './Area.scss';
+import { resetShipsValues } from '../../utils/customShipPlacement';
 
 interface AreaProps {
     owner: Owners;
@@ -31,6 +32,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
 
     const userClearAreaHandler = () => {
         renderFriendlySquare(createSquare());
+        resetShipsValues();
     };
 
     const buttons = () => {

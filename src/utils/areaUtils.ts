@@ -1,6 +1,34 @@
 import { IField } from '../store/field/interfaces';
 import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 import { CellDirection } from '../constants/shipsConstants';
+import { AREA_LETTERS, AREA_NUMBERS } from '../constants/areaConstants';
+
+export const createSquare = (): IField[][] => {
+    const square: IField[][] = [];
+
+    AREA_NUMBERS.forEach(number => {
+        const row: IField[] = [];
+
+        AREA_LETTERS.forEach(letter => {
+            const cell = {
+                id: `${letter}${number}`,
+                ship: false,
+                shipId: '',
+                hit: false,
+                past: false,
+                locked: false,
+                explode: false,
+                lockedId: '',
+            };
+
+            row.push(cell);
+        });
+
+        square.push(row);
+    });
+
+    return square;
+};
 
 export const getCellById = (square: IField[][], id: string): IField | null => {
     let cell: IField | null = null;

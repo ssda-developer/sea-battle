@@ -6,17 +6,21 @@ import { Owners } from './store/area/interfaces';
 import { RootStore } from './store/store';
 import useActions from './hooks/useActions';
 
+import randomShipPlacement from './utils/randomShipPlacement';
+import { createSquare } from './utils/areaUtils';
+
 import Area from './components/Area/Area';
 import Rules from './components/Rules/Rules';
 
 import './App.scss';
 
 const Game: FC = () => {
-    const { changeGameStatus } = useActions();
+    const { renderFriendlySquare, changeGameStatus } = useActions();
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
     const { User, Computer } = Owners;
 
     const startGameHandler = () => {
+        renderFriendlySquare(randomShipPlacement(createSquare()));
         changeGameStatus(true);
     };
 

@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 import { IField } from '../../../store/field/interfaces';
 import { Owners } from '../../../store/area/interfaces';
 
-import { AREA_LETTERS, AREA_NUMBERS } from '../../../constants/areaConstants';
-import { updateCell } from '../../../utils/areaUtils';
+import { createSquare, updateCell } from '../../../utils/areaUtils';
 import randomShipPlacement from '../../../utils/randomShipPlacement';
 
 import { RootStore } from '../../../store/store';
@@ -24,35 +23,8 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
     const {
         squares: { userSquare, computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
-    const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
     const { User, Computer } = Owners;
-    const square: Array<Array<IField>> = [];
     let currentSquare = playerAffiliation === User ? userSquare : computerSquare;
-
-    const createSquare = () => {
-        AREA_NUMBERS.forEach(number => {
-            const row: Array<IField> = [];
-
-            AREA_LETTERS.forEach(letter => {
-                const cell = {
-                    id: `${letter}${number}`,
-                    ship: false,
-                    shipId: '',
-                    hit: false,
-                    past: false,
-                    locked: false,
-                    explode: false,
-                    lockedId: '',
-                };
-
-                row.push(cell);
-            });
-
-            square.push(row);
-        });
-
-        return square;
-    };
 
     useEffect(() => {
         currentSquare = createSquare();
@@ -63,17 +35,6 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
             renderEnemySquare(randomShipPlacement(currentSquare));
         }
     }, []);
-
-    const userBuildRandomShipsHandler = () => {
-        currentSquare = createSquare();
-        renderFriendlySquare(randomShipPlacement(currentSquare));
-    };
-
-    useEffect(() => {
-        if (gameStatus) {
-            userBuildRandomShipsHandler();
-        }
-    }, [gameStatus]);
 
     const enemyHitHandler = () => {
         const [array, again] = computerShot(userSquare);
@@ -117,9 +78,6 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
             {currentSquare.map((row: IField[], idx: number) => (
                 <FieldRow key={row[idx].id} row={row} updateCellHandler={updateCellHandler} owner={playerAffiliation} />
             ))}
-            <button type="button" onClick={userBuildRandomShipsHandler}>
-                RRRRRR
-            </button>
         </>
     );
 };

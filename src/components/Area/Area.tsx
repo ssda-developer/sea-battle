@@ -1,14 +1,17 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+import { RootStore } from '../../store/store';
+import { Owners } from '../../store/area/interfaces';
+import HintOptions from '../../constants/hintsConstants';
+import BuildSquare from '../Square/BuildSquare/BuildSquare';
+import Hints from '../Hints/Hints';
+import { createSquare } from '../../utils/areaUtils';
+import randomShipPlacement from '../../utils/randomShipPlacement';
+import useActions from '../../hooks/useActions';
+import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
 import { ReactComponent as SVGRandom } from '../../icons/random.svg';
 import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
 import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
-import { Owners } from '../../store/area/interfaces';
-
-import HintOptions from '../../constants/hintsConstants';
-import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
-
-import BuildSquare from '../Square/BuildSquare/BuildSquare';
-import Hints from '../Hints/Hints';
 
 import './Area.scss';
 
@@ -17,15 +20,26 @@ interface AreaProps {
 }
 
 const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
-    const { User } = Owners;
+    const { renderFriendlySquare } = useActions();
+    const { User, Computer } = Owners;
+    const { owner: currentOwner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
+    const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
+
+    const userBuildRandomShipsHandler = () => {
+        renderFriendlySquare(randomShipPlacement(createSquare()));
+    };
+
+    const userClearAreaHandler = () => {
+        renderFriendlySquare(createSquare());
+    };
 
     const buttons = () => {
         return (
             <div className="area__buttons">
-                <button type="button" className="area__random-button">
+                <button type="button" className="area__random-button" onClick={userBuildRandomShipsHandler}>
                     <SVGRandom />
                 </button>
-                <button type="button" className="area__random-button">
+                <button type="button" className="area__random-button" onClick={userClearAreaHandler}>
                     <SVGTrash />
                 </button>
                 <button type="button" className="area__random-button">
@@ -34,6 +48,9 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
             </div>
         );
     };
+
+    const areaClassNameDisabled =
+        (owner === Computer && !gameStatus) || (owner === User && gameStatus) || currentOwner === Computer ? 'is-disabled' : '';
 
     return (
         <div className="area">
@@ -53,7 +70,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                         </div>
                     ))}
                 </div>
-                <div className="area__wrapper">
+                <div className={`area__wrapper ${areaClassNameDisabled} ${owner.toLowerCase()}`}>
                     <BuildSquare playerAffiliation={owner} />
                 </div>
             </div>

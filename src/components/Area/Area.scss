@@ -15,11 +15,21 @@
         flex-wrap: wrap;
         margin: 0;
         width: var(--area-row-size);
+
+        &.is-disabled {
+            opacity: 0.8;
+            pointer-events: none;
+
+            * {
+                opacity: 1;
+            }
+        }
     }
 
     &__letters,
     &__numbers {
         display: flex;
+        pointer-events: none;
     }
 
     &__letters {
@@ -43,8 +53,8 @@
 
     &__random-button {
         align-items: center;
-        cursor: pointer;
         background-color: var(--color-black);
+        cursor: pointer;
         display: flex;
         height: var(--global-field-size);
         justify-content: center;
@@ -54,11 +64,5 @@
             fill: var(--color-white);
             width: 50%;
         }
-    }
-}
-
-body {
-    * {
-        overflow: visible !important;
     }
 }

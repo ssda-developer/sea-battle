@@ -1,15 +1,15 @@
 .field {
-    --field-color: var($color-1--4);
-    --field-background: var(--color-1--2);
-    --field-size: calc(var(--global-field-size) - 2px);
-
     align-items: center;
+    --field-background: var(--color-1--2);
     background: var(--field-background);
+
+    --field-color: var($color-1--4);
     color: var(--field-color);
     display: flex;
     height: var(--field-size);
     justify-content: center;
     margin: 1px;
+    --field-size: calc(var(--global-field-size) - 2px);
     width: var(--field-size);
 
     .area__letters &,
@@ -42,12 +42,18 @@
         outline: none;
     }
 
+    &:not(.past):not(.hit):not(.explode):not(.locked):not(.ship):hover {
+        border: 1px solid var(--color-white);
+    }
+
     &[type="button"] {
-        cursor: pointer;
+        .computer & {
+            cursor: crosshair;
+        }
     }
 
     &:disabled,
     &[disabled] {
-        cursor: default;
+        cursor: not-allowed;
     }
 }

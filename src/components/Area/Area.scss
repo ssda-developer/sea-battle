@@ -44,26 +44,4 @@
     &__row {
         display: flex;
     }
-
-    &__buttons {
-        bottom: 0;
-        left: 0;
-        position: absolute;
-        transform: translateX(-100%);
-    }
-
-    &__random-button {
-        align-items: center;
-        background-color: var(--color-black);
-        cursor: pointer;
-        display: flex;
-        height: var(--global-field-size);
-        justify-content: center;
-        width: var(--global-field-size);
-
-        svg {
-            fill: var(--color-white);
-            width: 50%;
-        }
-    }
 }

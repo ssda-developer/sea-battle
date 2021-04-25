@@ -1,20 +1,24 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
+
+import { Loop, DeleteOutline, HelpOutline } from '@material-ui/icons';
+
 import { RootStore } from '../../store/store';
+import useActions from '../../hooks/useActions';
 import { Owners } from '../../store/area/interfaces';
 import HintOptions from '../../constants/hintsConstants';
+import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
+
+import randomShipPlacement from '../../utils/randomShipPlacement';
+import { resetShipsValues } from '../../utils/customShipPlacement';
+import { createSquare } from '../../utils/areaUtils';
+
 import BuildSquare from '../Square/BuildSquare/BuildSquare';
 import Hints from '../Hints/Hints';
-import { createSquare } from '../../utils/areaUtils';
-import randomShipPlacement from '../../utils/randomShipPlacement';
-import useActions from '../../hooks/useActions';
-import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
-import { ReactComponent as SVGRandom } from '../../icons/random.svg';
-import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
-import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
+import AreaButtons from '../AreaButtons/AreaButtons';
+import AreaButton from '../AreaButtons/AreaButton/AreaButton';
 
 import './Area.scss';
-import { resetShipsValues } from '../../utils/customShipPlacement';
 
 interface AreaProps {
     owner: Owners;
@@ -35,29 +39,19 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         resetShipsValues();
     };
 
-    const buttons = () => {
-        return (
-            <div className="area__buttons">
-                <button type="button" className="area__random-button" onClick={userBuildRandomShipsHandler}>
-                    <SVGRandom />
-                </button>
-                <button type="button" className="area__random-button" onClick={userClearAreaHandler}>
-                    <SVGTrash />
-                </button>
-                <button type="button" className="area__random-button">
-                    <SVGQuestion />
-                </button>
-            </div>
-        );
-    };
-
     const areaClassNameDisabled =
         (owner === Computer && !gameStatus) || (owner === User && gameStatus) || currentOwner === Computer ? 'is-disabled' : '';
 
     return (
         <div className="area">
             <div className="area__container">
-                {owner === User && buttons()}
+                {owner === User && (
+                    <AreaButtons>
+                        <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<Loop />} />
+                        <AreaButton userClickHandler={userClearAreaHandler} icon={<DeleteOutline />} />
+                        <AreaButton userClickHandler={userClearAreaHandler} icon={<HelpOutline />} />
+                    </AreaButtons>
+                )}
                 <div className="area__letters">
                     {AREA_LETTERS.map(letter => (
                         <div className="field" key={letter}>

@@ -37,7 +37,9 @@ const ModalRules: FC = () => {
                 }}
             >
                 <Fade in={open}>
-                    <Rules />
+                    <div className="modal-rules__info">
+                        <Rules />
+                    </div>
                 </Fade>
             </Modal>
         </>

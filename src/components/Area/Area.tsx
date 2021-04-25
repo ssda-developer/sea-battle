@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Loop, DeleteOutline, HelpOutline } from '@material-ui/icons';
+import { Loop, DeleteOutline } from '@material-ui/icons';
 
 import { RootStore } from '../../store/store';
 import useActions from '../../hooks/useActions';
@@ -17,6 +17,7 @@ import BuildSquare from '../Square/BuildSquare/BuildSquare';
 import Hints from '../Hints/Hints';
 import AreaButtons from '../AreaButtons/AreaButtons';
 import AreaButton from '../AreaButtons/AreaButton/AreaButton';
+import ModalRules from '../ModalRules/ModalRules';
 
 import './Area.scss';
 
@@ -25,8 +26,10 @@ interface AreaProps {
 }
 
 const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
-    const { renderFriendlySquare } = useActions();
     const { User, Computer } = Owners;
+
+    const { renderFriendlySquare } = useActions();
+
     const { owner: currentOwner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
@@ -49,7 +52,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                     <AreaButtons>
                         <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<Loop />} />
                         <AreaButton userClickHandler={userClearAreaHandler} icon={<DeleteOutline />} />
-                        <AreaButton userClickHandler={userClearAreaHandler} icon={<HelpOutline />} />
+                        <ModalRules />
                     </AreaButtons>
                 )}
                 <div className="area__letters">

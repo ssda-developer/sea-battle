@@ -1,0 +1,23 @@
+.modal {
+    align-items: flex-start;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    left: 0;
+    padding-top: 15vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 5000;
+
+    &::before {
+        background-color: var(--color-black);
+        bottom: 0;
+        content: '';
+        left: 0;
+        opacity: 0.5;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}

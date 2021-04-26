@@ -1,7 +1,5 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
-
-import { Loop, DeleteOutline } from '@material-ui/icons';
 
 import { RootStore } from '../../store/store';
 import useActions from '../../hooks/useActions';
@@ -17,7 +15,11 @@ import BuildSquare from '../Square/BuildSquare/BuildSquare';
 import Hints from '../Hints/Hints';
 import AreaButtons from '../AreaButtons/AreaButtons';
 import AreaButton from '../AreaButtons/AreaButton/AreaButton';
-import ModalRules from '../ModalRules/ModalRules';
+import Modal from '../Modal/Modal';
+
+import { ReactComponent as SVGRandom } from '../../icons/random.svg';
+import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
+import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
 
 import './Area.scss';
 
@@ -27,11 +29,14 @@ interface AreaProps {
 
 const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
     const { User, Computer } = Owners;
+    const { PlayerShot, ComputerShot } = HintOptions;
 
     const { renderFriendlySquare } = useActions();
 
     const { owner: currentOwner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
+
+    const [open, setOpen] = useState(false);
 
     const userBuildRandomShipsHandler = () => {
         renderFriendlySquare(randomShipPlacement(createSquare()));
@@ -42,17 +47,30 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         resetShipsValues();
     };
 
+    const openModal = (status: boolean) => {
+        setOpen(status);
+    };
+
     const areaClassNameDisabled =
         (owner === Computer && !gameStatus) || (owner === User && gameStatus) || currentOwner === Computer ? 'is-disabled' : '';
+
+    const displayHints = () => {
+        return currentOwner === User ? PlayerShot : ComputerShot;
+    };
 
     return (
         <div className="area">
             <div className="area__container">
                 {owner === User && (
                     <AreaButtons>
-                        <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<Loop />} />
-                        <AreaButton userClickHandler={userClearAreaHandler} icon={<DeleteOutline />} />
-                        <ModalRules />
+                        <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<SVGRandom />} />
+                        <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTrash />} />
+                        <AreaButton
+                            userClickHandler={() => {
+                                openModal(true);
+                            }}
+                            icon={<SVGQuestion />}
+                        />
                     </AreaButtons>
                 )}
                 <div className="area__letters">
@@ -73,7 +91,8 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                     <BuildSquare playerAffiliation={owner} />
                 </div>
             </div>
-            {owner === User && <Hints hintText={HintOptions.PlayerShot} />}
+            {open && <Modal changeModalStatus={openModal} />}
+            {owner === User && <Hints hintText={displayHints()} />}
         </div>
     );
 };

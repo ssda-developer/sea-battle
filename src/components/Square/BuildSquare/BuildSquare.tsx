@@ -63,7 +63,6 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         } else {
             currentSquare = updateCell(computerSquare, id);
             renderEnemySquare(currentSquare);
-            changeGameStatus(true);
             changeGameStatus(!checkFinishGame(currentSquare));
 
             const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);

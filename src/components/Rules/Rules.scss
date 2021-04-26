@@ -4,6 +4,9 @@
     border: 0.2rem solid var(--color-white);
     color: var(--color-white);
     padding: 2rem 2.5rem;
+    position: relative;
+    text-align: left;
+    z-index: 5001;
 
     &__title {
         margin: 0 0 1rem;

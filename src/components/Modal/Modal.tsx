@@ -1,14 +1,13 @@
-import React, { FC, useEffect } from 'react';
-
-import Rules from '../Rules/Rules';
+import React, { FC, ReactNode, useEffect } from 'react';
 
 import './Modal.scss';
 
 type ModalProps = {
     changeModalStatus: (status: boolean) => void;
+    children: ReactNode;
 };
 
-const Modal: FC<ModalProps> = ({ changeModalStatus }: ModalProps) => {
+const Modal: FC<ModalProps> = ({ changeModalStatus, children }: ModalProps) => {
     const handleKeyDown = ({ keyCode }: KeyboardEvent) => {
         if (keyCode === 27) {
             changeModalStatus(false);
@@ -31,11 +30,7 @@ const Modal: FC<ModalProps> = ({ changeModalStatus }: ModalProps) => {
         };
     }, []);
 
-    return (
-        <div className="modal">
-            <Rules />
-        </div>
-    );
+    return <div className="modal">{children}</div>;
 };
 
 export default Modal;

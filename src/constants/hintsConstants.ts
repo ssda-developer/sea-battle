@@ -4,7 +4,7 @@ enum HintOptions {
     ClearPlayingField = 'Очистить игровое поле',
     ShotAfterHitting = 'Поздравляем! Вы попали. Ваш выстрел.',
     PlayerShot = 'Ваш ход',
-    ComputerShot = 'Ход соперника',
+    ComputerShot = 'Ход компьютера',
 }
 
 export default HintOptions;

@@ -3,11 +3,12 @@ import React, { FC, MouseEvent } from 'react';
 import { IField } from '../../store/field/interfaces';
 
 import Field from '../Field/Field';
+import { Owners } from '../../store/area/interfaces';
 
 interface IFieldRowProps {
     row: Array<IField>;
     updateCellHandler: (event: MouseEvent<HTMLButtonElement>) => void;
-    owner: any;
+    owner: Owners;
 }
 
 const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler, owner }: IFieldRowProps) => {

@@ -16,6 +16,7 @@ import Hints from '../Hints/Hints';
 import AreaButtons from '../AreaButtons/AreaButtons';
 import AreaButton from '../AreaButtons/AreaButton/AreaButton';
 import Modal from '../Modal/Modal';
+import Rules from '../Rules/Rules';
 
 import { ReactComponent as SVGRandom } from '../../icons/random.svg';
 import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
@@ -112,7 +113,11 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                     <BuildSquare playerAffiliation={owner} />
                 </div>
             </div>
-            {open && <Modal changeModalStatus={openModal} />}
+            {open && (
+                <Modal changeModalStatus={openModal}>
+                    <Rules />
+                </Modal>
+            )}
             {owner === Computer && gameStatus && <Hints hintText={displayHints()} />}
         </div>
     );

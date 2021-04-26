@@ -55,6 +55,12 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         changeGameStatus(true);
     };
 
+    const resetGameHandler = () => {
+        userClearAreaHandler();
+        renderEnemySquare(randomShipPlacement(createSquare()));
+        changeGameStatus(false);
+    };
+
     const openModal = (status: boolean) => {
         setOpen(status);
     };
@@ -63,7 +69,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         (owner === Computer && !gameStatus) || (owner === User && gameStatus) || currentOwner === Computer ? 'is-disabled' : '';
 
     const displayHints = () => {
-        return currentOwner === User ? ComputerShot : PlayerShot;
+        return currentOwner === User ? PlayerShot : ComputerShot;
     };
 
     return (
@@ -72,7 +78,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                 {owner === User && (
                     <AreaButtons>
                         {gameStatus ? (
-                            <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTimes />} />
+                            <AreaButton userClickHandler={resetGameHandler} icon={<SVGTimes />} />
                         ) : (
                             <>
                                 <AreaButton

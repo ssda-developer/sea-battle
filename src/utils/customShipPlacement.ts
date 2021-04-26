@@ -17,7 +17,7 @@ const resetStartingValues = () => {
     currentShipLength = 0;
 };
 
-export const resetShipsValues = () => {
+export const resetShipsValues = (): void => {
     ships = [...SHIPS];
 };
 

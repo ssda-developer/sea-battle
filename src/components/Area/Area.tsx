@@ -20,6 +20,8 @@ import Modal from '../Modal/Modal';
 import { ReactComponent as SVGRandom } from '../../icons/random.svg';
 import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
 import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
+import { ReactComponent as SVGTimes } from '../../icons/times.svg';
+import { ReactComponent as SVGPlay } from '../../icons/play.svg';
 
 import './Area.scss';
 
@@ -31,7 +33,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
     const { User, Computer } = Owners;
     const { PlayerShot, ComputerShot } = HintOptions;
 
-    const { renderFriendlySquare } = useActions();
+    const { renderFriendlySquare, renderEnemySquare, changeGameStatus } = useActions();
 
     const { owner: currentOwner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
@@ -47,6 +49,12 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         resetShipsValues();
     };
 
+    const startGameHandler = () => {
+        renderFriendlySquare(randomShipPlacement(createSquare()));
+        renderEnemySquare(randomShipPlacement(createSquare()));
+        changeGameStatus(true);
+    };
+
     const openModal = (status: boolean) => {
         setOpen(status);
     };
@@ -55,22 +63,31 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         (owner === Computer && !gameStatus) || (owner === User && gameStatus) || currentOwner === Computer ? 'is-disabled' : '';
 
     const displayHints = () => {
-        return currentOwner === User ? PlayerShot : ComputerShot;
+        return currentOwner === User ? ComputerShot : PlayerShot;
     };
+
+    const buttons = gameStatus ? (
+        <AreaButton userClickHandler={() => {}} icon={<SVGTimes />} />
+    ) : (
+        <>
+            <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<SVGRandom />} />
+            <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTrash />} />
+            <AreaButton userClickHandler={startGameHandler} icon={<SVGPlay />} />
+        </>
+    );
 
     return (
         <div className="area">
             <div className="area__container">
                 {owner === User && (
                     <AreaButtons>
-                        <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<SVGRandom />} />
-                        <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTrash />} />
                         <AreaButton
                             userClickHandler={() => {
                                 openModal(true);
                             }}
                             icon={<SVGQuestion />}
                         />
+                        {buttons}
                     </AreaButtons>
                 )}
                 <div className="area__letters">
@@ -92,7 +109,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                 </div>
             </div>
             {open && <Modal changeModalStatus={openModal} />}
-            {owner === User && <Hints hintText={displayHints()} />}
+            {owner === Computer && gameStatus && <Hints hintText={displayHints()} />}
         </div>
     );
 };

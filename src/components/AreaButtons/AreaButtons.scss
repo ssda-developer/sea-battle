@@ -1,6 +1,7 @@
 .area__buttons {
-    bottom: 0;
-    left: 0;
+    bottom: -10px;
+    display: flex;
     position: absolute;
-    transform: translateX(-100%);
+    right: 0;
+    transform: translateY(100%);
 }

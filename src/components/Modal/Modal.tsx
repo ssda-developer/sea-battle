@@ -15,8 +15,8 @@ const Modal: FC<ModalProps> = ({ changeModalStatus }: ModalProps) => {
         }
     };
 
-    const handleClickOutside = ({ target }: any) => {
-        if (target.classList.contains('modal')) {
+    const handleClickOutside = ({ target }: MouseEvent) => {
+        if ((target as HTMLElement).classList.contains('modal')) {
             changeModalStatus(false);
         }
     };

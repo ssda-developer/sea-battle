@@ -66,28 +66,26 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         return currentOwner === User ? ComputerShot : PlayerShot;
     };
 
-    const buttons = gameStatus ? (
-        <AreaButton userClickHandler={() => {}} icon={<SVGTimes />} />
-    ) : (
-        <>
-            <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<SVGRandom />} />
-            <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTrash />} />
-            <AreaButton userClickHandler={startGameHandler} icon={<SVGPlay />} />
-        </>
-    );
-
     return (
         <div className="area">
             <div className="area__container">
                 {owner === User && (
                     <AreaButtons>
-                        <AreaButton
-                            userClickHandler={() => {
-                                openModal(true);
-                            }}
-                            icon={<SVGQuestion />}
-                        />
-                        {buttons}
+                        {gameStatus ? (
+                            <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTimes />} />
+                        ) : (
+                            <>
+                                <AreaButton
+                                    userClickHandler={() => {
+                                        openModal(true);
+                                    }}
+                                    icon={<SVGQuestion />}
+                                />
+                                <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<SVGRandom />} />
+                                <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTrash />} />
+                                <AreaButton userClickHandler={startGameHandler} icon={<SVGPlay />} />
+                            </>
+                        )}
                     </AreaButtons>
                 )}
                 <div className="area__letters">

@@ -1,9 +1,9 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 
 import './AreaButtons.scss';
 
 type AreaButtonsProps = {
-    children: JSX.Element | JSX.Element[];
+    children: ReactNode;
 };
 
 const AreaButtons: FC<AreaButtonsProps> = ({ children }: AreaButtonsProps) => {

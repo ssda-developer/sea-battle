@@ -1,9 +1,8 @@
-import { CHANGE_GAME_STATUS, CHANGE_HINT, GameDispatchTypes } from './types';
+import { CHANGE_GAME_STATUS, GameDispatchTypes } from './types';
 import { IGame } from './interfaces';
 
 const initialState: IGame = {
     gameStatus: false,
-    hint: '',
 };
 
 const reducers = (state: IGame = initialState, action: GameDispatchTypes): IGame => {
@@ -13,8 +12,6 @@ const reducers = (state: IGame = initialState, action: GameDispatchTypes): IGame
                 ...state,
                 gameStatus: action.payload,
             };
-        case CHANGE_HINT:
-            return state;
         default:
             return state;
     }

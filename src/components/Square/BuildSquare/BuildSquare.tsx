@@ -19,9 +19,12 @@ interface BuildSquareProps {
 }
 
 const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
-    const { renderFriendlySquare, renderEnemySquare, changeOwns, changeGameStatus } = useActions();
+    const { RenderUserSquare, RenderComputerSquare, changeOwns, changeGameStatus } = useActions();
     const {
-        squares: { userSquare, computerSquare },
+        squares: {
+            user: { userSquare },
+            computer: { computerSquare },
+        },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { User, Computer } = Owners;
     let currentSquare = playerAffiliation === User ? userSquare : computerSquare;
@@ -30,16 +33,16 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         currentSquare = createSquare();
 
         if (playerAffiliation === User) {
-            renderFriendlySquare(currentSquare);
+            RenderUserSquare(currentSquare);
         } else {
-            renderEnemySquare(randomShipPlacement(currentSquare));
+            RenderComputerSquare(randomShipPlacement(currentSquare));
         }
     }, []);
 
     const enemyHitHandler = () => {
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
-        renderFriendlySquare(currentSquare);
+        RenderUserSquare(currentSquare);
         changeGameStatus(!checkFinishGame(currentSquare));
 
         if (again) {
@@ -59,10 +62,10 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         } = evn;
 
         if (playerAffiliation === User) {
-            renderFriendlySquare(addShip(currentSquare, id));
+            RenderUserSquare(addShip(currentSquare, id));
         } else {
             currentSquare = updateCell(computerSquare, id);
-            renderEnemySquare(currentSquare);
+            RenderComputerSquare(currentSquare);
             changeGameStatus(!checkFinishGame(currentSquare));
 
             const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);

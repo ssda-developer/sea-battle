@@ -6,8 +6,14 @@ export enum Owners {
 }
 
 export type Squares = {
-    userSquare: IField[][];
-    computerSquare: IField[][];
+    user: {
+        userSquare: IField[][];
+        complete: boolean;
+    };
+    computer: {
+        computerSquare: IField[][];
+        complete: boolean;
+    };
 };
 
 export interface IArea {

@@ -34,7 +34,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
     const { User, Computer } = Owners;
     const { PlayerShot, ComputerShot } = HintOptions;
 
-    const { renderFriendlySquare, renderEnemySquare, changeGameStatus } = useActions();
+    const { RenderUserSquare, RenderComputerSquare, changeGameStatus } = useActions();
 
     const { owner: currentOwner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
@@ -42,23 +42,23 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
     const [open, setOpen] = useState(false);
 
     const userBuildRandomShipsHandler = () => {
-        renderFriendlySquare(randomShipPlacement(createSquare()));
+        RenderUserSquare(randomShipPlacement(createSquare()));
     };
 
     const userClearAreaHandler = () => {
-        renderFriendlySquare(createSquare());
+        RenderUserSquare(createSquare());
         resetShipsValues();
     };
 
     const startGameHandler = () => {
-        renderFriendlySquare(randomShipPlacement(createSquare()));
-        renderEnemySquare(randomShipPlacement(createSquare()));
+        RenderUserSquare(randomShipPlacement(createSquare()));
+        RenderComputerSquare(randomShipPlacement(createSquare()));
         changeGameStatus(true);
     };
 
     const resetGameHandler = () => {
         userClearAreaHandler();
-        renderEnemySquare(randomShipPlacement(createSquare()));
+        RenderComputerSquare(randomShipPlacement(createSquare()));
         changeGameStatus(false);
     };
 
@@ -70,7 +70,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
         (owner === Computer && !gameStatus) || (owner === User && gameStatus) || currentOwner === Computer ? 'is-disabled' : '';
 
     const displayHints = () => {
-        return currentOwner === User ? PlayerShot : ComputerShot;
+        return currentOwner === Computer ? ComputerShot : PlayerShot;
     };
 
     return (

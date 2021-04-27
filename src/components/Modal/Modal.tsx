@@ -1,10 +1,10 @@
-import React, { FC, ReactNode, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 
 import './Modal.scss';
 
 type ModalProps = {
     changeModalStatus: (status: boolean) => void;
-    children: ReactNode;
+    children: JSX.Element;
 };
 
 const Modal: FC<ModalProps> = ({ changeModalStatus, children }: ModalProps) => {

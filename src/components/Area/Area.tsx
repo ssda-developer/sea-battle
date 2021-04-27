@@ -25,21 +25,24 @@ import { ReactComponent as SVGTimes } from '../../icons/times.svg';
 import { ReactComponent as SVGPlay } from '../../icons/play.svg';
 
 import './Area.scss';
+import Ships from '../Ships/Ships';
+import { SHIPS } from '../../constants/shipsConstants';
 
 interface AreaProps {
-    owner: Owners;
+    areaOwner: Owners;
 }
 
-const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
+const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const { User, Computer } = Owners;
     const { PlayerShot, ComputerShot } = HintOptions;
 
-    const { RenderUserSquare, RenderComputerSquare, changeGameStatus } = useActions();
+    const { RenderUserSquare, RenderComputerSquare, ChangeGameStart, ChangeUserShips, ChangeComputerShips } = useActions();
 
-    const { owner: currentOwner } = useSelector(({ areaReducer }: RootStore) => areaReducer);
-    const { gameStatus } = useSelector(({ gameReducer }: RootStore) => gameReducer);
+    const { gameStart, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
     const [open, setOpen] = useState(false);
+
+    const ships = [...SHIPS];
 
     const userBuildRandomShipsHandler = () => {
         RenderUserSquare(randomShipPlacement(createSquare()));
@@ -53,13 +56,15 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
     const startGameHandler = () => {
         RenderUserSquare(randomShipPlacement(createSquare()));
         RenderComputerSquare(randomShipPlacement(createSquare()));
-        changeGameStatus(true);
+        ChangeUserShips(ships);
+        ChangeComputerShips(ships);
+        ChangeGameStart(true);
     };
 
     const resetGameHandler = () => {
         userClearAreaHandler();
         RenderComputerSquare(randomShipPlacement(createSquare()));
-        changeGameStatus(false);
+        ChangeGameStart(false);
     };
 
     const openModal = (status: boolean) => {
@@ -67,18 +72,19 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
     };
 
     const areaClassNameDisabled =
-        (owner === Computer && !gameStatus) || (owner === User && gameStatus) || currentOwner === Computer ? 'is-disabled' : '';
+        (areaOwner === Computer && !gameStart) || (areaOwner === User && gameStart) || currentPlayer === Computer ? 'is-disabled' : '';
 
     const displayHints = () => {
-        return currentOwner === Computer ? ComputerShot : PlayerShot;
+        return currentPlayer === Computer ? ComputerShot : PlayerShot;
     };
 
     return (
         <div className="area">
+            <Ships shipsOwner={areaOwner} />
             <div className="area__container">
-                {owner === User && (
+                {areaOwner === User && (
                     <AreaButtons>
-                        {gameStatus ? (
+                        {gameStart ? (
                             <AreaButton userClickHandler={resetGameHandler} icon={<SVGTimes />} />
                         ) : (
                             <>
@@ -109,8 +115,8 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                         </div>
                     ))}
                 </div>
-                <div className={`area__wrapper ${areaClassNameDisabled} ${owner.toLowerCase()}`}>
-                    <BuildSquare playerAffiliation={owner} />
+                <div className={`area__wrapper ${areaClassNameDisabled} ${areaOwner.toLowerCase()}`}>
+                    <BuildSquare playerAffiliation={areaOwner} />
                 </div>
             </div>
             {open && (
@@ -118,7 +124,7 @@ const Area: FC<AreaProps> = ({ owner }: AreaProps) => {
                     <Rules />
                 </Modal>
             )}
-            {owner === Computer && gameStatus && <Hints hintText={displayHints()} />}
+            {areaOwner === Computer && gameStart && <Hints hintText={displayHints()} />}
         </div>
     );
 };

@@ -5,18 +5,15 @@ export enum Owners {
     Computer = 'COMPUTER',
 }
 
-export type Squares = {
+export interface IArea {
     user: {
         userSquare: IField[][];
-        complete: boolean;
+        userComplete: boolean;
+        userShips: number[];
     };
     computer: {
         computerSquare: IField[][];
-        complete: boolean;
+        computerComplete: boolean;
+        computerShips: number[];
     };
-};
-
-export interface IArea {
-    squares: Squares;
-    owner: Owners | null;
 }

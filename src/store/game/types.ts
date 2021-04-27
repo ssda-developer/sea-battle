@@ -1,8 +1,16 @@
-export const CHANGE_GAME_STATUS = 'CHANGE_GAME_STATUS';
+import { Owners } from '../area/interfaces';
 
-export type ChangeGameStatus = {
-    type: typeof CHANGE_GAME_STATUS;
+export const CHANGE_GAME_START = 'CHANGE_GAME_START';
+export const CHANGE_CURRENT_PLAYER = 'CHANGE_CURRENT_PLAYER';
+
+export type ChangeGameStart = {
+    type: typeof CHANGE_GAME_START;
     payload: boolean;
 };
 
-export type GameDispatchTypes = ChangeGameStatus;
+export type ChangeCurrentPlayer = {
+    type: typeof CHANGE_CURRENT_PLAYER;
+    payload: Owners;
+};
+
+export type GameDispatchTypes = ChangeGameStart | ChangeCurrentPlayer;

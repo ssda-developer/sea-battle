@@ -1,0 +1,9 @@
+.ships {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px -3px;
+
+    &__row {
+        margin: 0 2px;
+    }
+}

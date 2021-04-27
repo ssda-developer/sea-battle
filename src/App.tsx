@@ -14,8 +14,8 @@ const Game: FC = () => {
             <div className="sea-battle__container">
                 <div className="sea-battle__wrapper">
                     <div className="sea-battle__areas">
-                        <Area owner={User} />
-                        <Area owner={Computer} />
+                        <Area areaOwner={User} />
+                        <Area areaOwner={Computer} />
                     </div>
                 </div>
             </div>

@@ -1,5 +1,8 @@
+import { Owners } from '../area/interfaces';
+
 export interface IGame {
-    gameStatus: boolean;
+    gameStart: boolean;
+    currentPlayer: Owners | null;
 }
 
 export interface IHints {

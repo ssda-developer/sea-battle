@@ -1,17 +1,20 @@
-import { CHANGE_GAME_STATUS, GameDispatchTypes } from './types';
+import { CHANGE_CURRENT_PLAYER, CHANGE_GAME_START, GameDispatchTypes } from './types';
 import { IGame } from './interfaces';
 
 const initialState: IGame = {
-    gameStatus: false,
+    gameStart: false,
+    currentPlayer: null,
 };
 
 const reducers = (state: IGame = initialState, action: GameDispatchTypes): IGame => {
     switch (action.type) {
-        case CHANGE_GAME_STATUS:
+        case CHANGE_GAME_START:
             return {
                 ...state,
-                gameStatus: action.payload,
+                gameStart: action.payload,
             };
+        case CHANGE_CURRENT_PLAYER:
+            return { ...state, currentPlayer: action.payload };
         default:
             return state;
     }

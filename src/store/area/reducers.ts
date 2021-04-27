@@ -1,25 +1,25 @@
 import {
     RENDER_USER_SQUARE,
     RENDER_COMPUTER_SQUARE,
-    CHANGE_OWNS,
     CHANGE_USER_SQUARE_COMPLETE,
     CHANGE_COMPUTER_SQUARE_COMPLETE,
+    CHANGE_USER_SHIPS,
+    CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
 } from './types';
 import { IArea } from './interfaces';
 
 const initialState: IArea = {
-    squares: {
-        user: {
-            userSquare: [],
-            complete: false,
-        },
-        computer: {
-            computerSquare: [],
-            complete: false,
-        },
+    user: {
+        userSquare: [],
+        userComplete: false,
+        userShips: [],
     },
-    owner: null,
+    computer: {
+        computerSquare: [],
+        computerComplete: false,
+        computerShips: [],
+    },
 };
 
 const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {
@@ -27,27 +27,35 @@ const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea
         case RENDER_USER_SQUARE:
             return {
                 ...state,
-                squares: {
-                    ...state.squares,
-                    user: {
-                        ...state.squares.user,
-                        userSquare: action.payload,
-                    },
+                user: {
+                    ...state.user,
+                    userSquare: action.payload,
                 },
             };
         case RENDER_COMPUTER_SQUARE:
             return {
                 ...state,
-                squares: {
-                    ...state.squares,
-                    computer: {
-                        ...state.squares.computer,
-                        computerSquare: action.payload,
-                    },
+                computer: {
+                    ...state.computer,
+                    computerSquare: action.payload,
                 },
             };
-        case CHANGE_OWNS:
-            return { ...state, owner: action.payload };
+        case CHANGE_USER_SHIPS:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    userShips: action.payload,
+                },
+            };
+        case CHANGE_COMPUTER_SHIPS:
+            return {
+                ...state,
+                computer: {
+                    ...state.computer,
+                    computerShips: action.payload,
+                },
+            };
         default:
             return state;
     }

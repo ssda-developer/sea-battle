@@ -19,12 +19,10 @@ interface BuildSquareProps {
 }
 
 const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
-    const { RenderUserSquare, RenderComputerSquare, changeOwns, changeGameStatus } = useActions();
+    const { RenderUserSquare, RenderComputerSquare, ChangeCurrentPlayer, ChangeGameStart } = useActions();
     const {
-        squares: {
-            user: { userSquare },
-            computer: { computerSquare },
-        },
+        user: { userSquare },
+        computer: { computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { User, Computer } = Owners;
     let currentSquare = playerAffiliation === User ? userSquare : computerSquare;
@@ -43,14 +41,14 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
         RenderUserSquare(currentSquare);
-        changeGameStatus(!checkFinishGame(currentSquare));
+        ChangeGameStart(!checkFinishGame(currentSquare));
 
         if (again) {
             setTimeout(() => {
                 enemyHitHandler();
             }, 500);
         } else {
-            changeOwns(User);
+            ChangeCurrentPlayer(User);
         }
     };
 
@@ -66,11 +64,11 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         } else {
             currentSquare = updateCell(computerSquare, id);
             RenderComputerSquare(currentSquare);
-            changeGameStatus(!checkFinishGame(currentSquare));
+            ChangeGameStart(!checkFinishGame(currentSquare));
 
             const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);
             if (past) {
-                changeOwns(Computer);
+                ChangeCurrentPlayer(Computer);
                 setTimeout(() => {
                     enemyHitHandler();
                 }, 500);

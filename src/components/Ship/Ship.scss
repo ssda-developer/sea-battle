@@ -1,13 +1,12 @@
 .ship {
     &__button {
         display: flex;
-        margin-left: 10px;
     }
 
     &__button-cell {
         background: var(--color-2--3);
-        height: calc(var(--global-field-size) - 2px);
-        margin: 1px;
-        width: calc(var(--global-field-size) - 2px);
+        height: calc(var(--global-field-size) / 2 - 1px);
+        margin: 0.5px;
+        width: calc(var(--global-field-size) / 2 - 1px);
     }
 }

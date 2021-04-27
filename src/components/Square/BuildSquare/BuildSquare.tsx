@@ -19,10 +19,17 @@ interface BuildSquareProps {
 }
 
 const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
-    const { RenderUserSquare, RenderComputerSquare, ChangeCurrentPlayer, ChangeGameStart } = useActions();
     const {
-        user: { userSquare },
-        computer: { computerSquare },
+        RenderUserSquare,
+        RenderComputerSquare,
+        ChangeCurrentPlayer,
+        ChangeGameStart,
+        ChangeUserShips,
+        ChangeComputerShips,
+    } = useActions();
+    const {
+        user: { userSquare, userShips },
+        computer: { computerSquare, computerShips },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { User, Computer } = Owners;
     let currentSquare = playerAffiliation === User ? userSquare : computerSquare;
@@ -52,6 +59,14 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
         }
     };
 
+    const changeShipsArray = (ships: number[], count: number): number[] => {
+        const index = ships.indexOf(count);
+        if (index >= 0) {
+            ships.splice(index, 1);
+        }
+        return ships;
+    };
+
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
         evn.preventDefault();
 
@@ -66,12 +81,15 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
             RenderComputerSquare(currentSquare);
             ChangeGameStart(!checkFinishGame(currentSquare));
 
-            const [{ past }] = computerSquare.flat().filter(cell => cell.id === id);
+            const [{ past, explode, shipId }] = computerSquare.flat().filter(cell => cell.id === id);
             if (past) {
                 ChangeCurrentPlayer(Computer);
                 setTimeout(() => {
                     enemyHitHandler();
                 }, 500);
+            }
+            if (explode) {
+                ChangeComputerShips(changeShipsArray(computerShips, computerSquare.flat().filter(cell => cell.shipId === shipId).length));
             }
         }
     };

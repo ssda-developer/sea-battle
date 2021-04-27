@@ -179,6 +179,6 @@ export const unlockAllEmptyCell = (array: IField[][]): void => {
  * Check for non-destroyed ships on the field.
  * @param array
  */
-export const checkFinishGame = (array: IField[][]) => {
+export const checkFinishGame = (array: IField[][]): boolean => {
     return !array.flat().filter(cell => cell.ship && !cell.explode).length;
 };

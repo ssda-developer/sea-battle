@@ -13,7 +13,6 @@ export interface IArea {
     };
     computer: {
         computerSquare: IField[][];
-        computerComplete: boolean;
         computerShips: number[];
     };
 }

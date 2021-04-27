@@ -36,8 +36,18 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const { User, Computer } = Owners;
     const { PlayerShot, ComputerShot } = HintOptions;
 
-    const { RenderUserSquare, RenderComputerSquare, ChangeGameStart, ChangeUserShips, ChangeComputerShips } = useActions();
+    const {
+        RenderUserSquare,
+        RenderComputerSquare,
+        ChangeGameStart,
+        ChangeUserShips,
+        ChangeComputerShips,
+        ChangeUserSquareComplete,
+    } = useActions();
 
+    const {
+        user: { userComplete },
+    } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { gameStart, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
     const [open, setOpen] = useState(false);
@@ -46,15 +56,21 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
 
     const userBuildRandomShipsHandler = () => {
         RenderUserSquare(randomShipPlacement(createSquare()));
+        if (!userComplete) {
+            ChangeUserSquareComplete(true);
+        }
     };
 
     const userClearAreaHandler = () => {
         RenderUserSquare(createSquare());
+        ChangeUserSquareComplete(false);
         resetShipsValues();
     };
 
     const startGameHandler = () => {
-        RenderUserSquare(randomShipPlacement(createSquare()));
+        if (!userComplete) {
+            RenderUserSquare(randomShipPlacement(createSquare()));
+        }
         RenderComputerSquare(randomShipPlacement(createSquare()));
         ChangeUserShips(ships);
         ChangeComputerShips(ships);

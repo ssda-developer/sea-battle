@@ -2,7 +2,6 @@ import {
     RENDER_USER_SQUARE,
     RENDER_COMPUTER_SQUARE,
     CHANGE_USER_SQUARE_COMPLETE,
-    CHANGE_COMPUTER_SQUARE_COMPLETE,
     CHANGE_USER_SHIPS,
     CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
@@ -17,7 +16,6 @@ const initialState: IArea = {
     },
     computer: {
         computerSquare: [],
-        computerComplete: false,
         computerShips: [],
     },
 };
@@ -54,6 +52,14 @@ const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea
                 computer: {
                     ...state.computer,
                     computerShips: action.payload,
+                },
+            };
+        case CHANGE_USER_SQUARE_COMPLETE:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    userComplete: action.payload,
                 },
             };
         default:

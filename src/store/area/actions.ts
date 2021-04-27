@@ -2,7 +2,6 @@ import {
     RENDER_USER_SQUARE,
     RENDER_COMPUTER_SQUARE,
     CHANGE_USER_SQUARE_COMPLETE,
-    CHANGE_COMPUTER_SQUARE_COMPLETE,
     CHANGE_USER_SHIPS,
     CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
@@ -26,13 +25,6 @@ export const RenderComputerSquare = (square: IField[][]): AreaDispatchTypes => {
 export const ChangeUserSquareComplete = (complete: boolean): AreaDispatchTypes => {
     return {
         type: CHANGE_USER_SQUARE_COMPLETE,
-        payload: complete,
-    };
-};
-
-export const ChangeComputerSquareComplete = (complete: boolean): AreaDispatchTypes => {
-    return {
-        type: CHANGE_COMPUTER_SQUARE_COMPLETE,
         payload: complete,
     };
 };

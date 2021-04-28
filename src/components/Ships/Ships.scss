@@ -1,9 +1,26 @@
 .ships {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    margin: 10px -3px;
+    margin: -2px 0;
+    padding: var(--global-field-size) 10px;
+    position: absolute;
+    top: 0;
+
+    .user & {
+        align-items: flex-end;
+        left: 0;
+        transform: translateX(-100%);
+    }
+
+    .computer & {
+        align-items: flex-start;
+        right: 0;
+        transform: translateX(100%);
+    }
 
     &__row {
-        margin: 0 2px;
+        border: 1px solid var(--color-2--4);
+        margin: 5px;
     }
 }

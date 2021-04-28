@@ -6,7 +6,7 @@ import { Owners } from '../../store/area/interfaces';
 
 import './Field.scss';
 import { addPartShip } from '../../utils/customShipPlacement';
-import { checkArray, checkFinishGame, updateCell } from '../../utils/areaUtils';
+import { checkRemainingShips, checkFinishGame, updateCell } from '../../utils/areaUtils';
 import computerShot from '../../utils/computerShot';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store/store';
@@ -18,12 +18,13 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         RenderComputerSquare,
         ChangeCurrentPlayer,
         ChangeGameStart,
+        ChangeUserShips,
         ChangeComputerShips,
         ChangeUserSquareComplete,
     } = useActions();
     const {
         user: { userSquare },
-        computer: { computerSquare, computerShips },
+        computer: { computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { User, Computer } = Owners;
     let currentSquare = owner === User ? userSquare : computerSquare;
@@ -34,18 +35,11 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
             ? `field${hit ? ' hit' : ''}${past ? ' past' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
             : `field${hit ? ' hit' : ''}${past ? ' past' : ''}${explode ? ' explode' : ''}`;
 
-    const changeShipsArray = (ships: number[], count: number): number[] => {
-        const index = ships.indexOf(count);
-        if (index >= 0) {
-            ships.splice(index, 1);
-        }
-        return ships;
-    };
-
     const enemyHitHandler = () => {
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
         RenderUserSquare(currentSquare);
+        ChangeUserShips(checkRemainingShips(userSquare, false));
         ChangeGameStart(!checkFinishGame(currentSquare));
 
         if (again) {
@@ -67,7 +61,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         if (owner === User) {
             const square = addPartShip(userSquare, currentId);
             RenderUserSquare(square);
-            ChangeUserSquareComplete(checkArray(square).length === SHIPS.length);
+            ChangeUserSquareComplete(checkRemainingShips(square).length === SHIPS.length);
         } else {
             currentSquare = updateCell(computerSquare, currentId);
             RenderComputerSquare(currentSquare);
@@ -83,9 +77,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
                 }, 500);
             }
             if (currentExplode) {
-                ChangeComputerShips(
-                    changeShipsArray(computerShips, computerSquare.flat().filter(cell => cell.shipId === currentShipId).length),
-                );
+                ChangeComputerShips(checkRemainingShips(computerSquare, false));
             }
         }
     };

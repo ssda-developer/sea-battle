@@ -9,6 +9,10 @@ $color-2--2: #ffbe6b !default;
 $color-2--3: #ffa83a !default;
 $color-2--4: #a66513 !default;
 
+$color-3--1: #f93c1e !default;
+
+$color-4--1: #18ab07 !default;
+
 $color-white: #fff;
 $color-black: #000;
 
@@ -25,6 +29,9 @@ $field-size: 50px;
     --color-2--2: #{$color-2--2};
     --color-2--3: #{$color-2--3};
     --color-2--4: #{$color-2--4};
+
+    --color-3--1: #{$color-3--1};
+    --color-4--1: #{$color-4--1};
 
     --color-white: #{$color-white};
     --color-black: #{$color-black};

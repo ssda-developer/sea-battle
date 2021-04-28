@@ -19,7 +19,15 @@
     }
 
     &.past {
-        --field-background: var(--color-1--1);
+        &::before {
+            --field-past-size: calc(var(--field-size) / 4);
+
+            background: var(--color-white);
+            border-radius: 50%;
+            content: '';
+            height: var(--field-past-size);
+            width: var(--field-past-size);
+        }
     }
 
     &.ship {
@@ -27,11 +35,11 @@
     }
 
     &.hit {
-        --field-background: red;
+        --field-background: var(--color-3--1);
     }
 
     &.explode {
-        --field-background: green;
+        --field-background: var(--color-4--1);
     }
 
     &.locked {

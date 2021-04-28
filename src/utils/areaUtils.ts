@@ -184,11 +184,15 @@ export const checkFinishGame = (array: IField[][]): boolean => {
 };
 
 // TODO: need refactoring
-export const checkArray = (array: IField[][]): any => {
+export const checkRemainingShips = (array: IField[][], life = true): any => {
     const arrayShips: any = [];
     iteratingFlatArray(array, cell => {
         if (cell.shipId) {
-            arrayShips.push(cell.shipId);
+            if (life) {
+                arrayShips.push(cell.shipId);
+            } else if (!cell.explode) {
+                arrayShips.push(cell.shipId);
+            }
         }
     });
 

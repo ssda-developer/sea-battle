@@ -93,7 +93,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     };
 
     return (
-        <div className="area">
+        <div className={`area ${areaOwner.toLowerCase()}`}>
             <Ships shipsOwner={areaOwner} />
             <div className="area__container">
                 {areaOwner === User && (

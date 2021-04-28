@@ -52,8 +52,6 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
 
     const [open, setOpen] = useState(false);
 
-    const ships = [...SHIPS];
-
     const userBuildRandomShipsHandler = () => {
         RenderUserSquare(randomShipPlacement(createSquare()));
         if (!userComplete) {
@@ -72,8 +70,8 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
             RenderUserSquare(randomShipPlacement(createSquare()));
         }
         RenderComputerSquare(randomShipPlacement(createSquare()));
-        ChangeUserShips(ships);
-        ChangeComputerShips(ships);
+        ChangeUserShips([...SHIPS]);
+        ChangeComputerShips([...SHIPS]);
         ChangeGameStart(true);
     };
 

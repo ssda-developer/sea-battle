@@ -1,0 +1,15 @@
+.winner-message {
+    text-align: center;
+
+    &__title {
+        margin: 0;
+
+        svg {
+            display: block;
+            fill: var(--color-white);
+            height: 400px;
+            margin-top: 2rem;
+            width: 400px;
+        }
+    }
+}

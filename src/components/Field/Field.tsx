@@ -10,9 +10,17 @@ import { checkArray, checkFinishGame, updateCell } from '../../utils/areaUtils';
 import computerShot from '../../utils/computerShot';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store/store';
+import { SHIPS } from '../../constants/shipsConstants';
 
 const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IField) => {
-    const { RenderUserSquare, RenderComputerSquare, ChangeCurrentPlayer, ChangeGameStart, ChangeComputerShips } = useActions();
+    const {
+        RenderUserSquare,
+        RenderComputerSquare,
+        ChangeCurrentPlayer,
+        ChangeGameStart,
+        ChangeComputerShips,
+        ChangeUserSquareComplete,
+    } = useActions();
     const {
         user: { userSquare },
         computer: { computerSquare, computerShips },
@@ -57,9 +65,9 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         } = evn;
 
         if (owner === User) {
-            const qwe = addPartShip(userSquare, currentId);
-            console.log(checkArray(qwe));
-            RenderUserSquare(qwe);
+            const square = addPartShip(userSquare, currentId);
+            RenderUserSquare(square);
+            ChangeUserSquareComplete(checkArray(square).length === SHIPS.length);
         } else {
             currentSquare = updateCell(computerSquare, currentId);
             RenderComputerSquare(currentSquare);

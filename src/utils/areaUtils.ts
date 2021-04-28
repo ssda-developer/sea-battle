@@ -183,7 +183,8 @@ export const checkFinishGame = (array: IField[][]): boolean => {
     return !array.flat().filter(cell => cell.ship && !cell.explode).length;
 };
 
-export const checkArray = (array: IField[][]): void => {
+// TODO: need refactoring
+export const checkArray = (array: IField[][]): any => {
     const arrayShips: any = [];
     iteratingFlatArray(array, cell => {
         if (cell.shipId) {
@@ -195,5 +196,6 @@ export const checkArray = (array: IField[][]): void => {
         acc[el] = (acc[el] || 0) + 1;
         return acc;
     }, {});
-    console.log(Object.values(qwe).sort().reverse());
+
+    return Object.values(qwe).sort().reverse();
 };

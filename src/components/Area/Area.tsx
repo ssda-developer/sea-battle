@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootStore } from '../../store/store';
@@ -17,6 +17,7 @@ import AreaButtons from '../AreaButtons/AreaButtons';
 import AreaButton from '../AreaButtons/AreaButton/AreaButton';
 import Modal from '../Modal/Modal';
 import Rules from '../Rules/Rules';
+import WinnerMessage from '../WinnerMessage/WinnerMessage';
 
 import { ReactComponent as SVGRandom } from '../../icons/random.svg';
 import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
@@ -48,9 +49,15 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const {
         user: { userComplete },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
-    const { gameStart, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
+    const { gameStart, gameOver, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (gameOver) {
+            setOpen(true);
+        }
+    }, [gameOver]);
 
     const userBuildRandomShipsHandler = () => {
         RenderUserSquare(randomShipPlacement(createSquare()));
@@ -133,11 +140,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                     <BuildSquare playerAffiliation={areaOwner} />
                 </div>
             </div>
-            {open && (
-                <Modal changeModalStatus={openModal}>
-                    <Rules />
-                </Modal>
-            )}
+            {open && <Modal changeModalStatus={openModal}>{!gameStart ? <Rules /> : <WinnerMessage player={currentPlayer} />}</Modal>}
             {areaOwner === Computer && gameStart && <Hints hintText={displayHints()} />}
         </div>
     );

@@ -30,7 +30,11 @@ const Modal: FC<ModalProps> = ({ changeModalStatus, children }: ModalProps) => {
         };
     }, []);
 
-    return <div className="modal">{children}</div>;
+    return (
+        <div className="modal">
+            <div className="modal__message">{children}</div>
+        </div>
+    );
 };
 
 export default Modal;

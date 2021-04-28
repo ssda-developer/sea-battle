@@ -21,11 +21,14 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         ChangeUserShips,
         ChangeComputerShips,
         ChangeUserSquareComplete,
+        ChangeGameOver,
     } = useActions();
+
     const {
         user: { userSquare },
         computer: { computerSquare },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
+
     const { User, Computer } = Owners;
     let currentSquare = owner === User ? userSquare : computerSquare;
     const disabled = owner === User ? hit || ship || past || locked : hit || past || explode;
@@ -35,17 +38,24 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
             ? `field${hit ? ' hit' : ''}${past ? ' past' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
             : `field${hit ? ' hit' : ''}${past ? ' past' : ''}${explode ? ' explode' : ''}`;
 
+    const checkStatusGame = (square: IField[][]): void => {
+        if (checkFinishGame(square)) {
+            ChangeGameStart(false);
+            ChangeGameOver(true);
+        }
+    };
+
     const enemyHitHandler = () => {
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
         RenderUserSquare(currentSquare);
         ChangeUserShips(checkRemainingShips(userSquare, false));
-        ChangeGameStart(!checkFinishGame(currentSquare));
+        checkStatusGame(currentSquare);
 
         if (again) {
             setTimeout(() => {
                 enemyHitHandler();
-            }, 500);
+            }, 100);
         } else {
             ChangeCurrentPlayer(User);
         }
@@ -65,7 +75,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         } else {
             currentSquare = updateCell(computerSquare, currentId);
             RenderComputerSquare(currentSquare);
-            ChangeGameStart(!checkFinishGame(currentSquare));
+            checkStatusGame(currentSquare);
 
             const [{ past: currentPast, explode: currentExplode, shipId: currentShipId }] = computerSquare
                 .flat()
@@ -74,7 +84,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
                 ChangeCurrentPlayer(Computer);
                 setTimeout(() => {
                     enemyHitHandler();
-                }, 500);
+                }, 100);
             }
             if (currentExplode) {
                 ChangeComputerShips(checkRemainingShips(computerSquare, false));

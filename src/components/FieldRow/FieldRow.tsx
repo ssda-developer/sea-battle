@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC } from 'react';
 
 import { IField } from '../../store/field/interfaces';
 
@@ -7,11 +7,10 @@ import { Owners } from '../../store/area/interfaces';
 
 interface IFieldRowProps {
     row: Array<IField>;
-    updateCellHandler: (event: MouseEvent<HTMLButtonElement>) => void;
     owner: Owners;
 }
 
-const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler, owner }: IFieldRowProps) => {
+const FieldRow: FC<IFieldRowProps> = ({ row, owner }: IFieldRowProps) => {
     return (
         <div className="area__row">
             {row.map(({ id, ship, shipId, hit, past, locked, lockedId, explode }) => (
@@ -25,7 +24,6 @@ const FieldRow: FC<IFieldRowProps> = ({ row, updateCellHandler, owner }: IFieldR
                     locked={locked}
                     lockedId={lockedId}
                     explode={explode}
-                    updateCellHandler={updateCellHandler}
                     owner={owner}
                 />
             ))}

@@ -75,7 +75,7 @@ const removeWrongShip = (array: IField[][], currentShipId: string): IField[][] =
  * @param square
  * @param currentCellId
  */
-const addPartShip = (square: IField[][], currentCellId: string): IField[][] => {
+export const addPartShip = (square: IField[][], currentCellId: string): IField[][] => {
     const { Diagonal, NonDiagonal } = CellDirection;
     let array = square;
 
@@ -127,5 +127,3 @@ const addPartShip = (square: IField[][], currentCellId: string): IField[][] => {
 
     return array;
 };
-
-export default addPartShip;

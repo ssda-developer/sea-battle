@@ -182,3 +182,18 @@ export const unlockAllEmptyCell = (array: IField[][]): void => {
 export const checkFinishGame = (array: IField[][]): boolean => {
     return !array.flat().filter(cell => cell.ship && !cell.explode).length;
 };
+
+export const checkArray = (array: IField[][]): void => {
+    const arrayShips: any = [];
+    iteratingFlatArray(array, cell => {
+        if (cell.shipId) {
+            arrayShips.push(cell.shipId);
+        }
+    });
+
+    const qwe = arrayShips.reduce((acc: any, el: any) => {
+        acc[el] = (acc[el] || 0) + 1;
+        return acc;
+    }, {});
+    console.log(Object.values(qwe).sort().reverse());
+};

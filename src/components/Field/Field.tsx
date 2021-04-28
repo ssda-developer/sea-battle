@@ -6,7 +6,7 @@ import { Owners } from '../../store/area/interfaces';
 
 import './Field.scss';
 import { addPartShip } from '../../utils/customShipPlacement';
-import { checkFinishGame, updateCell } from '../../utils/areaUtils';
+import { checkArray, checkFinishGame, updateCell } from '../../utils/areaUtils';
 import computerShot from '../../utils/computerShot';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store/store';
@@ -49,7 +49,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         }
     };
 
-    const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
+    const updateFieldHandler = (evn: MouseEvent<HTMLButtonElement>) => {
         evn.preventDefault();
 
         const {
@@ -57,7 +57,9 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         } = evn;
 
         if (owner === User) {
-            RenderUserSquare(addPartShip(userSquare, currentId));
+            const qwe = addPartShip(userSquare, currentId);
+            console.log(checkArray(qwe));
+            RenderUserSquare(qwe);
         } else {
             currentSquare = updateCell(computerSquare, currentId);
             RenderComputerSquare(currentSquare);
@@ -80,7 +82,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         }
     };
 
-    return <button type="button" id={id} className={className} onClick={updateCellHandler} aria-label={id} disabled={disabled} />;
+    return <button type="button" id={id} className={className} onClick={updateFieldHandler} aria-label={id} disabled={disabled} />;
 };
 
 export default Field;

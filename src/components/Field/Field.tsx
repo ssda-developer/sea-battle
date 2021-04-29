@@ -78,9 +78,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
             RenderComputerSquare(currentSquare);
             manageStatusGame(currentSquare);
 
-            const [{ past: currentPast, explode: currentExplode, shipId: currentShipId }] = computerSquare
-                .flat()
-                .filter(cell => cell.id === currentId);
+            const [{ past: currentPast, explode: currentExplode }] = computerSquare.flat().filter(cell => cell.id === currentId);
             if (currentPast) {
                 ChangeCurrentPlayer(Computer);
                 setTimeout(() => {

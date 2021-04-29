@@ -1,22 +1,22 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { IField } from '../../../store/field/interfaces';
-import { Owners } from '../../../store/area/interfaces';
+import { IField } from '../../interface/field';
+import { Owners } from '../../interface/area';
 
-import { createSquare } from '../../../utils/areaUtils';
-import randomShipPlacement from '../../../utils/randomShipPlacement';
+import { createSquare } from '../../utils/areaUtils';
+import randomShipPlacement from '../../utils/randomShipPlacement';
 
-import FieldRow from '../../FieldRow/FieldRow';
+import FieldRow from '../FieldRow/FieldRow';
 
-import useActions from '../../../hooks/useActions';
-import { RootStore } from '../../../store/store';
+import useActions from '../../hooks/useActions';
+import { RootStore } from '../../store';
 
 interface BuildSquareProps {
     playerAffiliation: Owners;
 }
 
-const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
+const Square: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
     const { RenderUserSquare, RenderComputerSquare } = useActions();
     const { User } = Owners;
     const {
@@ -40,4 +40,4 @@ const BuildSquare: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquarePro
     );
 };
 
-export default BuildSquare;
+export default Square;

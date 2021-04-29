@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Owners } from '../../store/area/interfaces';
+import { Owners } from '../../interface/area';
 
 import { ReactComponent as SVGFrown } from '../../icons/frown.svg';
 import { ReactComponent as SVGSmile } from '../../icons/smile.svg';

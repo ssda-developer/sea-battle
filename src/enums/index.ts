@@ -7,4 +7,14 @@ enum HintOptions {
     ComputerShot = 'Ход компьютера',
 }
 
-export default HintOptions;
+enum ShipDirection {
+    Horizontal = 'HORIZONTAL',
+    Vertical = 'VERTICAL',
+}
+
+enum CellDirection {
+    Diagonal = 'DIAGONAL',
+    NonDiagonal = 'NON-DIAGONAL',
+}
+
+export { HintOptions, ShipDirection, CellDirection };

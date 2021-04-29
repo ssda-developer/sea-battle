@@ -1,7 +1,7 @@
-import { IField } from '../store/field/interfaces';
+import { IField } from '../interface/field';
 import { updateCell, getPositionCellById, getCellsAround, checkFinishGame } from './areaUtils';
 import { getRandomValue } from '../helpers';
-import { CellDirection, ShipDirection } from '../constants/shipsConstants';
+import { CellDirection, ShipDirection } from '../enums';
 
 let possibleShots: IField[] = [];
 let direction = '';

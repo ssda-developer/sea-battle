@@ -5,8 +5,8 @@ import {
     CHANGE_USER_SHIPS,
     CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
-} from './types';
-import { IArea } from './interfaces';
+} from '../types/area';
+import { IArea } from '../../interface/area';
 
 const initialState: IArea = {
     user: {
@@ -20,7 +20,7 @@ const initialState: IArea = {
     },
 };
 
-const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {
+const area = (state: IArea = initialState, action: AreaDispatchTypes): IArea => {
     switch (action.type) {
         case RENDER_USER_SQUARE:
             return {
@@ -67,4 +67,4 @@ const reducers = (state: IArea = initialState, action: AreaDispatchTypes): IArea
     }
 };
 
-export default reducers;
+export default area;

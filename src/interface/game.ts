@@ -1,4 +1,4 @@
-import { Owners } from '../area/interfaces';
+import { Owners } from './area';
 
 export interface IGame {
     gameStart: boolean;

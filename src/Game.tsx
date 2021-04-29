@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-import { Owners } from './store/area/interfaces';
+import { Owners } from './interface/area';
 
-import Area from './components/Area/Area';
+import Area from './components/Area';
 
-import './App.scss';
+import './Game.scss';
 
 const Game: FC = () => {
     const { User, Computer } = Owners;

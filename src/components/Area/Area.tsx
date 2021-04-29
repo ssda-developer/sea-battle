@@ -1,23 +1,25 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { RootStore } from '../../store/store';
+import { RootStore } from '../../store';
 import useActions from '../../hooks/useActions';
-import { Owners } from '../../store/area/interfaces';
-import HintOptions from '../../constants/hintsConstants';
-import { AREA_LETTERS, AREA_NUMBERS } from '../../constants/areaConstants';
+
+import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
+import { HintOptions } from '../../enums';
+
+import { Owners } from '../../interface/area';
 
 import randomShipPlacement from '../../utils/randomShipPlacement';
 import { resetShipsValues } from '../../utils/customShipPlacement';
 import { createSquare } from '../../utils/areaUtils';
 
-import BuildSquare from '../Square/BuildSquare/BuildSquare';
-import Hints from '../Hints/Hints';
-import AreaButtons from '../AreaButtons/AreaButtons';
-import AreaButton from '../AreaButtons/AreaButton/AreaButton';
-import Modal from '../Modal/Modal';
-import Rules from '../Rules/Rules';
-import WinnerMessage from '../WinnerMessage/WinnerMessage';
+import Square from '../Square';
+import Hints from '../Hints';
+import AreaButtons from '../AreaButtons';
+import AreaButton from '../AreaButton';
+import Modal from '../Modal';
+import Rules from '../Rules';
+import WinnerMessage from '../WinnerMessage';
 
 import { ReactComponent as SVGRandom } from '../../icons/random.svg';
 import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
@@ -25,9 +27,8 @@ import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
 import { ReactComponent as SVGTimes } from '../../icons/times.svg';
 import { ReactComponent as SVGPlay } from '../../icons/play.svg';
 
-import './Area.scss';
 import Ships from '../Ships/Ships';
-import { SHIPS } from '../../constants/shipsConstants';
+import './Area.scss';
 
 interface AreaProps {
     areaOwner: Owners;
@@ -151,7 +152,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                     ))}
                 </div>
                 <div className={`area__wrapper ${areaClassNameDisabled} ${areaOwner.toLowerCase()}`}>
-                    <BuildSquare playerAffiliation={areaOwner} />
+                    <Square playerAffiliation={areaOwner} />
                 </div>
             </div>
             {open && (

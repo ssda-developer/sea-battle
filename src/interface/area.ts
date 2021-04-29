@@ -1,4 +1,4 @@
-import { IField } from '../field/interfaces';
+import { IField } from './field';
 
 export enum Owners {
     User = 'USER',

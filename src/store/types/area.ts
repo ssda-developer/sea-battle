@@ -1,4 +1,4 @@
-import { IField } from '../field/interfaces';
+import { IField } from '../../interface/field';
 
 export const RENDER_USER_SQUARE = 'RENDER_USER_SQUARE';
 export const RENDER_COMPUTER_SQUARE = 'RENDER_COMPUTER_SQUARE';

@@ -1,5 +1,5 @@
-import { CHANGE_CURRENT_PLAYER, CHANGE_GAME_OVER, CHANGE_GAME_START, GameDispatchTypes } from './types';
-import { Owners } from '../area/interfaces';
+import { CHANGE_CURRENT_PLAYER, CHANGE_GAME_OVER, CHANGE_GAME_START, GameDispatchTypes } from '../types/game';
+import { Owners } from '../../interface/area';
 
 export const ChangeGameStart = (status: boolean): GameDispatchTypes => {
     return {

@@ -1,4 +1,4 @@
-import { IField } from '../store/field/interfaces';
+import { IField } from '../interface/field';
 
 /**
  * Generate unique ID.

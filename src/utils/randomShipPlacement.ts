@@ -1,7 +1,8 @@
-import { IField } from '../store/field/interfaces';
+import { IField } from '../interface/field';
 import { getRandomValue, getUniqId } from '../helpers';
 import { getCellsAround, lockAllEmptyCell } from './areaUtils';
-import { CellDirection, ShipDirection, SHIPS } from '../constants/shipsConstants';
+import { CellDirection, ShipDirection } from '../enums';
+import { SHIPS } from '../constants';
 import { finishBuildingShip, lockCell } from './customShipPlacement';
 
 /**

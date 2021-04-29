@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { getUniqId } from '../../helpers';
 import ShipRow from '../ShipsRow/ShipRow';
 
-import { Owners } from '../../store/area/interfaces';
-import { RootStore } from '../../store/store';
+import { Owners } from '../../interface/area';
+import { RootStore } from '../../store';
 
 import './Ships.scss';
-import { SHIPS } from '../../constants/shipsConstants';
+import { SHIPS } from '../../constants';
 
 interface ShipsProps {
     shipsOwner: Owners;

@@ -1,4 +1,4 @@
-import { Owners } from '../area/interfaces';
+import { Owners } from '../../interface/area';
 
 export const CHANGE_GAME_START = 'CHANGE_GAME_START';
 export const CHANGE_GAME_OVER = 'CHANGE_GAME_OVER';

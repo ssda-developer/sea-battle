@@ -1,7 +1,7 @@
-import { IField } from '../store/field/interfaces';
+import { IField } from '../interface/field';
 import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
-import { CellDirection } from '../constants/shipsConstants';
-import { AREA_LETTERS, AREA_NUMBERS } from '../constants/areaConstants';
+import { CellDirection } from '../enums';
+import { AREA_LETTERS, AREA_NUMBERS } from '../constants';
 
 /**
  * Create a  two-dimensional array with empty cells.

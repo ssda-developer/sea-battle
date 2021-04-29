@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 import { devToolsEnhancer } from 'redux-devtools-extension';
 
-import rootReducer from './rootReducer';
+import rootReducer from './reducers';
 
 export type RootStore = ReturnType<typeof rootReducer>;
 

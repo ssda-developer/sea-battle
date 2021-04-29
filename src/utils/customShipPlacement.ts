@@ -1,6 +1,7 @@
-import { CellDirection, SHIPS } from '../constants/shipsConstants';
+import { SHIPS } from '../constants';
+import { CellDirection } from '../enums';
 import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
-import { IField } from '../store/field/interfaces';
+import { IField } from '../interface/field';
 import { getCellsAround, lockAllEmptyCell } from './areaUtils';
 
 let ships = [...SHIPS];

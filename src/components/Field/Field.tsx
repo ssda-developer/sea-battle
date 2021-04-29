@@ -1,16 +1,16 @@
 import React, { FC, MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 
-import { IField } from '../../store/field/interfaces';
-import { Owners } from '../../store/area/interfaces';
+import { IField } from '../../interface/field';
+import { Owners } from '../../interface/area';
 
 import './Field.scss';
 import { addPartShip } from '../../utils/customShipPlacement';
 import { checkRemainingShips, checkFinishGame, updateCell } from '../../utils/areaUtils';
 import computerShot from '../../utils/computerShot';
 import useActions from '../../hooks/useActions';
-import { RootStore } from '../../store/store';
-import { SHIPS } from '../../constants/shipsConstants';
+import { RootStore } from '../../store';
+import { SHIPS } from '../../constants';
 
 const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IField) => {
     const {

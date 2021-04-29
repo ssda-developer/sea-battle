@@ -5,8 +5,8 @@ import {
     CHANGE_USER_SHIPS,
     CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
-} from './types';
-import { IField } from '../field/interfaces';
+} from '../types/area';
+import { IField } from '../../interface/field';
 
 export const RenderUserSquare = (square: IField[][]): AreaDispatchTypes => {
     return {

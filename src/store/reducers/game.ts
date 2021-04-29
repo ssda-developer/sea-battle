@@ -1,5 +1,5 @@
-import { CHANGE_CURRENT_PLAYER, CHANGE_GAME_OVER, CHANGE_GAME_START, GameDispatchTypes } from './types';
-import { IGame } from './interfaces';
+import { CHANGE_CURRENT_PLAYER, CHANGE_GAME_OVER, CHANGE_GAME_START, GameDispatchTypes } from '../types/game';
+import { IGame } from '../../interface/game';
 
 const initialState: IGame = {
     gameStart: false,

@@ -62,6 +62,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const userBuildRandomShipsHandler = () => {
         RenderUserSquare(randomShipPlacement(createSquare()));
         if (!userComplete) {
+            ChangeUserShips([...SHIPS]);
             ChangeUserSquareComplete(true);
         }
     };
@@ -70,15 +71,16 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         RenderUserSquare(createSquare());
         RenderComputerSquare(createSquare());
         ChangeUserSquareComplete(false);
+        ChangeUserShips([]);
         resetShipsValues();
     };
 
     const startGameHandler = () => {
         if (!userComplete) {
             RenderUserSquare(randomShipPlacement(createSquare()));
+            ChangeUserShips([...SHIPS]);
         }
         RenderComputerSquare(randomShipPlacement(createSquare()));
-        // ChangeUserShips([...SHIPS]);
         ChangeComputerShips([...SHIPS]);
         ChangeGameStart(true);
     };
@@ -87,6 +89,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         userClearAreaHandler();
         RenderComputerSquare(randomShipPlacement(createSquare()));
         ChangeGameStart(false);
+        ChangeUserShips([]);
     };
 
     const openModal = (status: boolean) => {

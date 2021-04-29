@@ -44,6 +44,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         ChangeUserShips,
         ChangeComputerShips,
         ChangeUserSquareComplete,
+        ChangeGameOver,
     } = useActions();
 
     const {
@@ -92,8 +93,16 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         ChangeUserShips([]);
     };
 
-    const openModal = (status: boolean) => {
-        setOpen(status);
+    const openModal = () => {
+        setOpen(true);
+    };
+
+    const closeModal = () => {
+        setOpen(false);
+
+        if (gameOver) {
+            ChangeGameOver(false);
+        }
     };
 
     const areaClassNameDisabled =
@@ -115,7 +124,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                             <>
                                 <AreaButton
                                     userClickHandler={() => {
-                                        openModal(true);
+                                        openModal();
                                     }}
                                     icon={<SVGQuestion />}
                                 />
@@ -145,9 +154,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                 </div>
             </div>
             {open && (
-                <Modal changeModalStatus={openModal}>
-                    {!gameStart && !gameOver ? <Rules /> : <WinnerMessage player={currentPlayer} />}
-                </Modal>
+                <Modal clickedOutside={closeModal}>{!gameStart && !gameOver ? <Rules /> : <WinnerMessage player={currentPlayer} />}</Modal>
             )}
             {areaOwner === Computer && gameStart && <Hints hintText={displayHints()} />}
         </div>

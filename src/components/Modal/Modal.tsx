@@ -1,33 +1,22 @@
 import React, { FC, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
-import { RootStore } from '../../store/store';
-import useActions from '../../hooks/useActions';
 
 import './Modal.scss';
 
 type ModalProps = {
-    changeModalStatus: (status: boolean) => void;
+    clickedOutside: () => void;
     children: JSX.Element;
 };
 
-const Modal: FC<ModalProps> = ({ changeModalStatus, children }: ModalProps) => {
-    const { ChangeGameOver } = useActions();
-    const { gameOver } = useSelector(({ gameReducer }: RootStore) => gameReducer);
-
+const Modal: FC<ModalProps> = ({ clickedOutside, children }: ModalProps) => {
     const handleKeyDown = ({ keyCode }: KeyboardEvent) => {
         if (keyCode === 27) {
-            changeModalStatus(false);
+            clickedOutside();
         }
     };
 
     const handleClickOutside = ({ target }: MouseEvent) => {
         if ((target as HTMLElement).classList.contains('modal')) {
-            changeModalStatus(false);
-
-            if (gameOver) {
-                ChangeGameOver(false);
-            }
+            clickedOutside();
         }
     };
 

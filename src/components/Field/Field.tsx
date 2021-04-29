@@ -56,7 +56,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
             setTimeout(() => {
                 enemyHitHandler();
             }, 700);
-        } else {
+        } else if (!checkFinishGame(array)) {
             ChangeCurrentPlayer(User);
         }
     };

@@ -6,16 +6,17 @@ import {
     CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
 } from '../types/area';
-import { IField } from '../../interface';
 
-export const renderUserSquare = (square: IField[][]): AreaDispatchTypes => {
+import { ICell } from '../../interface';
+
+export const renderUserSquare = (square: ICell[][]): AreaDispatchTypes => {
     return {
         type: RENDER_USER_SQUARE,
         payload: square,
     };
 };
 
-export const renderComputerSquare = (square: IField[][]): AreaDispatchTypes => {
+export const renderComputerSquare = (square: ICell[][]): AreaDispatchTypes => {
     return {
         type: RENDER_COMPUTER_SQUARE,
         payload: square,

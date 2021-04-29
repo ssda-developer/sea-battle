@@ -1,4 +1,5 @@
 import { CHANGE_CURRENT_PLAYER, CHANGE_GAME_OVER, CHANGE_GAME_START, GameDispatchTypes } from '../types/game';
+
 import { Owners } from '../../enums';
 
 export const changeGameStart = (status: boolean): GameDispatchTypes => {

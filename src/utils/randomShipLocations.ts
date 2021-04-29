@@ -1,16 +1,16 @@
-import { IField } from '../interface';
+import { ICell } from '../interface';
 import { getRandomValue, getUniqId } from '../helpers';
 import { getCellsAround, lockAllEmptyCell } from './areaUtils';
 import { CellDirection, ShipDirection } from '../enums';
 import { SHIPS } from '../constants';
-import { finishBuildingShip, lockCell } from './customShipPlacement';
+import { finishBuildingShip, lockCell } from './userShipLocations';
 
 /**
  * Generate random cell coordinates.
  * @param square - Array of cells.
  * @param shipLength - Ship length.
  */
-const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: number): number[] => {
+const getRandomCellCoordinates = (square: Array<Array<ICell>>, shipLength: number): number[] => {
     const { length } = square;
     const number = getRandomValue(length);
     const letter = getRandomValue(length);
@@ -36,7 +36,7 @@ const getRandomCellCoordinates = (square: Array<Array<IField>>, shipLength: numb
  * @param direction
  */
 const checkEmptyCells = (
-    square: Array<Array<IField>>,
+    square: Array<Array<ICell>>,
     calculableValue: number,
     nonCalculableValue: number,
     shipLength: number,
@@ -65,7 +65,7 @@ const checkEmptyCells = (
  * @param arrayLength
  */
 const manageShipDirection = (
-    square: Array<Array<IField>>,
+    square: Array<Array<ICell>>,
     positionNumber: number,
     positionLetter: number,
     shipLength: number,
@@ -97,7 +97,7 @@ interface CheckBeforeBuild {
  * @param square - Array of cells.
  * @param shipLength - Ship length.
  */
-const checkBeforeBuild = (square: Array<Array<IField>>, shipLength: number): CheckBeforeBuild => {
+const checkBeforeBuild = (square: Array<Array<ICell>>, shipLength: number): CheckBeforeBuild => {
     const { length } = square;
     const [startNumber, startLetter] = getRandomCellCoordinates(square, shipLength);
     const shipDirection = manageShipDirection(square, startNumber, startLetter, shipLength, length);
@@ -117,7 +117,7 @@ const checkBeforeBuild = (square: Array<Array<IField>>, shipLength: number): Che
  * @param square - Array of cells.
  * @param shipLength - Ship length.
  */
-const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Array<Array<IField>> => {
+const buildRandomShip = (square: Array<Array<ICell>>, shipLength: number): Array<Array<ICell>> => {
     const { Diagonal } = CellDirection;
     const {
         shipDirection,
@@ -151,7 +151,7 @@ const buildRandomShip = (square: Array<Array<IField>>, shipLength: number): Arra
  * Randomly place the ships.
  * @param square - Array of cells.
  */
-const randomShipPlacement = (square: Array<Array<IField>>): Array<Array<IField>> => {
+const randomShipLocations = (square: Array<Array<ICell>>): Array<Array<ICell>> => {
     SHIPS.forEach(shipLength => {
         buildRandomShip(square, shipLength);
     });
@@ -160,4 +160,4 @@ const randomShipPlacement = (square: Array<Array<IField>>): Array<Array<IField>>
     return square;
 };
 
-export default randomShipPlacement;
+export default randomShipLocations;

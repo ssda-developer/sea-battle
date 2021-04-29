@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+
 import { RootStore } from '../../store';
 import useActions from '../../hooks/useActions';
+
 import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
 import { HintOptions, Owners } from '../../enums';
-import randomShipPlacement from '../../utils/randomShipPlacement';
-import { resetShipsValues } from '../../utils/customShipPlacement';
+
+import randomShipLocations from '../../utils/randomShipLocations';
+import { resetShipsValues } from '../../utils/userShipLocations';
 import { createSquare } from '../../utils/areaUtils';
 import Square from '../Square';
 import Hints from '../Hints';
@@ -14,11 +17,11 @@ import AreaButton from '../AreaButton';
 import Modal from '../Modal';
 import Rules from '../Rules';
 import WinnerMessage from '../WinnerMessage';
-import { ReactComponent as SVGRandom } from '../../icons/random.svg';
-import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
-import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
-import { ReactComponent as SVGTimes } from '../../icons/times.svg';
-import { ReactComponent as SVGPlay } from '../../icons/play.svg';
+import { ReactComponent as SVGRandom } from '../../assets/icons/random.svg';
+import { ReactComponent as SVGTrash } from '../../assets/icons/trash.svg';
+import { ReactComponent as SVGQuestion } from '../../assets/icons/question.svg';
+import { ReactComponent as SVGTimes } from '../../assets/icons/times.svg';
+import { ReactComponent as SVGPlay } from '../../assets/icons/play.svg';
 import Ships from '../Ships/Ships';
 import './Area.scss';
 
@@ -54,7 +57,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     }, [gameOver]);
 
     const userBuildRandomShipsHandler = () => {
-        renderUserSquare(randomShipPlacement(createSquare()));
+        renderUserSquare(randomShipLocations(createSquare()));
         if (!userComplete) {
             changeUserShips([...SHIPS]);
             changeUserSquareComplete(true);
@@ -71,17 +74,17 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
 
     const startGameHandler = () => {
         if (!userComplete) {
-            renderUserSquare(randomShipPlacement(createSquare()));
+            renderUserSquare(randomShipLocations(createSquare()));
             changeUserShips([...SHIPS]);
         }
-        renderComputerSquare(randomShipPlacement(createSquare()));
+        renderComputerSquare(randomShipLocations(createSquare()));
         changeComputerShips([...SHIPS]);
         changeGameStart(true);
     };
 
     const resetGameHandler = () => {
         userClearAreaHandler();
-        renderComputerSquare(randomShipPlacement(createSquare()));
+        renderComputerSquare(randomShipLocations(createSquare()));
         changeGameStart(false);
         changeUserShips([]);
         changeComputerShips([]);

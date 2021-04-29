@@ -18,15 +18,15 @@
         --field-color: var(--color-white);
     }
 
-    &.past {
+    &.miss {
         &::before {
-            --field-past-size: calc(var(--field-size) / 4);
+            --field-miss-size: calc(var(--field-size) / 4);
 
             background: var(--color-white);
             border-radius: 50%;
             content: '';
-            height: var(--field-past-size);
-            width: var(--field-past-size);
+            height: var(--field-miss-size);
+            width: var(--field-miss-size);
         }
     }
 
@@ -53,7 +53,7 @@
         outline: none;
     }
 
-    &:not(.past):not(.hit):not(.explode):not(.locked):not(.ship):hover {
+    &:not(.miss):not(.hit):not(.explode):not(.locked):not(.ship):hover {
         border: 1px solid var(--color-white);
     }
 

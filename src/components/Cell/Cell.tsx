@@ -1,18 +1,18 @@
 import React, { FC, MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 
-import { IField } from '../../interface';
+import { ICell } from '../../interface';
 import { Owners } from '../../enums';
 
-import './Field.scss';
-import { addPartShip } from '../../utils/customShipPlacement';
+import './Cell.scss';
+import { addPartShip } from '../../utils/userShipLocations';
 import { checkRemainingShips, checkFinishGame, updateCell } from '../../utils/areaUtils';
-import computerShot from '../../utils/computerShot';
+import randomComputerShot from '../../utils/randomComputerShot';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
 import { SHIPS } from '../../constants';
 
-const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IField) => {
+const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell) => {
     const {
         renderUserSquare,
         renderComputerSquare,
@@ -31,14 +31,14 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
 
     const { User, Computer } = Owners;
     let currentSquare = owner === User ? userSquare : computerSquare;
-    const disabled = owner === User ? hit || ship || past || locked : hit || past || explode;
+    const disabled = owner === User ? hit || ship || miss || locked : hit || miss || explode;
 
     const className =
         owner === User
-            ? `field${hit ? ' hit' : ''}${past ? ' past' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
-            : `field${hit ? ' hit' : ''}${past ? ' past' : ''}${explode ? ' explode' : ''}`;
+            ? `field${hit ? ' hit' : ''}${miss ? ' miss' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
+            : `field${hit ? ' hit' : ''}${miss ? ' miss' : ''}${explode ? ' explode' : ''}`;
 
-    const manageStatusGame = (square: IField[][]): void => {
+    const manageStatusGame = (square: ICell[][]): void => {
         if (checkFinishGame(square)) {
             changeGameStart(false);
             changeGameOver(true);
@@ -46,7 +46,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
     };
 
     const enemyHitHandler = () => {
-        const [array, again] = computerShot(userSquare);
+        const [array, again] = randomComputerShot(userSquare);
         currentSquare = array;
         renderUserSquare(currentSquare);
         changeUserShips(checkRemainingShips(userSquare, false));
@@ -61,7 +61,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         }
     };
 
-    const updateFieldHandler = (evn: MouseEvent<HTMLButtonElement>) => {
+    const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
         evn.preventDefault();
 
         const {
@@ -78,8 +78,8 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
             renderComputerSquare(currentSquare);
             manageStatusGame(currentSquare);
 
-            const [{ past: currentPast, explode: currentExplode }] = computerSquare.flat().filter(cell => cell.id === currentId);
-            if (currentPast) {
+            const [{ miss: currentMiss, explode: currentExplode }] = computerSquare.flat().filter(cell => cell.id === currentId);
+            if (currentMiss) {
                 changeCurrentPlayer(Computer);
                 setTimeout(() => {
                     enemyHitHandler();
@@ -91,7 +91,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         }
     };
 
-    return <button type="button" id={id} className={className} onClick={updateFieldHandler} aria-label={id} disabled={disabled} />;
+    return <button type="button" id={id} className={className} onClick={updateCellHandler} aria-label={id} disabled={disabled} />;
 };
 
-export default Field;
+export default Cell;

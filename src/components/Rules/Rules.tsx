@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { ReactComponent as SVGRandom } from '../../icons/random.svg';
-import { ReactComponent as SVGPlay } from '../../icons/play.svg';
+import { ReactComponent as SVGRandom } from '../../assets/icons/random.svg';
+import { ReactComponent as SVGPlay } from '../../assets/icons/play.svg';
 
 import './Rules.scss';
 

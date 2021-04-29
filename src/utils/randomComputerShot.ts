@@ -1,17 +1,17 @@
-import { IField } from '../interface';
-import { updateCell, getPositionCellById, getCellsAround, checkFinishGame } from './areaUtils';
-import { getRandomValue } from '../helpers';
 import { CellDirection, ShipDirection } from '../enums';
+import { ICell } from '../interface';
+import { getRandomValue } from '../helpers';
+import { updateCell, getPositionCellById, getCellsAround, checkFinishGame } from './areaUtils';
 
-let possibleShots: IField[] = [];
+let possibleShots: ICell[] = [];
 let direction = '';
-let firstHitOnShip: null | IField = null;
+let firstHitOnShip: null | ICell = null;
 
 /**
  * Get a random empty cell.
  * @param array
  */
-const getRandomEmptyCell = (array: IField[][]): IField => {
+const getRandomEmptyCell = (array: ICell[][]): ICell => {
     const { Diagonal, NonDiagonal } = CellDirection;
     const { length } = array;
     const xPoint = getRandomValue(length);
@@ -21,14 +21,14 @@ const getRandomEmptyCell = (array: IField[][]): IField => {
         c => c?.explode,
     );
 
-    return !cell.hit && !cell.past && !isNearShip.length ? cell : getRandomEmptyCell(array);
+    return !cell.hit && !cell.miss && !isNearShip.length ? cell : getRandomEmptyCell(array);
 };
 
 /**
  * Random shot.
  * @param array
  */
-const randomShot = (array: IField[][]) => {
+const randomShot = (array: ICell[][]) => {
     const { Horizontal, Vertical } = ShipDirection;
     const { NonDiagonal } = CellDirection;
     let cell = getRandomEmptyCell(array);
@@ -41,7 +41,7 @@ const randomShot = (array: IField[][]) => {
 
     if (cell.ship) {
         const [i, j] = getPositionCellById(array, cell.id) as number[];
-        const nonDiagonalCell = getCellsAround(array, i, j, NonDiagonal) as IField[];
+        const nonDiagonalCell = getCellsAround(array, i, j, NonDiagonal) as ICell[];
 
         if (!possibleShots.length) {
             possibleShots.push(...nonDiagonalCell);
@@ -51,7 +51,7 @@ const randomShot = (array: IField[][]) => {
             firstHitOnShip = cell;
         } else {
             const [xPoint, yPoint] = getPositionCellById(array, firstHitOnShip.id) as number[];
-            const nonDiagonalCellsFirstHitOnShip = getCellsAround(array, xPoint, yPoint, NonDiagonal) as IField[];
+            const nonDiagonalCellsFirstHitOnShip = getCellsAround(array, xPoint, yPoint, NonDiagonal) as ICell[];
 
             if (!direction) {
                 direction = i === xPoint ? Horizontal : Vertical;
@@ -76,7 +76,7 @@ const randomShot = (array: IField[][]) => {
         direction = '';
     }
 
-    possibleShots = possibleShots.filter(el => el !== null && !el.hit && !el.past);
+    possibleShots = possibleShots.filter(el => el !== null && !el.hit && !el.miss);
 
     return again;
 };
@@ -85,10 +85,10 @@ const randomShot = (array: IField[][]) => {
  * Computer shot.
  * @param array
  */
-const computerShot = (array: IField[][]): [IField[][], boolean] => {
+const randomComputerShot = (array: ICell[][]): [ICell[][], boolean] => {
     const again = !checkFinishGame(array) ? randomShot(array) : false;
 
     return [array, again];
 };
 
-export default computerShot;
+export default randomComputerShot;

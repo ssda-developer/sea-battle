@@ -2,12 +2,12 @@ import { MouseEvent } from 'react';
 
 import { Owners } from '../enums';
 
-export interface IField {
+export interface ICell {
     id: string;
     ship: boolean;
     shipId: string;
     hit: boolean;
-    past: boolean;
+    miss: boolean;
     locked: boolean;
     lockedId: string;
     explode: boolean;
@@ -17,12 +17,12 @@ export interface IField {
 
 export interface IArea {
     user: {
-        userSquare: IField[][];
+        userSquare: ICell[][];
         userComplete: boolean;
         userShips: number[];
     };
     computer: {
-        computerSquare: IField[][];
+        computerSquare: ICell[][];
         computerShips: number[];
     };
 }

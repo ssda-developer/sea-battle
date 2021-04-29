@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import { Owners } from '../../enums';
 
-import { ReactComponent as SVGFrown } from '../../icons/frown.svg';
-import { ReactComponent as SVGSmile } from '../../icons/smile.svg';
+import { ReactComponent as SVGFrown } from '../../assets/icons/frown.svg';
+import { ReactComponent as SVGSmile } from '../../assets/icons/smile.svg';
 
 import './WinnerMessage.scss';
 

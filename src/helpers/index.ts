@@ -1,4 +1,4 @@
-import { IField } from '../interface';
+import { ICell } from '../interface';
 
 /**
  * Generate unique ID.
@@ -18,7 +18,7 @@ export const getRandomValue = (maxValue: number): number => Math.floor(Math.rand
  * example:
  * iteratingTwoDimensionalArray(square, (i, j) => {});
  */
-export const iteratingTwoDimensionalArray = (array: IField[][], func: (i: number, j: number) => void): void => {
+export const iteratingTwoDimensionalArray = (array: ICell[][], func: (i: number, j: number) => void): void => {
     const { length } = array;
 
     for (let i = 0; i < length; i += 1) {
@@ -35,7 +35,7 @@ export const iteratingTwoDimensionalArray = (array: IField[][], func: (i: number
  * example:
  * iteratingFlatArray(array, cell => {});
  */
-export const iteratingFlatArray = (array: IField[][], func: (cell: IField) => void): void => {
+export const iteratingFlatArray = (array: ICell[][], func: (cell: ICell) => void): void => {
     array.flat().forEach(cell => {
         func(cell);
     });

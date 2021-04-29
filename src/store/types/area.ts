@@ -1,4 +1,4 @@
-import { IField } from '../../interface';
+import { ICell } from '../../interface';
 
 export const RENDER_USER_SQUARE = 'RENDER_USER_SQUARE';
 export const RENDER_COMPUTER_SQUARE = 'RENDER_COMPUTER_SQUARE';
@@ -8,12 +8,12 @@ export const CHANGE_COMPUTER_SHIPS = 'CHANGE_COMPUTER_SHIPS';
 
 export type RenderUserSquare = {
     type: typeof RENDER_USER_SQUARE;
-    payload: IField[][];
+    payload: ICell[][];
 };
 
 export type RenderComputerSquare = {
     type: typeof RENDER_COMPUTER_SQUARE;
-    payload: IField[][];
+    payload: ICell[][];
 };
 
 export type ChangeUserShips = {

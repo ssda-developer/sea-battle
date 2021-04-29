@@ -1,11 +1,11 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { IField } from '../../interface';
+import { ICell } from '../../interface';
 import { Owners } from '../../enums';
 
 import { createSquare } from '../../utils/areaUtils';
-import randomShipPlacement from '../../utils/randomShipPlacement';
+import randomShipLocations from '../../utils/randomShipLocations';
 
 import FieldRow from '../FieldRow/FieldRow';
 
@@ -28,12 +28,12 @@ const Square: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) =
 
     useEffect(() => {
         renderUserSquare(createSquare());
-        renderComputerSquare(randomShipPlacement(createSquare()));
+        renderComputerSquare(randomShipLocations(createSquare()));
     }, []);
 
     return (
         <>
-            {currentSquare.map((row: IField[], idx: number) => (
+            {currentSquare.map((row: ICell[], idx: number) => (
                 <FieldRow key={row[idx].id} row={row} owner={playerAffiliation} />
             ))}
         </>

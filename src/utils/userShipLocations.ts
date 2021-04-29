@@ -1,7 +1,7 @@
 import { SHIPS } from '../constants';
 import { CellDirection } from '../enums';
 import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
-import { IField } from '../interface';
+import { ICell } from '../interface';
 import { getCellsAround, lockAllEmptyCell } from './areaUtils';
 
 let ships = [...SHIPS];
@@ -26,7 +26,7 @@ export const resetShipsValues = (): void => {
  * Lock cell.
  * @param cell
  */
-export const lockCell = (cell: IField | null): void => {
+export const lockCell = (cell: ICell | null): void => {
     if (cell && !cell.ship) {
         cell.locked = true;
         cell.lockedId = cell.lockedId.length === 0 ? `locked-${uniqShipId}` : cell.lockedId;
@@ -38,7 +38,7 @@ export const lockCell = (cell: IField | null): void => {
  * @param square
  * @param currentShipId
  */
-export const finishBuildingShip = (square: IField[][], currentShipId: string): IField[][] => {
+export const finishBuildingShip = (square: ICell[][], currentShipId: string): ICell[][] => {
     const { NonDiagonal } = CellDirection;
     iteratingTwoDimensionalArray(square, (i, j) => {
         const cell = square[i][j];
@@ -57,7 +57,7 @@ export const finishBuildingShip = (square: IField[][], currentShipId: string): I
  * @param array
  * @param currentShipId
  */
-const removeWrongShip = (array: IField[][], currentShipId: string): IField[][] => {
+const removeWrongShip = (array: ICell[][], currentShipId: string): ICell[][] => {
     iteratingFlatArray(array, cell => {
         if (cell.shipId === currentShipId || cell.lockedId === `locked-${currentShipId}`) {
             cell.ship = false;
@@ -76,7 +76,7 @@ const removeWrongShip = (array: IField[][], currentShipId: string): IField[][] =
  * @param square
  * @param currentCellId
  */
-export const addPartShip = (square: IField[][], currentCellId: string): IField[][] => {
+export const addPartShip = (square: ICell[][], currentCellId: string): ICell[][] => {
     const { Diagonal, NonDiagonal } = CellDirection;
     let array = square;
 

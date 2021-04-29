@@ -22,5 +22,10 @@
     &__row {
         border: 1px solid var(--color-2--4);
         margin: 5px;
+        opacity: 0.5;
+
+        &.is-has {
+            opacity: 1;
+        }
     }
 }

@@ -77,7 +77,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
             RenderUserSquare(randomShipPlacement(createSquare()));
         }
         RenderComputerSquare(randomShipPlacement(createSquare()));
-        ChangeUserShips([...SHIPS]);
+        // ChangeUserShips([...SHIPS]);
         ChangeComputerShips([...SHIPS]);
         ChangeGameStart(true);
     };

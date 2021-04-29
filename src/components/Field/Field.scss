@@ -32,14 +32,17 @@
 
     &.ship {
         --field-background: var(--color-2--3);
+        border-radius: 5px;
     }
 
     &.hit {
         --field-background: var(--color-3--1);
+        border-radius: 5px;
     }
 
     &.explode {
         --field-background: var(--color-4--1);
+        border-radius: 5px;
     }
 
     &.locked {

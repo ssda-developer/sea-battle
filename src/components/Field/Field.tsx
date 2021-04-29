@@ -71,6 +71,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         if (owner === User) {
             const square = addPartShip(userSquare, currentId);
             RenderUserSquare(square);
+            ChangeUserShips(checkRemainingShips(userSquare, false));
             ChangeUserSquareComplete(checkRemainingShips(square).length === SHIPS.length);
         } else {
             currentSquare = updateCell(computerSquare, currentId);

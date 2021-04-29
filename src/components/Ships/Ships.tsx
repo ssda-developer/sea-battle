@@ -8,6 +8,7 @@ import { Owners } from '../../store/area/interfaces';
 import { RootStore } from '../../store/store';
 
 import './Ships.scss';
+import { SHIPS } from '../../constants/shipsConstants';
 
 interface ShipsProps {
     shipsOwner: Owners;
@@ -20,10 +21,26 @@ const Ships: FC<ShipsProps> = ({ shipsOwner }: ShipsProps) => {
         computer: { computerShips },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
 
+    const shipsArray = shipsOwner === User ? userShips.slice() : computerShips.slice();
+
+    const ships = [...SHIPS].map(ship => {
+        const obj = {
+            length: ship,
+            isHas: !!shipsArray.find(fShips => fShips === ship),
+        };
+        if (obj.isHas) {
+            shipsArray.splice(
+                shipsArray.findIndex(elt => elt === ship),
+                1,
+            );
+        }
+        return obj;
+    });
+
     return (
         <div className="ships">
-            {(shipsOwner === User ? userShips : computerShips).map(ship => (
-                <ShipRow key={getUniqId()} shipLength={ship} />
+            {ships.map(({ length, isHas }) => (
+                <ShipRow key={getUniqId()} shipLength={length} shipHas={isHas} />
             ))}
         </div>
     );

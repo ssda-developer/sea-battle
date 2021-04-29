@@ -34,6 +34,39 @@ export const createSquare = (): IField[][] => {
 };
 
 /**
+ * Get the cells around the current cell.
+ * @param square
+ * @param i
+ * @param j
+ * @param direction
+ */
+export const getCellsAround = (square: IField[][], i: number, j: number, direction: CellDirection): (IField | null)[] => {
+    const { Diagonal, NonDiagonal } = CellDirection;
+    const { length } = square;
+    const [numberUp, letterRight, numberDown, letterLeft] = [i - 1, j + 1, i + 1, j - 1];
+
+    if (direction === Diagonal) {
+        return [
+            numberUp >= 0 && letterLeft >= 0 ? square[numberUp][letterLeft] : null,
+            numberUp >= 0 && letterRight < length ? square[numberUp][letterRight] : null,
+            numberDown < length && letterLeft >= 0 ? square[numberDown][letterLeft] : null,
+            numberDown < length && letterRight < length ? square[numberDown][letterRight] : null,
+        ];
+    }
+
+    if (direction === NonDiagonal) {
+        return [
+            numberUp >= 0 ? square[numberUp][j] : null,
+            letterRight < length ? square[i][letterRight] : null,
+            numberDown < length ? square[numberDown][j] : null,
+            letterLeft >= 0 ? square[i][letterLeft] : null,
+        ];
+    }
+
+    return [];
+};
+
+/**
  * Get a cell by ID.
  * @param square
  * @param id
@@ -93,6 +126,15 @@ const shipExplosion = (array: IField[][], currentShipId: string) => {
         iteratingFlatArray(array, cell => {
             if (cell.shipId === currentShipId) {
                 cell.explode = true;
+
+                const [i, j] = getPositionCellById(array, cell.id) as number[];
+                const { Diagonal, NonDiagonal } = CellDirection;
+
+                [...getCellsAround(array, i, j, NonDiagonal), ...getCellsAround(array, i, j, Diagonal)].forEach(nonDiagonalCell => {
+                    if (nonDiagonalCell && !nonDiagonalCell.ship) {
+                        nonDiagonalCell!.past = true;
+                    }
+                });
             }
         });
     }
@@ -116,39 +158,6 @@ export const updateCell = (array: IField[][], currentCellId: string): IField[][]
     }
 
     return array;
-};
-
-/**
- * Get the cells around the current cell.
- * @param square
- * @param i
- * @param j
- * @param direction
- */
-export const getCellsAround = (square: IField[][], i: number, j: number, direction: CellDirection): (IField | null)[] => {
-    const { Diagonal, NonDiagonal } = CellDirection;
-    const { length } = square;
-    const [numberUp, letterRight, numberDown, letterLeft] = [i - 1, j + 1, i + 1, j - 1];
-
-    if (direction === Diagonal) {
-        return [
-            numberUp >= 0 && letterLeft >= 0 ? square[numberUp][letterLeft] : null,
-            numberUp >= 0 && letterRight < length ? square[numberUp][letterRight] : null,
-            numberDown < length && letterLeft >= 0 ? square[numberDown][letterLeft] : null,
-            numberDown < length && letterRight < length ? square[numberDown][letterRight] : null,
-        ];
-    }
-
-    if (direction === NonDiagonal) {
-        return [
-            numberUp >= 0 ? square[numberUp][j] : null,
-            letterRight < length ? square[i][letterRight] : null,
-            numberDown < length ? square[numberDown][j] : null,
-            letterLeft >= 0 ? square[i][letterLeft] : null,
-        ];
-    }
-
-    return [];
 };
 
 /**

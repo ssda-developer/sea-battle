@@ -90,6 +90,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         RenderComputerSquare(randomShipPlacement(createSquare()));
         ChangeGameStart(false);
         ChangeUserShips([]);
+        ChangeComputerShips([]);
     };
 
     const openModal = (status: boolean) => {

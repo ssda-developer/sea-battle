@@ -68,6 +68,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
 
     const userClearAreaHandler = () => {
         RenderUserSquare(createSquare());
+        RenderComputerSquare(createSquare());
         ChangeUserSquareComplete(false);
         resetShipsValues();
     };
@@ -140,7 +141,11 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                     <BuildSquare playerAffiliation={areaOwner} />
                 </div>
             </div>
-            {open && <Modal changeModalStatus={openModal}>{!gameStart ? <Rules /> : <WinnerMessage player={currentPlayer} />}</Modal>}
+            {open && (
+                <Modal changeModalStatus={openModal}>
+                    {!gameStart && !gameOver ? <Rules /> : <WinnerMessage player={currentPlayer} />}
+                </Modal>
+            )}
             {areaOwner === Computer && gameStart && <Hints hintText={displayHints()} />}
         </div>
     );

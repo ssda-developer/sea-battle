@@ -38,7 +38,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
             ? `field${hit ? ' hit' : ''}${past ? ' past' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
             : `field${hit ? ' hit' : ''}${past ? ' past' : ''}${explode ? ' explode' : ''}`;
 
-    const checkStatusGame = (square: IField[][]): void => {
+    const manageStatusGame = (square: IField[][]): void => {
         if (checkFinishGame(square)) {
             ChangeGameStart(false);
             ChangeGameOver(true);
@@ -50,12 +50,12 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         currentSquare = array;
         RenderUserSquare(currentSquare);
         ChangeUserShips(checkRemainingShips(userSquare, false));
-        checkStatusGame(currentSquare);
+        manageStatusGame(currentSquare);
 
         if (again) {
             setTimeout(() => {
                 enemyHitHandler();
-            }, 100);
+            }, 700);
         } else {
             ChangeCurrentPlayer(User);
         }
@@ -76,7 +76,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
         } else {
             currentSquare = updateCell(computerSquare, currentId);
             RenderComputerSquare(currentSquare);
-            checkStatusGame(currentSquare);
+            manageStatusGame(currentSquare);
 
             const [{ past: currentPast, explode: currentExplode, shipId: currentShipId }] = computerSquare
                 .flat()
@@ -85,7 +85,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
                 ChangeCurrentPlayer(Computer);
                 setTimeout(() => {
                     enemyHitHandler();
-                }, 100);
+                }, 700);
             }
             if (currentExplode) {
                 ChangeComputerShips(checkRemainingShips(computerSquare, false));

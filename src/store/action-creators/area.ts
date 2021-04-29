@@ -6,37 +6,37 @@ import {
     CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
 } from '../types/area';
-import { IField } from '../../interface/field';
+import { IField } from '../../interface';
 
-export const RenderUserSquare = (square: IField[][]): AreaDispatchTypes => {
+export const renderUserSquare = (square: IField[][]): AreaDispatchTypes => {
     return {
         type: RENDER_USER_SQUARE,
         payload: square,
     };
 };
 
-export const RenderComputerSquare = (square: IField[][]): AreaDispatchTypes => {
+export const renderComputerSquare = (square: IField[][]): AreaDispatchTypes => {
     return {
         type: RENDER_COMPUTER_SQUARE,
         payload: square,
     };
 };
 
-export const ChangeUserSquareComplete = (complete: boolean): AreaDispatchTypes => {
+export const changeUserSquareComplete = (complete: boolean): AreaDispatchTypes => {
     return {
         type: CHANGE_USER_SQUARE_COMPLETE,
         payload: complete,
     };
 };
 
-export const ChangeUserShips = (ships: number[]): AreaDispatchTypes => {
+export const changeUserShips = (ships: number[]): AreaDispatchTypes => {
     return {
         type: CHANGE_USER_SHIPS,
         payload: ships,
     };
 };
 
-export const ChangeComputerShips = (ships: number[]): AreaDispatchTypes => {
+export const changeComputerShips = (ships: number[]): AreaDispatchTypes => {
     return {
         type: CHANGE_COMPUTER_SHIPS,
         payload: ships,

@@ -1,4 +1,4 @@
-import { Owners } from '../../interface/area';
+import { Owners } from '../../enums';
 
 export const CHANGE_GAME_START = 'CHANGE_GAME_START';
 export const CHANGE_GAME_OVER = 'CHANGE_GAME_OVER';

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getUniqId } from '../../helpers';
 import ShipRow from '../ShipsRow/ShipRow';
 
-import { Owners } from '../../interface/area';
+import { Owners } from '../../enums';
 import { RootStore } from '../../store';
 
 import './Ships.scss';

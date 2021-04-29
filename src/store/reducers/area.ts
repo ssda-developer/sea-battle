@@ -6,7 +6,8 @@ import {
     CHANGE_COMPUTER_SHIPS,
     AreaDispatchTypes,
 } from '../types/area';
-import { IArea } from '../../interface/area';
+
+import { IArea } from '../../interface';
 
 const initialState: IArea = {
     user: {

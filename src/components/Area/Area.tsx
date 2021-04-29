@@ -1,18 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
 import { RootStore } from '../../store';
 import useActions from '../../hooks/useActions';
-
 import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
-import { HintOptions } from '../../enums';
-
-import { Owners } from '../../interface/area';
-
+import { HintOptions, Owners } from '../../enums';
 import randomShipPlacement from '../../utils/randomShipPlacement';
 import { resetShipsValues } from '../../utils/customShipPlacement';
 import { createSquare } from '../../utils/areaUtils';
-
 import Square from '../Square';
 import Hints from '../Hints';
 import AreaButtons from '../AreaButtons';
@@ -20,13 +14,11 @@ import AreaButton from '../AreaButton';
 import Modal from '../Modal';
 import Rules from '../Rules';
 import WinnerMessage from '../WinnerMessage';
-
 import { ReactComponent as SVGRandom } from '../../icons/random.svg';
 import { ReactComponent as SVGTrash } from '../../icons/trash.svg';
 import { ReactComponent as SVGQuestion } from '../../icons/question.svg';
 import { ReactComponent as SVGTimes } from '../../icons/times.svg';
 import { ReactComponent as SVGPlay } from '../../icons/play.svg';
-
 import Ships from '../Ships/Ships';
 import './Area.scss';
 
@@ -39,13 +31,13 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const { PlayerShot, ComputerShot } = HintOptions;
 
     const {
-        RenderUserSquare,
-        RenderComputerSquare,
-        ChangeGameStart,
-        ChangeUserShips,
-        ChangeComputerShips,
-        ChangeUserSquareComplete,
-        ChangeGameOver,
+        renderUserSquare,
+        renderComputerSquare,
+        changeGameStart,
+        changeUserShips,
+        changeComputerShips,
+        changeUserSquareComplete,
+        changeGameOver,
     } = useActions();
 
     const {
@@ -62,37 +54,37 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     }, [gameOver]);
 
     const userBuildRandomShipsHandler = () => {
-        RenderUserSquare(randomShipPlacement(createSquare()));
+        renderUserSquare(randomShipPlacement(createSquare()));
         if (!userComplete) {
-            ChangeUserShips([...SHIPS]);
-            ChangeUserSquareComplete(true);
+            changeUserShips([...SHIPS]);
+            changeUserSquareComplete(true);
         }
     };
 
     const userClearAreaHandler = () => {
-        RenderUserSquare(createSquare());
-        RenderComputerSquare(createSquare());
-        ChangeUserSquareComplete(false);
-        ChangeUserShips([]);
+        renderUserSquare(createSquare());
+        renderComputerSquare(createSquare());
+        changeUserSquareComplete(false);
+        changeUserShips([]);
         resetShipsValues();
     };
 
     const startGameHandler = () => {
         if (!userComplete) {
-            RenderUserSquare(randomShipPlacement(createSquare()));
-            ChangeUserShips([...SHIPS]);
+            renderUserSquare(randomShipPlacement(createSquare()));
+            changeUserShips([...SHIPS]);
         }
-        RenderComputerSquare(randomShipPlacement(createSquare()));
-        ChangeComputerShips([...SHIPS]);
-        ChangeGameStart(true);
+        renderComputerSquare(randomShipPlacement(createSquare()));
+        changeComputerShips([...SHIPS]);
+        changeGameStart(true);
     };
 
     const resetGameHandler = () => {
         userClearAreaHandler();
-        RenderComputerSquare(randomShipPlacement(createSquare()));
-        ChangeGameStart(false);
-        ChangeUserShips([]);
-        ChangeComputerShips([]);
+        renderComputerSquare(randomShipPlacement(createSquare()));
+        changeGameStart(false);
+        changeUserShips([]);
+        changeComputerShips([]);
     };
 
     const openModal = () => {
@@ -103,7 +95,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         setOpen(false);
 
         if (gameOver) {
-            ChangeGameOver(false);
+            changeGameOver(false);
         }
     };
 

@@ -4,14 +4,14 @@ import { Provider } from 'react-redux';
 
 import store from './store';
 
-import Game from './Game';
+import App from './App';
 
 import './index.scss';
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <Game />
+            <App />
         </Provider>
     </React.StrictMode>,
     document.getElementById('root'),

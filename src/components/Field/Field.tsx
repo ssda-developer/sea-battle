@@ -1,8 +1,8 @@
 import React, { FC, MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 
-import { IField } from '../../interface/field';
-import { Owners } from '../../interface/area';
+import { IField } from '../../interface';
+import { Owners } from '../../enums';
 
 import './Field.scss';
 import { addPartShip } from '../../utils/customShipPlacement';
@@ -14,14 +14,14 @@ import { SHIPS } from '../../constants';
 
 const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IField) => {
     const {
-        RenderUserSquare,
-        RenderComputerSquare,
-        ChangeCurrentPlayer,
-        ChangeGameStart,
-        ChangeUserShips,
-        ChangeComputerShips,
-        ChangeUserSquareComplete,
-        ChangeGameOver,
+        renderUserSquare,
+        renderComputerSquare,
+        changeCurrentPlayer,
+        changeGameStart,
+        changeUserShips,
+        changeComputerShips,
+        changeUserSquareComplete,
+        changeGameOver,
     } = useActions();
 
     const {
@@ -40,16 +40,16 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
 
     const manageStatusGame = (square: IField[][]): void => {
         if (checkFinishGame(square)) {
-            ChangeGameStart(false);
-            ChangeGameOver(true);
+            changeGameStart(false);
+            changeGameOver(true);
         }
     };
 
     const enemyHitHandler = () => {
         const [array, again] = computerShot(userSquare);
         currentSquare = array;
-        RenderUserSquare(currentSquare);
-        ChangeUserShips(checkRemainingShips(userSquare, false));
+        renderUserSquare(currentSquare);
+        changeUserShips(checkRemainingShips(userSquare, false));
         manageStatusGame(currentSquare);
 
         if (again) {
@@ -57,7 +57,7 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
                 enemyHitHandler();
             }, 700);
         } else if (!checkFinishGame(array)) {
-            ChangeCurrentPlayer(User);
+            changeCurrentPlayer(User);
         }
     };
 
@@ -70,23 +70,23 @@ const Field: FC<IField> = ({ id, ship, hit, past, locked, explode, owner }: IFie
 
         if (owner === User) {
             const square = addPartShip(userSquare, currentId);
-            RenderUserSquare(square);
-            ChangeUserShips(checkRemainingShips(userSquare, false));
-            ChangeUserSquareComplete(checkRemainingShips(square).length === SHIPS.length);
+            renderUserSquare(square);
+            changeUserShips(checkRemainingShips(userSquare, false));
+            changeUserSquareComplete(checkRemainingShips(square).length === SHIPS.length);
         } else {
             currentSquare = updateCell(computerSquare, currentId);
-            RenderComputerSquare(currentSquare);
+            renderComputerSquare(currentSquare);
             manageStatusGame(currentSquare);
 
             const [{ past: currentPast, explode: currentExplode }] = computerSquare.flat().filter(cell => cell.id === currentId);
             if (currentPast) {
-                ChangeCurrentPlayer(Computer);
+                changeCurrentPlayer(Computer);
                 setTimeout(() => {
                     enemyHitHandler();
                 }, 700);
             }
             if (currentExplode) {
-                ChangeComputerShips(checkRemainingShips(computerSquare, false));
+                changeComputerShips(checkRemainingShips(computerSquare, false));
             }
         }
     };

@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { IField } from '../../interface/field';
-import { Owners } from '../../interface/area';
+import { IField } from '../../interface';
+import { Owners } from '../../enums';
 
 import { createSquare } from '../../utils/areaUtils';
 import randomShipPlacement from '../../utils/randomShipPlacement';
@@ -17,7 +17,7 @@ interface BuildSquareProps {
 }
 
 const Square: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
-    const { RenderUserSquare, RenderComputerSquare } = useActions();
+    const { renderUserSquare, renderComputerSquare } = useActions();
     const { User } = Owners;
     const {
         user: { userSquare },
@@ -27,8 +27,8 @@ const Square: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) =
     const currentSquare = playerAffiliation === User ? userSquare : computerSquare;
 
     useEffect(() => {
-        RenderUserSquare(createSquare());
-        RenderComputerSquare(randomShipPlacement(createSquare()));
+        renderUserSquare(createSquare());
+        renderComputerSquare(randomShipPlacement(createSquare()));
     }, []);
 
     return (

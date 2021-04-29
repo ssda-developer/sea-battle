@@ -1,4 +1,4 @@
-import { IField } from '../interface/field';
+import { IField } from '../interface';
 import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 import { CellDirection } from '../enums';
 import { AREA_LETTERS, AREA_NUMBERS } from '../constants';
@@ -192,23 +192,28 @@ export const checkFinishGame = (array: IField[][]): boolean => {
     return !array.flat().filter(cell => cell.ship && !cell.explode).length;
 };
 
-// TODO: need refactoring
-export const checkRemainingShips = (array: IField[][], life = true): any => {
-    const arrayShips: any = [];
-    iteratingFlatArray(array, cell => {
-        if (cell.shipId) {
+/**
+ * Returns an array of remaining ships.
+ * @param array
+ * @param life
+ */
+export const checkRemainingShips = (array: IField[][], life = true): number[] => {
+    const arrayShips: string[] = [];
+
+    iteratingFlatArray(array, ({ shipId, explode }: IField) => {
+        if (shipId) {
             if (life) {
-                arrayShips.push(cell.shipId);
-            } else if (!cell.explode) {
-                arrayShips.push(cell.shipId);
+                arrayShips.push(shipId);
+            } else if (!explode) {
+                arrayShips.push(shipId);
             }
         }
     });
 
-    const qwe = arrayShips.reduce((acc: any, el: any) => {
+    const temp = arrayShips.reduce((acc: Record<string, number>, el: string) => {
         acc[el] = (acc[el] || 0) + 1;
         return acc;
     }, {});
 
-    return Object.values(qwe).sort().reverse();
+    return Object.values(temp).sort((a: number, b: number) => temp[b] - temp[a]);
 };

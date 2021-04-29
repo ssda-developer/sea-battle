@@ -1,4 +1,4 @@
-enum HintOptions {
+export enum HintOptions {
     PlaceShips = 'Разместите корабли',
     PlaceShipsRandomly = 'Разместить корабли случайным образом',
     ClearPlayingField = 'Очистить игровое поле',
@@ -7,14 +7,17 @@ enum HintOptions {
     ComputerShot = 'Ход компьютера',
 }
 
-enum ShipDirection {
+export enum Owners {
+    User = 'USER',
+    Computer = 'COMPUTER',
+}
+
+export enum ShipDirection {
     Horizontal = 'HORIZONTAL',
     Vertical = 'VERTICAL',
 }
 
-enum CellDirection {
+export enum CellDirection {
     Diagonal = 'DIAGONAL',
     NonDiagonal = 'NON-DIAGONAL',
 }
-
-export { HintOptions, ShipDirection, CellDirection };

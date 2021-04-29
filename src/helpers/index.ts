@@ -1,4 +1,4 @@
-import { IField } from '../interface/field';
+import { IField } from '../interface';
 
 /**
  * Generate unique ID.

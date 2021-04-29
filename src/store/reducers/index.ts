@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import area from './area';
 import game from './game';
 

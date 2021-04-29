@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 
-import { IField } from '../../interface/field';
+import { IField } from '../../interface';
 
 import Field from '../Field/Field';
-import { Owners } from '../../interface/area';
+import { Owners } from '../../enums';
 
 interface IFieldRowProps {
     row: Array<IField>;

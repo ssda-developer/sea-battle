@@ -1,4 +1,4 @@
-import { IField } from '../interface/field';
+import { IField } from '../interface';
 import { updateCell, getPositionCellById, getCellsAround, checkFinishGame } from './areaUtils';
 import { getRandomValue } from '../helpers';
 import { CellDirection, ShipDirection } from '../enums';

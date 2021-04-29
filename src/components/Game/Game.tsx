@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
-import { Owners } from './interface/area';
+import { Owners } from '../../enums';
 
-import Area from './components/Area';
+import Area from '../Area';
 
 import './Game.scss';
 

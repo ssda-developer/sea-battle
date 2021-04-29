@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { IHints } from '../../interface/game';
+import { IHints } from '../../interface';
 
 const Hints: FC<IHints> = ({ hintText }: IHints) => {
     return (

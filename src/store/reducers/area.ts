@@ -11,12 +11,12 @@ import { IArea } from '../../interface';
 
 const initialState: IArea = {
     user: {
-        userSquare: [],
+        userField: [],
         userComplete: false,
         userShips: [],
     },
     computer: {
-        computerSquare: [],
+        computerField: [],
         computerShips: [],
     },
 };
@@ -28,7 +28,7 @@ const area = (state: IArea = initialState, action: AreaDispatchTypes): IArea => 
                 ...state,
                 user: {
                     ...state.user,
-                    userSquare: action.payload,
+                    userField: action.payload,
                 },
             };
         case RENDER_COMPUTER_SQUARE:
@@ -36,7 +36,7 @@ const area = (state: IArea = initialState, action: AreaDispatchTypes): IArea => 
                 ...state,
                 computer: {
                     ...state.computer,
-                    computerSquare: action.payload,
+                    computerField: action.payload,
                 },
             };
         case CHANGE_USER_SHIPS:

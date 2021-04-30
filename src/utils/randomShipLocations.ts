@@ -7,21 +7,21 @@ import { finishCreateShip } from './customCreateShip';
 
 /**
  * Generate random cell coordinates.
- * @param square - Array of cells.
+ * @param field - Array of cells.
  * @param shipLength - Ship length.
  */
-const getRandomCellCoordinates = (square: Array<Array<ICell>>, shipLength: number): number[] => {
-    const { length } = square;
+const getRandomCellCoordinates = (field: Array<Array<ICell>>, shipLength: number): number[] => {
+    const { length } = field;
     const number = getRandomValue(length);
     const letter = getRandomValue(length);
 
     if (
         (number + shipLength > length && letter + shipLength > length) ||
-        square[number][letter].hit ||
-        square[number][letter].locked ||
-        square[number][letter].ship
+        field[number][letter].hit ||
+        field[number][letter].locked ||
+        field[number][letter].ship
     ) {
-        getRandomCellCoordinates(square, shipLength);
+        getRandomCellCoordinates(field, shipLength);
     }
 
     return [number, letter];
@@ -29,14 +29,14 @@ const getRandomCellCoordinates = (square: Array<Array<ICell>>, shipLength: numbe
 
 /**
  * Check empty cells.
- * @param square - Array of cells.
+ * @param field - Array of cells.
  * @param calculableValue
  * @param nonCalculableValue
  * @param shipLength - Ship length.
  * @param direction
  */
 const checkEmptyCells = (
-    square: Array<Array<ICell>>,
+    field: Array<Array<ICell>>,
     calculableValue: number,
     nonCalculableValue: number,
     shipLength: number,
@@ -46,7 +46,7 @@ const checkEmptyCells = (
 
     for (let i = calculableValue; i < calculableValue + shipLength; i += 1) {
         const { hit, locked, ship } =
-            direction === ShipDirection.Horizontal ? square[nonCalculableValue][i] : square[i][nonCalculableValue];
+            direction === ShipDirection.Horizontal ? field[nonCalculableValue][i] : field[i][nonCalculableValue];
 
         if (hit || locked || ship) {
             return !isEmpty;
@@ -58,14 +58,14 @@ const checkEmptyCells = (
 
 /**
  *
- * @param square - Array of cells.
+ * @param field - Array of cells.
  * @param positionNumber
  * @param positionLetter
  * @param shipLength - Ship length.
  * @param arrayLength
  */
 const manageShipDirection = (
-    square: Array<Array<ICell>>,
+    field: Array<Array<ICell>>,
     positionNumber: number,
     positionLetter: number,
     shipLength: number,
@@ -74,12 +74,12 @@ const manageShipDirection = (
     const { Horizontal, Vertical } = ShipDirection;
     let direction;
 
-    if (positionNumber + shipLength <= arrayLength && checkEmptyCells(square, positionNumber, positionLetter, shipLength, Vertical)) {
+    if (positionNumber + shipLength <= arrayLength && checkEmptyCells(field, positionNumber, positionLetter, shipLength, Vertical)) {
         direction = Vertical;
         return direction;
     }
 
-    if (positionLetter + shipLength <= arrayLength && checkEmptyCells(square, positionLetter, positionNumber, shipLength, Horizontal)) {
+    if (positionLetter + shipLength <= arrayLength && checkEmptyCells(field, positionLetter, positionNumber, shipLength, Horizontal)) {
         direction = Horizontal;
         return direction;
     }
@@ -94,16 +94,16 @@ interface CheckBeforeBuild {
 
 /**
  *
- * @param square - Array of cells.
+ * @param field - Array of cells.
  * @param shipLength - Ship length.
  */
-const checkBeforeBuild = (square: Array<Array<ICell>>, shipLength: number): CheckBeforeBuild => {
-    const { length } = square;
-    const [startNumber, startLetter] = getRandomCellCoordinates(square, shipLength);
-    const shipDirection = manageShipDirection(square, startNumber, startLetter, shipLength, length);
+const checkBeforeBuild = (field: Array<Array<ICell>>, shipLength: number): CheckBeforeBuild => {
+    const { length } = field;
+    const [startNumber, startLetter] = getRandomCellCoordinates(field, shipLength);
+    const shipDirection = manageShipDirection(field, startNumber, startLetter, shipLength, length);
 
     if (typeof shipDirection !== 'string') {
-        return checkBeforeBuild(square, shipLength);
+        return checkBeforeBuild(field, shipLength);
     }
 
     return {
@@ -114,15 +114,15 @@ const checkBeforeBuild = (square: Array<Array<ICell>>, shipLength: number): Chec
 
 /**
  *
- * @param square - Array of cells.
+ * @param field - Array of cells.
  * @param shipLength - Ship length.
  */
-const buildRandomShip = (square: Array<Array<ICell>>, shipLength: number): Array<Array<ICell>> => {
+const buildRandomShip = (field: Array<Array<ICell>>, shipLength: number): Array<Array<ICell>> => {
     const { Diagonal } = CellDirection;
     const {
         shipDirection,
         coordinates: [startNumber, startLetter],
-    } = checkBeforeBuild(square, shipLength);
+    } = checkBeforeBuild(field, shipLength);
 
     const uniqShipId = getUniqId();
 
@@ -136,28 +136,28 @@ const buildRandomShip = (square: Array<Array<ICell>>, shipLength: number): Array
             posY += i;
         }
 
-        square[posX][posY].ship = true;
-        square[posX][posY].shipId = uniqShipId;
+        field[posX][posY].ship = true;
+        field[posX][posY].shipId = uniqShipId;
 
-        getCellsAround(square, posX, posY, Diagonal).forEach(diagonalCell => lockCell(diagonalCell, uniqShipId));
+        getCellsAround(field, posX, posY, Diagonal).forEach(diagonalCell => lockCell(diagonalCell, uniqShipId));
     }
 
-    finishCreateShip(square, uniqShipId);
+    finishCreateShip(field, uniqShipId);
 
-    return square;
+    return field;
 };
 
 /**
  * Randomly place the ships.
- * @param square - Array of cells.
+ * @param field - Array of cells.
  */
-const randomShipLocations = (square: Array<Array<ICell>>): Array<Array<ICell>> => {
+const randomShipLocations = (field: Array<Array<ICell>>): Array<Array<ICell>> => {
     SHIPS.forEach(shipLength => {
-        buildRandomShip(square, shipLength);
+        buildRandomShip(field, shipLength);
     });
-    lockAllEmptyCells(square);
+    lockAllEmptyCells(field);
 
-    return square;
+    return field;
 };
 
 export default randomShipLocations;

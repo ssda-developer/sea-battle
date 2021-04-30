@@ -9,21 +9,21 @@ import {
 
 import { ICell } from '../../interface';
 
-export const renderUserSquare = (square: ICell[][]): AreaDispatchTypes => {
+export const renderUserField = (field: ICell[][]): AreaDispatchTypes => {
     return {
         type: RENDER_USER_SQUARE,
-        payload: square,
+        payload: field,
     };
 };
 
-export const renderComputerSquare = (square: ICell[][]): AreaDispatchTypes => {
+export const renderComputerField = (field: ICell[][]): AreaDispatchTypes => {
     return {
         type: RENDER_COMPUTER_SQUARE,
-        payload: square,
+        payload: field,
     };
 };
 
-export const changeUserSquareComplete = (complete: boolean): AreaDispatchTypes => {
+export const changeUserFieldComplete = (complete: boolean): AreaDispatchTypes => {
     return {
         type: CHANGE_USER_SQUARE_COMPLETE,
         payload: complete,

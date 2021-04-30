@@ -14,23 +14,23 @@ import { SHIPS } from '../../constants';
 
 const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell) => {
     const {
-        renderUserSquare,
-        renderComputerSquare,
+        renderUserField,
+        renderComputerField,
         changeCurrentPlayer,
         changeGameStart,
         changeUserShips,
         changeComputerShips,
-        changeUserSquareComplete,
+        changeUserFieldComplete,
         changeGameOver,
     } = useActions();
 
     const {
-        user: { userSquare },
-        computer: { computerSquare },
+        user: { userField },
+        computer: { computerField },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
 
     const { User, Computer } = Owners;
-    let currentSquare = owner === User ? userSquare : computerSquare;
+    let currentField = owner === User ? userField : computerField;
     const disabled = owner === User ? hit || ship || miss || locked : hit || miss || explode;
 
     const className =
@@ -38,19 +38,19 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
             ? `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
             : `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${explode ? ' explode' : ''}`;
 
-    const manageStatusGame = (square: ICell[][]): void => {
-        if (checkFinishGame(square)) {
+    const manageStatusGame = (field: ICell[][]): void => {
+        if (checkFinishGame(field)) {
             changeGameStart(false);
             changeGameOver(true);
         }
     };
 
     const updateComputerCell = () => {
-        const [array, again] = randomComputerShot(userSquare);
-        currentSquare = array;
-        renderUserSquare(currentSquare);
-        changeUserShips(checkRemainingShips(userSquare, false));
-        manageStatusGame(currentSquare);
+        const [array, again] = randomComputerShot(userField);
+        currentField = array;
+        renderUserField(currentField);
+        changeUserShips(checkRemainingShips(userField, false));
+        manageStatusGame(currentField);
 
         if (again) {
             setTimeout(() => {
@@ -62,10 +62,10 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
     };
 
     const updateUserCell = () => {
-        const square = startCreateShip(userSquare, id);
-        renderUserSquare(square);
-        changeUserShips(checkRemainingShips(userSquare, false));
-        changeUserSquareComplete(checkRemainingShips(square).length === SHIPS.length);
+        const field = startCreateShip(userField, id);
+        renderUserField(field);
+        changeUserShips(checkRemainingShips(userField, false));
+        changeUserFieldComplete(checkRemainingShips(field).length === SHIPS.length);
     };
 
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
@@ -74,11 +74,11 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
         if (owner === User) {
             updateUserCell();
         } else {
-            currentSquare = updateCell(computerSquare, id);
-            renderComputerSquare(currentSquare);
-            manageStatusGame(currentSquare);
+            currentField = updateCell(computerField, id);
+            renderComputerField(currentField);
+            manageStatusGame(currentField);
 
-            const [{ miss: currentMiss, explode: currentExplode }] = computerSquare.flat().filter(cell => cell.id === id);
+            const [{ miss: currentMiss, explode: currentExplode }] = computerField.flat().filter(cell => cell.id === id);
             if (currentMiss) {
                 changeCurrentPlayer(Computer);
                 setTimeout(() => {
@@ -86,7 +86,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
                 }, 700);
             }
             if (currentExplode) {
-                changeComputerShips(checkRemainingShips(computerSquare, false));
+                changeComputerShips(checkRemainingShips(computerField, false));
             }
         }
     };

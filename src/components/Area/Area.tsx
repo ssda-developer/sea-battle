@@ -9,7 +9,7 @@ import { HintOptions, Owners } from '../../enums';
 
 import randomShipLocations from '../../utils/randomShipLocations';
 import { resetInitialShipsValues } from '../../utils/customCreateShip';
-import { createSquare } from '../../utils/areaUtils';
+import { createField } from '../../utils/areaUtils';
 import Field from '../Field';
 import Hints from '../Hints';
 import AreaButtons from '../AreaButtons';
@@ -34,12 +34,12 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const { PlayerShot, ComputerShot } = HintOptions;
 
     const {
-        renderUserSquare,
-        renderComputerSquare,
+        renderUserField,
+        renderComputerField,
         changeGameStart,
         changeUserShips,
         changeComputerShips,
-        changeUserSquareComplete,
+        changeUserFieldComplete,
         changeGameOver,
     } = useActions();
 
@@ -57,34 +57,34 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     }, [gameOver]);
 
     const userBuildRandomShipsHandler = () => {
-        renderUserSquare(randomShipLocations(createSquare()));
+        renderUserField(randomShipLocations(createField()));
         if (!userComplete) {
             changeUserShips([...SHIPS]);
-            changeUserSquareComplete(true);
+            changeUserFieldComplete(true);
         }
     };
 
     const userClearAreaHandler = () => {
-        renderUserSquare(createSquare());
-        renderComputerSquare(createSquare());
-        changeUserSquareComplete(false);
+        renderUserField(createField());
+        renderComputerField(createField());
+        changeUserFieldComplete(false);
         changeUserShips([]);
         resetInitialShipsValues();
     };
 
     const startGameHandler = () => {
         if (!userComplete) {
-            renderUserSquare(randomShipLocations(createSquare()));
+            renderUserField(randomShipLocations(createField()));
             changeUserShips([...SHIPS]);
         }
-        renderComputerSquare(randomShipLocations(createSquare()));
+        renderComputerField(randomShipLocations(createField()));
         changeComputerShips([...SHIPS]);
         changeGameStart(true);
     };
 
     const resetGameHandler = () => {
         userClearAreaHandler();
-        renderComputerSquare(randomShipLocations(createSquare()));
+        renderComputerField(randomShipLocations(createField()));
         changeGameStart(false);
         changeUserShips([]);
         changeComputerShips([]);

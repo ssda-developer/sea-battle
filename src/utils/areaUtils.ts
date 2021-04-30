@@ -1,13 +1,13 @@
-import { ICell } from '../interface';
-import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
-import { CellDirection } from '../enums';
 import { AREA_LETTERS, AREA_NUMBERS } from '../constants';
+import { CellDirection } from '../enums';
+import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
+import { ICell } from '../interface';
 
 /**
  * Create a  two-dimensional array with empty cells.
  */
-export const createSquare = (): ICell[][] => {
-    const square: ICell[][] = [];
+export const createField = (): ICell[][] => {
+    const field: ICell[][] = [];
 
     AREA_NUMBERS.forEach(number => {
         const row: ICell[] = [];
@@ -27,39 +27,39 @@ export const createSquare = (): ICell[][] => {
             row.push(cell);
         });
 
-        square.push(row);
+        field.push(row);
     });
 
-    return square;
+    return field;
 };
 
 /**
  * Get the cells around the current cell.
- * @param square
+ * @param field
  * @param i
  * @param j
  * @param direction
  */
-export const getCellsAround = (square: ICell[][], i: number, j: number, direction: CellDirection): (ICell | null)[] => {
+export const getCellsAround = (field: ICell[][], i: number, j: number, direction: CellDirection): (ICell | null)[] => {
     const { Diagonal, NonDiagonal } = CellDirection;
-    const { length } = square;
+    const { length } = field;
     const [numberUp, letterRight, numberDown, letterLeft] = [i - 1, j + 1, i + 1, j - 1];
 
     if (direction === Diagonal) {
         return [
-            numberUp >= 0 && letterLeft >= 0 ? square[numberUp][letterLeft] : null,
-            numberUp >= 0 && letterRight < length ? square[numberUp][letterRight] : null,
-            numberDown < length && letterLeft >= 0 ? square[numberDown][letterLeft] : null,
-            numberDown < length && letterRight < length ? square[numberDown][letterRight] : null,
+            numberUp >= 0 && letterLeft >= 0 ? field[numberUp][letterLeft] : null,
+            numberUp >= 0 && letterRight < length ? field[numberUp][letterRight] : null,
+            numberDown < length && letterLeft >= 0 ? field[numberDown][letterLeft] : null,
+            numberDown < length && letterRight < length ? field[numberDown][letterRight] : null,
         ];
     }
 
     if (direction === NonDiagonal) {
         return [
-            numberUp >= 0 ? square[numberUp][j] : null,
-            letterRight < length ? square[i][letterRight] : null,
-            numberDown < length ? square[numberDown][j] : null,
-            letterLeft >= 0 ? square[i][letterLeft] : null,
+            numberUp >= 0 ? field[numberUp][j] : null,
+            letterRight < length ? field[i][letterRight] : null,
+            numberDown < length ? field[numberDown][j] : null,
+            letterLeft >= 0 ? field[i][letterLeft] : null,
         ];
     }
 
@@ -68,14 +68,14 @@ export const getCellsAround = (square: ICell[][], i: number, j: number, directio
 
 /**
  * Get a cell by ID.
- * @param square
+ * @param field
  * @param id
  */
-export const getCellById = (square: ICell[][], id: string): ICell | null => {
+export const getCellById = (field: ICell[][], id: string): ICell | null => {
     let cell: ICell | null = null;
 
-    iteratingTwoDimensionalArray(square, (i, j) => {
-        const currentCell = square[i][j];
+    iteratingTwoDimensionalArray(field, (i, j) => {
+        const currentCell = field[i][j];
 
         if (currentCell.id === id) {
             cell = currentCell;
@@ -87,14 +87,14 @@ export const getCellById = (square: ICell[][], id: string): ICell | null => {
 
 /**
  * Get the position of a cell by ID.
- * @param square
+ * @param field
  * @param id
  */
-export const getPositionCellById = (square: ICell[][], id: string): number[] => {
+export const getPositionCellById = (field: ICell[][], id: string): number[] => {
     let position: number[] = [];
 
-    iteratingTwoDimensionalArray(square, (i, j) => {
-        const cell = square[i][j];
+    iteratingTwoDimensionalArray(field, (i, j) => {
+        const cell = field[i][j];
 
         if (cell.id === id) {
             position = [i, j];

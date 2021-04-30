@@ -17,12 +17,12 @@ export interface ICell {
 
 export interface IArea {
     user: {
-        userSquare: ICell[][];
+        userField: ICell[][];
         userComplete: boolean;
         userShips: number[];
     };
     computer: {
-        computerSquare: ICell[][];
+        computerField: ICell[][];
         computerShips: number[];
     };
 }

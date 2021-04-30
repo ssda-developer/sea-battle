@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { ICell } from '../../interface';
 import { Owners } from '../../enums';
 
-import { createSquare } from '../../utils/areaUtils';
+import { createField } from '../../utils/areaUtils';
 import randomShipLocations from '../../utils/randomShipLocations';
 
 import CellRow from '../CellRow/CellRow';
@@ -12,28 +12,28 @@ import CellRow from '../CellRow/CellRow';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
 
-interface BuildSquareProps {
+interface BuildFieldProps {
     playerAffiliation: Owners;
 }
 
-const Field: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
-    const { renderUserSquare, renderComputerSquare } = useActions();
+const Field: FC<BuildFieldProps> = ({ playerAffiliation }: BuildFieldProps) => {
+    const { renderUserField, renderComputerField } = useActions();
     const { User } = Owners;
     const {
-        user: { userSquare },
-        computer: { computerSquare },
+        user: { userField },
+        computer: { computerField },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
 
-    const currentSquare = playerAffiliation === User ? userSquare : computerSquare;
+    const currentField = playerAffiliation === User ? userField : computerField;
 
     useEffect(() => {
-        renderUserSquare(createSquare());
-        renderComputerSquare(randomShipLocations(createSquare()));
+        renderUserField(createField());
+        renderComputerField(randomShipLocations(createField()));
     }, []);
 
     return (
         <>
-            {currentSquare.map((row: ICell[], idx: number) => (
+            {currentField.map((row: ICell[], idx: number) => (
                 <CellRow key={row[idx].id} row={row} owner={playerAffiliation} />
             ))}
         </>

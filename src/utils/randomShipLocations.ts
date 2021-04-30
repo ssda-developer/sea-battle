@@ -45,8 +45,7 @@ const checkEmptyCells = (
     const isEmpty = true;
 
     for (let i = calculableValue; i < calculableValue + shipLength; i += 1) {
-        const { hit, locked, ship } =
-            direction === ShipDirection.Horizontal ? field[nonCalculableValue][i] : field[i][nonCalculableValue];
+        const { hit, locked, ship } = direction === ShipDirection.Horizontal ? field[nonCalculableValue][i] : field[i][nonCalculableValue];
 
         if (hit || locked || ship) {
             return !isEmpty;

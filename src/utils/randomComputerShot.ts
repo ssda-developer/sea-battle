@@ -1,7 +1,7 @@
 import { CellDirection, ShipDirection } from '../enums';
 import { ICell } from '../interface';
 import { getRandomValue } from '../helpers';
-import { updateCell, getPositionCellById, getCellsAround, checkFinishGame } from './areaUtils';
+import { checkShotByCell, getCellCoordsById, getCellsAround, checkFinishGame } from './areaUtils';
 
 let possibleShots: ICell[] = [];
 let direction = '';
@@ -12,14 +12,11 @@ let firstHitOnShip: null | ICell = null;
  * @param array
  */
 const getRandomEmptyCell = (array: ICell[][]): ICell => {
-    const { Diagonal, NonDiagonal } = CellDirection;
     const { length } = array;
     const xPoint = getRandomValue(length);
     const yPoint = getRandomValue(length);
     const cell = array[xPoint][yPoint];
-    const isNearShip = [...getCellsAround(array, xPoint, yPoint, NonDiagonal), ...getCellsAround(array, xPoint, yPoint, Diagonal)].filter(
-        c => c?.explode,
-    );
+    const isNearShip = getCellsAround(array, xPoint, yPoint).filter(c => c?.explode);
 
     return !cell.hit && !cell.miss && !isNearShip.length ? cell : getRandomEmptyCell(array);
 };
@@ -40,7 +37,7 @@ const randomShot = (array: ICell[][]) => {
     }
 
     if (cell.ship) {
-        const [i, j] = getPositionCellById(array, cell.id) as number[];
+        const [i, j] = getCellCoordsById(array, cell.id) as number[];
         const nonDiagonalCell = getCellsAround(array, i, j, NonDiagonal) as ICell[];
 
         if (!possibleShots.length) {
@@ -50,7 +47,7 @@ const randomShot = (array: ICell[][]) => {
         if (!firstHitOnShip) {
             firstHitOnShip = cell;
         } else {
-            const [xPoint, yPoint] = getPositionCellById(array, firstHitOnShip.id) as number[];
+            const [xPoint, yPoint] = getCellCoordsById(array, firstHitOnShip.id) as number[];
             const nonDiagonalCellsFirstHitOnShip = getCellsAround(array, xPoint, yPoint, NonDiagonal) as ICell[];
 
             if (!direction) {
@@ -68,7 +65,7 @@ const randomShot = (array: ICell[][]) => {
         again = true;
     }
 
-    updateCell(array, cell.id);
+    checkShotByCell(array, cell.id);
 
     if (cell.explode) {
         possibleShots = [];

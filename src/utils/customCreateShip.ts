@@ -88,14 +88,13 @@ const manageCreateShip = (currentField: ICell[][]): ICell[][] => {
 /**
  * Start creating one ship.
  *
- * @param currentField
+ * @param field
  * @param currentCellId
  */
-export const startCreateShip = (currentField: ICell[][], currentCellId: string): ICell[][] => {
+export const startCreateShip = (field: ICell[][], currentCellId: string): ICell[][] => {
     const { Diagonal, NonDiagonal } = CellDirection;
-    let field = currentField;
 
-    iteratingTwoDimensionalArray(currentField, (i, j) => {
+    iteratingTwoDimensionalArray(field, (i, j) => {
         const cell = field[i][j];
 
         if (cell.id === currentCellId) {
@@ -122,7 +121,7 @@ export const startCreateShip = (currentField: ICell[][], currentCellId: string):
                 }
             } else {
                 field = manageCreateShip(field);
-                startCreateShip(currentField, currentCellId);
+                startCreateShip(field, currentCellId);
             }
         }
     });

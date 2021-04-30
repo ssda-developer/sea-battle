@@ -6,7 +6,7 @@ import { Owners } from '../../enums';
 
 import './Cell.scss';
 import { startCreateShip } from '../../utils/customCreateShip';
-import { checkRemainingShips, checkFinishGame, updateCell } from '../../utils/areaUtils';
+import { checkRemainingShips, checkFinishGame, checkShotByCell } from '../../utils/areaUtils';
 import randomComputerShot from '../../utils/randomComputerShot';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
@@ -74,7 +74,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
         if (owner === User) {
             updateUserCell();
         } else {
-            currentField = updateCell(computerField, id);
+            currentField = checkShotByCell(computerField, id);
             renderComputerField(currentField);
             manageStatusGame(currentField);
 

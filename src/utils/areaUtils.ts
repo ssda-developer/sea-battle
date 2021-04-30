@@ -40,44 +40,42 @@ export const createField = (): ICell[][] => {
  * @param j
  * @param direction
  */
-export const getCellsAround = (field: ICell[][], i: number, j: number, direction: CellDirection): (ICell | null)[] => {
-    const { Diagonal, NonDiagonal } = CellDirection;
+export const getCellsAround = (field: ICell[][], i: number, j: number, direction?: CellDirection): (ICell | null)[] => {
+    const { Diagonal } = CellDirection;
     const { length } = field;
     const [numberUp, letterRight, numberDown, letterLeft] = [i - 1, j + 1, i + 1, j - 1];
 
-    if (direction === Diagonal) {
-        return [
-            numberUp >= 0 && letterLeft >= 0 ? field[numberUp][letterLeft] : null,
-            numberUp >= 0 && letterRight < length ? field[numberUp][letterRight] : null,
-            numberDown < length && letterLeft >= 0 ? field[numberDown][letterLeft] : null,
-            numberDown < length && letterRight < length ? field[numberDown][letterRight] : null,
-        ];
-    }
+    const cellsDiagonal = [
+        numberUp >= 0 && letterLeft >= 0 ? field[numberUp][letterLeft] : null,
+        numberUp >= 0 && letterRight < length ? field[numberUp][letterRight] : null,
+        numberDown < length && letterLeft >= 0 ? field[numberDown][letterLeft] : null,
+        numberDown < length && letterRight < length ? field[numberDown][letterRight] : null,
+    ];
 
-    if (direction === NonDiagonal) {
-        return [
-            numberUp >= 0 ? field[numberUp][j] : null,
-            letterRight < length ? field[i][letterRight] : null,
-            numberDown < length ? field[numberDown][j] : null,
-            letterLeft >= 0 ? field[i][letterLeft] : null,
-        ];
-    }
+    const cellNonDiagonal = [
+        numberUp >= 0 ? field[numberUp][j] : null,
+        letterRight < length ? field[i][letterRight] : null,
+        numberDown < length ? field[numberDown][j] : null,
+        letterLeft >= 0 ? field[i][letterLeft] : null,
+    ];
 
-    return [];
+    const cellsDirection = direction === Diagonal ? cellsDiagonal : cellNonDiagonal;
+
+    return direction ? cellsDirection : [...cellsDiagonal, ...cellNonDiagonal];
 };
 
 /**
  * Get a cell by ID.
  * @param field
- * @param id
+ * @param cellId
  */
-export const getCellById = (field: ICell[][], id: string): ICell | null => {
+export const getCellById = (field: ICell[][], cellId: string): ICell | null => {
     let cell: ICell | null = null;
 
     iteratingTwoDimensionalArray(field, (i, j) => {
         const currentCell = field[i][j];
 
-        if (currentCell.id === id) {
+        if (currentCell.id === cellId) {
             cell = currentCell;
         }
     });
@@ -88,76 +86,70 @@ export const getCellById = (field: ICell[][], id: string): ICell | null => {
 /**
  * Get the position of a cell by ID.
  * @param field
- * @param id
+ * @param cellId
  */
-export const getPositionCellById = (field: ICell[][], id: string): number[] => {
-    let position: number[] = [];
+export const getCellCoordsById = (field: ICell[][], cellId: string): number[] => {
+    let coords: number[] = [];
 
     iteratingTwoDimensionalArray(field, (i, j) => {
         const cell = field[i][j];
 
-        if (cell.id === id) {
-            position = [i, j];
+        if (cell.id === cellId) {
+            coords = [i, j];
         }
     });
 
-    return position;
+    return coords;
 };
 
 /**
  * Blowing up the ship.
- * @param array
+ * @param field
  * @param currentShipId
  */
-const shipExplosion = (array: ICell[][], currentShipId: string) => {
-    let shipField = 0;
-    let shipHit = 0;
+const explodeShip = (field: ICell[][], currentShipId: string) => {
+    const lengthShip = field.flat().filter(cell => cell.shipId === currentShipId);
+    const countHitsShip = lengthShip.filter(cell => cell.hit);
 
-    iteratingFlatArray(array, cell => {
-        if (cell.shipId === currentShipId) {
-            shipField += 1;
-            if (cell.hit) {
-                shipHit += 1;
+    const setMissCells = (cell: ICell) => {
+        const [coordX, coordY] = getCellCoordsById(field, cell.id);
+
+        getCellsAround(field, coordX, coordY).forEach(currentCell => {
+            if (currentCell && !currentCell.ship) {
+                currentCell.miss = true;
             }
-        }
-    });
+        });
+    };
 
-    if (shipField === shipHit) {
-        iteratingFlatArray(array, cell => {
+    if (lengthShip.length === countHitsShip.length) {
+        iteratingFlatArray(field, cell => {
             if (cell.shipId === currentShipId) {
                 cell.explode = true;
 
-                const [i, j] = getPositionCellById(array, cell.id) as number[];
-                const { Diagonal, NonDiagonal } = CellDirection;
-
-                [...getCellsAround(array, i, j, NonDiagonal), ...getCellsAround(array, i, j, Diagonal)].forEach(nonDiagonalCell => {
-                    if (nonDiagonalCell && !nonDiagonalCell.ship) {
-                        nonDiagonalCell.miss = true;
-                    }
-                });
+                setMissCells(cell);
             }
         });
     }
 
-    return array;
+    return field;
 };
 
 /**
  * Update cell.
- * @param array
+ * @param field
  * @param currentCellId
  */
-export const updateCell = (array: ICell[][], currentCellId: string): ICell[][] => {
-    const arrayCell = getCellById(array, currentCellId) as ICell;
+export const checkShotByCell = (field: ICell[][], currentCellId: string): ICell[][] => {
+    const cell = getCellById(field, currentCellId) as ICell;
 
-    if (arrayCell.ship) {
-        arrayCell.hit = true;
-        array = shipExplosion(array, arrayCell.shipId);
+    if (cell.ship) {
+        cell.hit = true;
+        field = explodeShip(field, cell.shipId);
     } else {
-        arrayCell.miss = true;
+        cell.miss = true;
     }
 
-    return array;
+    return field;
 };
 
 /**

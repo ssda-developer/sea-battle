@@ -7,7 +7,7 @@ import { Owners } from '../../enums';
 import { createSquare } from '../../utils/areaUtils';
 import randomShipLocations from '../../utils/randomShipLocations';
 
-import FieldRow from '../FieldRow/FieldRow';
+import CellRow from '../CellRow/CellRow';
 
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
@@ -16,7 +16,7 @@ interface BuildSquareProps {
     playerAffiliation: Owners;
 }
 
-const Square: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
+const Field: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) => {
     const { renderUserSquare, renderComputerSquare } = useActions();
     const { User } = Owners;
     const {
@@ -34,10 +34,10 @@ const Square: FC<BuildSquareProps> = ({ playerAffiliation }: BuildSquareProps) =
     return (
         <>
             {currentSquare.map((row: ICell[], idx: number) => (
-                <FieldRow key={row[idx].id} row={row} owner={playerAffiliation} />
+                <CellRow key={row[idx].id} row={row} owner={playerAffiliation} />
             ))}
         </>
     );
 };
 
-export default Square;
+export default Field;

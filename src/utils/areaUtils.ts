@@ -161,10 +161,22 @@ export const updateCell = (array: ICell[][], currentCellId: string): ICell[][] =
 };
 
 /**
+ * Lock cell.
+ * @param cell
+ * @param currentShipId
+ */
+export const lockCell = (cell: ICell | null, currentShipId: string): void => {
+    if (cell && !cell.ship) {
+        cell.locked = true;
+        cell.lockedId = cell.lockedId.length === 0 ? `locked-${currentShipId}` : cell.lockedId;
+    }
+};
+
+/**
  * Lock all empty cells.
  * @param array
  */
-export const lockAllEmptyCell = (array: ICell[][]): void => {
+export const lockAllEmptyCells = (array: ICell[][]): void => {
     iteratingFlatArray(array, cell => {
         if (!cell.ship) {
             cell.locked = true;
@@ -176,7 +188,7 @@ export const lockAllEmptyCell = (array: ICell[][]): void => {
  * Unlock all empty cells.
  * @param array
  */
-export const unlockAllEmptyCell = (array: ICell[][]): void => {
+export const unlockAllEmptyCells = (array: ICell[][]): void => {
     iteratingFlatArray(array, cell => {
         if (!cell.ship) {
             cell.locked = false;

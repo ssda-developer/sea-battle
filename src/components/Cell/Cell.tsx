@@ -5,7 +5,7 @@ import { ICell } from '../../interface';
 import { Owners } from '../../enums';
 
 import './Cell.scss';
-import { addPartShip } from '../../utils/userShipLocations';
+import { startCreateShip } from '../../utils/customCreateShip';
 import { checkRemainingShips, checkFinishGame, updateCell } from '../../utils/areaUtils';
 import randomComputerShot from '../../utils/randomComputerShot';
 import useActions from '../../hooks/useActions';
@@ -35,8 +35,8 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
 
     const className =
         owner === User
-            ? `field${hit ? ' hit' : ''}${miss ? ' miss' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
-            : `field${hit ? ' hit' : ''}${miss ? ' miss' : ''}${explode ? ' explode' : ''}`;
+            ? `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
+            : `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${explode ? ' explode' : ''}`;
 
     const manageStatusGame = (square: ICell[][]): void => {
         if (checkFinishGame(square)) {
@@ -45,7 +45,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
         }
     };
 
-    const enemyHitHandler = () => {
+    const updateComputerCell = () => {
         const [array, again] = randomComputerShot(userSquare);
         currentSquare = array;
         renderUserSquare(currentSquare);
@@ -54,35 +54,35 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
 
         if (again) {
             setTimeout(() => {
-                enemyHitHandler();
+                updateComputerCell();
             }, 700);
         } else if (!checkFinishGame(array)) {
             changeCurrentPlayer(User);
         }
     };
 
+    const updateUserCell = () => {
+        const square = startCreateShip(userSquare, id);
+        renderUserSquare(square);
+        changeUserShips(checkRemainingShips(userSquare, false));
+        changeUserSquareComplete(checkRemainingShips(square).length === SHIPS.length);
+    };
+
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
         evn.preventDefault();
 
-        const {
-            currentTarget: { id: currentId },
-        } = evn;
-
         if (owner === User) {
-            const square = addPartShip(userSquare, currentId);
-            renderUserSquare(square);
-            changeUserShips(checkRemainingShips(userSquare, false));
-            changeUserSquareComplete(checkRemainingShips(square).length === SHIPS.length);
+            updateUserCell();
         } else {
-            currentSquare = updateCell(computerSquare, currentId);
+            currentSquare = updateCell(computerSquare, id);
             renderComputerSquare(currentSquare);
             manageStatusGame(currentSquare);
 
-            const [{ miss: currentMiss, explode: currentExplode }] = computerSquare.flat().filter(cell => cell.id === currentId);
+            const [{ miss: currentMiss, explode: currentExplode }] = computerSquare.flat().filter(cell => cell.id === id);
             if (currentMiss) {
                 changeCurrentPlayer(Computer);
                 setTimeout(() => {
-                    enemyHitHandler();
+                    updateComputerCell();
                 }, 700);
             }
             if (currentExplode) {

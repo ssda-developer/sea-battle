@@ -8,9 +8,9 @@ import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
 import { HintOptions, Owners } from '../../enums';
 
 import randomShipLocations from '../../utils/randomShipLocations';
-import { resetShipsValues } from '../../utils/userShipLocations';
+import { resetInitialShipsValues } from '../../utils/customCreateShip';
 import { createSquare } from '../../utils/areaUtils';
-import Square from '../Square';
+import Field from '../Field';
 import Hints from '../Hints';
 import AreaButtons from '../AreaButtons';
 import AreaButton from '../AreaButton';
@@ -69,7 +69,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         renderComputerSquare(createSquare());
         changeUserSquareComplete(false);
         changeUserShips([]);
-        resetShipsValues();
+        resetInitialShipsValues();
     };
 
     const startGameHandler = () => {
@@ -134,20 +134,20 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                 )}
                 <div className="area__letters">
                     {AREA_LETTERS.map(letter => (
-                        <div className="field" key={letter}>
+                        <div className="cell" key={letter}>
                             {letter.toLocaleUpperCase()}
                         </div>
                     ))}
                 </div>
                 <div className="area__numbers">
                     {AREA_NUMBERS.map(number => (
-                        <div className="field" key={number}>
+                        <div className="cell" key={number}>
                             {number.toUpperCase()}
                         </div>
                     ))}
                 </div>
                 <div className={`area__wrapper ${areaClassNameDisabled} ${areaOwner.toLowerCase()}`}>
-                    <Square playerAffiliation={areaOwner} />
+                    <Field playerAffiliation={areaOwner} />
                 </div>
             </div>
             {open && (

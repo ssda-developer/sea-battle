@@ -1,9 +1,9 @@
 import { ICell } from '../interface';
 import { getRandomValue, getUniqId } from '../helpers';
-import { getCellsAround, lockAllEmptyCell } from './areaUtils';
+import { getCellsAround, lockAllEmptyCells, lockCell } from './areaUtils';
 import { CellDirection, ShipDirection } from '../enums';
 import { SHIPS } from '../constants';
-import { finishBuildingShip, lockCell } from './userShipLocations';
+import { finishCreateShip } from './customCreateShip';
 
 /**
  * Generate random cell coordinates.
@@ -139,10 +139,10 @@ const buildRandomShip = (square: Array<Array<ICell>>, shipLength: number): Array
         square[posX][posY].ship = true;
         square[posX][posY].shipId = uniqShipId;
 
-        getCellsAround(square, posX, posY, Diagonal).forEach(diagonalCell => lockCell(diagonalCell));
+        getCellsAround(square, posX, posY, Diagonal).forEach(diagonalCell => lockCell(diagonalCell, uniqShipId));
     }
 
-    finishBuildingShip(square, uniqShipId);
+    finishCreateShip(square, uniqShipId);
 
     return square;
 };
@@ -155,7 +155,7 @@ const randomShipLocations = (square: Array<Array<ICell>>): Array<Array<ICell>> =
     SHIPS.forEach(shipLength => {
         buildRandomShip(square, shipLength);
     });
-    lockAllEmptyCell(square);
+    lockAllEmptyCells(square);
 
     return square;
 };

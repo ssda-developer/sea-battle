@@ -10,7 +10,7 @@ interface ICellRowProps {
     owner: Owners;
 }
 
-const FieldRow: FC<ICellRowProps> = ({ row, owner }: ICellRowProps) => {
+const CellRow: FC<ICellRowProps> = ({ row, owner }: ICellRowProps) => {
     return (
         <div className="area__row">
             {row.map(({ id, ship, shipId, hit, miss, locked, lockedId, explode }) => (
@@ -31,4 +31,4 @@ const FieldRow: FC<ICellRowProps> = ({ row, owner }: ICellRowProps) => {
     );
 };
 
-export default FieldRow;
+export default CellRow;

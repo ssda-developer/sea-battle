@@ -8,8 +8,8 @@ export interface ICell {
     shipId: string;
     hit: boolean;
     miss: boolean;
-    locked: boolean;
-    lockedId: string;
+    lock: boolean;
+    lockId: string;
     explode: boolean;
     updateCellHandler?: (event: MouseEvent<HTMLButtonElement>) => void;
     owner?: any;

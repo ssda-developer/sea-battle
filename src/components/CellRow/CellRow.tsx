@@ -13,7 +13,7 @@ interface ICellRowProps {
 const CellRow: FC<ICellRowProps> = ({ row, owner }: ICellRowProps) => {
     return (
         <div className="area__row">
-            {row.map(({ id, ship, shipId, hit, miss, locked, lockedId, explode }) => (
+            {row.map(({ id, ship, shipId, hit, miss, lock, lockId, explode }) => (
                 <Cell
                     key={id}
                     id={id}
@@ -21,8 +21,8 @@ const CellRow: FC<ICellRowProps> = ({ row, owner }: ICellRowProps) => {
                     ship={ship}
                     shipId={shipId}
                     miss={miss}
-                    locked={locked}
-                    lockedId={lockedId}
+                    lock={lock}
+                    lockId={lockId}
                     explode={explode}
                     owner={owner}
                 />

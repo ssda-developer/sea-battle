@@ -6,13 +6,13 @@ import { Owners } from '../../enums';
 
 import './Cell.scss';
 import { startCreateShip } from '../../utils/customCreateShip';
-import { checkRemainingShips, checkFinishGame, checkShotByCell } from '../../utils/areaUtils';
+import { getAllShips, getNonExplodeShips, isFinishGame, checkShotByCell } from '../../utils/areaUtils';
 import randomComputerShot from '../../utils/randomComputerShot';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
 import { SHIPS } from '../../constants';
 
-const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell) => {
+const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) => {
     const {
         renderUserField,
         renderComputerField,
@@ -31,15 +31,15 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
 
     const { User, Computer } = Owners;
     let currentField = owner === User ? userField : computerField;
-    const disabled = owner === User ? hit || ship || miss || locked : hit || miss || explode;
+    const disabled = owner === User ? hit || ship || miss || lock : hit || miss || explode;
 
     const className =
         owner === User
-            ? `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${ship ? ' ship' : ''}${locked ? ' locked' : ''}${explode ? ' explode' : ''}`
+            ? `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${ship ? ' ship' : ''}${lock ? ' lock' : ''}${explode ? ' explode' : ''}`
             : `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${explode ? ' explode' : ''}`;
 
     const manageStatusGame = (field: ICell[][]): void => {
-        if (checkFinishGame(field)) {
+        if (isFinishGame(field)) {
             changeGameStart(false);
             changeGameOver(true);
         }
@@ -49,14 +49,14 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
         const [array, again] = randomComputerShot(userField);
         currentField = array;
         renderUserField(currentField);
-        changeUserShips(checkRemainingShips(userField, false));
+        changeUserShips(getNonExplodeShips(userField));
         manageStatusGame(currentField);
 
         if (again) {
             setTimeout(() => {
                 updateComputerCell();
             }, 700);
-        } else if (!checkFinishGame(array)) {
+        } else if (!isFinishGame(array)) {
             changeCurrentPlayer(User);
         }
     };
@@ -64,8 +64,8 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
     const updateUserCell = () => {
         const field = startCreateShip(userField, id);
         renderUserField(field);
-        changeUserShips(checkRemainingShips(userField, false));
-        changeUserFieldComplete(checkRemainingShips(field).length === SHIPS.length);
+        changeUserShips(getNonExplodeShips(userField));
+        changeUserFieldComplete(getAllShips(field).length === SHIPS.length);
     };
 
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
@@ -86,7 +86,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, locked, explode, owner }: ICell)
                 }, 700);
             }
             if (currentExplode) {
-                changeComputerShips(checkRemainingShips(computerField, false));
+                changeComputerShips(getNonExplodeShips(computerField));
             }
         }
     };

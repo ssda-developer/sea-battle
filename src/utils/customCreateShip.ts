@@ -54,11 +54,11 @@ export const finishCreateShip = (field: ICell[][], currentShipId: string): ICell
  */
 const cancelCreateShip = (field: ICell[][], currentShipId: string): ICell[][] => {
     iteratingFlatArray(field, cell => {
-        if (cell.shipId === currentShipId || cell.lockedId === `locked-${currentShipId}`) {
+        if (cell.shipId === currentShipId || cell.lockId === `lock-${currentShipId}`) {
             cell.ship = false;
             cell.shipId = '';
-            cell.locked = false;
-            cell.lockedId = '';
+            cell.lock = false;
+            cell.lockId = '';
         }
     });
     resetInitialValues();

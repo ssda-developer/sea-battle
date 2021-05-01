@@ -1,7 +1,7 @@
 import { CellDirection, ShipDirection } from '../enums';
 import { ICell } from '../interface';
 import { getRandomValue } from '../helpers';
-import { checkShotByCell, getCellCoordsById, getCellsAround, checkFinishGame } from './areaUtils';
+import { checkShotByCell, getCellCoordsById, getCellsAround, isFinishGame } from './areaUtils';
 
 let possibleShots: ICell[] = [];
 let direction = '';
@@ -83,7 +83,7 @@ const randomShot = (array: ICell[][]) => {
  * @param array
  */
 const randomComputerShot = (array: ICell[][]): [ICell[][], boolean] => {
-    const again = !checkFinishGame(array) ? randomShot(array) : false;
+    const again = !isFinishGame(array) ? randomShot(array) : false;
 
     return [array, again];
 };

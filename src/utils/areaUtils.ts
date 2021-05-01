@@ -4,7 +4,7 @@ import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 import { ICell } from '../interface';
 
 /**
- * Create a  two-dimensional array with empty cells.
+ * Create field with empty cells.
  */
 export const createField = (): ICell[][] => {
     const field: ICell[][] = [];
@@ -19,9 +19,9 @@ export const createField = (): ICell[][] => {
                 shipId: '',
                 hit: false,
                 miss: false,
-                locked: false,
+                lock: false,
                 explode: false,
-                lockedId: '',
+                lockId: '',
             };
 
             row.push(cell);
@@ -34,7 +34,8 @@ export const createField = (): ICell[][] => {
 };
 
 /**
- * Get the cells around the current cell.
+ * Get cells around the current cell.
+ *
  * @param field
  * @param i
  * @param j
@@ -50,14 +51,14 @@ export const getCellsAround = (field: ICell[][], i: number, j: number, direction
         numberUp >= 0 && letterRight < length ? field[numberUp][letterRight] : null,
         numberDown < length && letterLeft >= 0 ? field[numberDown][letterLeft] : null,
         numberDown < length && letterRight < length ? field[numberDown][letterRight] : null,
-    ];
+    ].filter(cell => cell);
 
     const cellNonDiagonal = [
         numberUp >= 0 ? field[numberUp][j] : null,
         letterRight < length ? field[i][letterRight] : null,
         numberDown < length ? field[numberDown][j] : null,
         letterLeft >= 0 ? field[i][letterLeft] : null,
-    ];
+    ].filter(cell => cell);
 
     const cellsDirection = direction === Diagonal ? cellsDiagonal : cellNonDiagonal;
 
@@ -65,7 +66,8 @@ export const getCellsAround = (field: ICell[][], i: number, j: number, direction
 };
 
 /**
- * Get a cell by ID.
+ * Get cell by ID.
+ *
  * @param field
  * @param cellId
  */
@@ -84,7 +86,8 @@ export const getCellById = (field: ICell[][], cellId: string): ICell | null => {
 };
 
 /**
- * Get the position of a cell by ID.
+ * Get cell coordinates by ID.
+ *
  * @param field
  * @param cellId
  */
@@ -103,13 +106,14 @@ export const getCellCoordsById = (field: ICell[][], cellId: string): number[] =>
 };
 
 /**
- * Blowing up the ship.
+ * Explode the ship.
+ *
  * @param field
  * @param currentShipId
  */
 const explodeShip = (field: ICell[][], currentShipId: string) => {
-    const lengthShip = field.flat().filter(cell => cell.shipId === currentShipId);
-    const countHitsShip = lengthShip.filter(cell => cell.hit);
+    const arrayShip = field.flat().filter(cell => cell.shipId === currentShipId);
+    const countHitsShip = arrayShip.filter(cell => cell.hit).length;
 
     const setMissCells = (cell: ICell) => {
         const [coordX, coordY] = getCellCoordsById(field, cell.id);
@@ -121,8 +125,8 @@ const explodeShip = (field: ICell[][], currentShipId: string) => {
         });
     };
 
-    if (lengthShip.length === countHitsShip.length) {
-        iteratingFlatArray(field, cell => {
+    if (arrayShip.length === countHitsShip) {
+        arrayShip.forEach(cell => {
             if (cell.shipId === currentShipId) {
                 cell.explode = true;
 
@@ -135,7 +139,8 @@ const explodeShip = (field: ICell[][], currentShipId: string) => {
 };
 
 /**
- * Update cell.
+ * Checking the shot hit or miss on the ship.
+ *
  * @param field
  * @param currentCellId
  */
@@ -154,70 +159,71 @@ export const checkShotByCell = (field: ICell[][], currentCellId: string): ICell[
 
 /**
  * Lock cell.
+ *
  * @param cell
  * @param currentShipId
  */
 export const lockCell = (cell: ICell | null, currentShipId: string): void => {
     if (cell && !cell.ship) {
-        cell.locked = true;
-        cell.lockedId = cell.lockedId.length === 0 ? `locked-${currentShipId}` : cell.lockedId;
+        cell.lock = true;
+        cell.lockId = cell.lockId.length === 0 ? `lock-${currentShipId}` : cell.lockId;
     }
 };
 
 /**
  * Lock all empty cells.
- * @param array
+ *
+ * @param field
  */
-export const lockAllEmptyCells = (array: ICell[][]): void => {
-    iteratingFlatArray(array, cell => {
+export const lockAllEmptyCells = (field: ICell[][]): void => {
+    iteratingFlatArray(field, cell => {
         if (!cell.ship) {
-            cell.locked = true;
+            cell.lock = true;
         }
     });
 };
 
 /**
- * Unlock all empty cells.
+ * Convert an array of ships objects to an array of formatted ships.
+ *
  * @param array
  */
-export const unlockAllEmptyCells = (array: ICell[][]): void => {
-    iteratingFlatArray(array, cell => {
-        if (!cell.ship) {
-            cell.locked = false;
-        }
-    });
-};
-
-/**
- * Check for non-destroyed ships on the field.
- * @param array
- */
-export const checkFinishGame = (array: ICell[][]): boolean => {
-    return !array.flat().filter(cell => cell.ship && !cell.explode).length;
-};
-
-/**
- * Returns an array of remaining ships.
- * @param array
- * @param life
- */
-export const checkRemainingShips = (array: ICell[][], life = true): number[] => {
-    const arrayShips: string[] = [];
-
-    iteratingFlatArray(array, ({ shipId, explode }: ICell) => {
-        if (shipId) {
-            if (life) {
-                arrayShips.push(shipId);
-            } else if (!explode) {
-                arrayShips.push(shipId);
-            }
-        }
-    });
-
-    const temp = arrayShips.reduce((acc: Record<string, number>, el: string) => {
-        acc[el] = (acc[el] || 0) + 1;
+export const convertArrayShipsToRightFormat = (array: ICell[]): number[] => {
+    const temp = array.reduce((acc: Record<string, number>, { shipId }) => {
+        acc[shipId] = (acc[shipId] || 0) + 1;
         return acc;
     }, {});
 
     return Object.values(temp).sort((a: number, b: number) => temp[b] - temp[a]);
+};
+
+/**
+ * Get array of all ships.
+ *
+ * @param field
+ */
+export const getAllShips = (field: ICell[][]): number[] => {
+    const allShips = field.flat().filter(cell => cell.shipId);
+
+    return convertArrayShipsToRightFormat(allShips);
+};
+
+/**
+ * Get array of non explode ships.
+ *
+ * @param field
+ */
+export const getNonExplodeShips = (field: ICell[][]): number[] => {
+    const allNonExplodeShips = field.flat().filter(cell => cell.shipId && !cell.explode);
+
+    return convertArrayShipsToRightFormat(allNonExplodeShips);
+};
+
+/**
+ * Checking the end of the game.
+ *
+ * @param field
+ */
+export const isFinishGame = (field: ICell[][]): boolean => {
+    return !getNonExplodeShips(field).length;
 };

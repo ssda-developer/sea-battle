@@ -18,7 +18,7 @@ const getRandomCellCoordinates = (field: Array<Array<ICell>>, shipLength: number
     if (
         (number + shipLength > length && letter + shipLength > length) ||
         field[number][letter].hit ||
-        field[number][letter].locked ||
+        field[number][letter].lock ||
         field[number][letter].ship
     ) {
         getRandomCellCoordinates(field, shipLength);
@@ -45,9 +45,9 @@ const checkEmptyCells = (
     const isEmpty = true;
 
     for (let i = calculableValue; i < calculableValue + shipLength; i += 1) {
-        const { hit, locked, ship } = direction === ShipDirection.Horizontal ? field[nonCalculableValue][i] : field[i][nonCalculableValue];
+        const { hit, lock, ship } = direction === ShipDirection.Horizontal ? field[nonCalculableValue][i] : field[i][nonCalculableValue];
 
-        if (hit || locked || ship) {
+        if (hit || lock || ship) {
             return !isEmpty;
         }
     }

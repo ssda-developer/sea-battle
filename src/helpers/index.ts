@@ -13,8 +13,10 @@ export const getRandomValue = (maxValue: number): number => Math.floor(Math.rand
 
 /**
  * Iterating over a two-dimensional array.
+ *
  * @param array
  * @param func
+ *
  * example:
  * iteratingTwoDimensionalArray(field, (i, j) => {});
  */
@@ -30,8 +32,10 @@ export const iteratingTwoDimensionalArray = (array: ICell[][], func: (i: number,
 
 /**
  * Iterating the flat array.
+ *
  * @param array
  * @param func
+ *
  * example:
  * iteratingFlatArray(array, cell => {});
  */
@@ -39,4 +43,16 @@ export const iteratingFlatArray = (array: ICell[][], func: (cell: ICell) => void
     array.flat().forEach(cell => {
         func(cell);
     });
+};
+
+/**
+ * Get multiple class names from object.
+ *
+ * @param classes
+ */
+export const getClassNames = (classes: Record<string, boolean>): string => {
+    return Object.entries(classes)
+        .filter(([, value]) => value)
+        .map(([key]) => key)
+        .join(' ');
 };

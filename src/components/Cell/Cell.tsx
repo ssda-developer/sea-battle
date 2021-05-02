@@ -11,6 +11,7 @@ import randomComputerShot from '../../utils/randomComputerShot';
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
 import { SHIPS } from '../../constants';
+import { getClassNames } from '../../helpers';
 
 const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) => {
     const {
@@ -30,53 +31,50 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
 
     const { User, Computer } = Owners;
-    let currentField = owner === User ? userField : computerField;
-    const disabled = owner === User ? hit || ship || miss || lock : hit || miss || explode;
+    const isUser = owner === User;
+    const isDisabled = isUser ? hit || ship || miss || lock : hit || miss || explode;
+    const className = isUser ? getClassNames({ hit, miss, ship, lock, explode }) : getClassNames({ hit, miss, explode });
+    let currentField = isUser ? userField : computerField;
 
-    const className =
-        owner === User
-            ? `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${ship ? ' ship' : ''}${lock ? ' lock' : ''}${explode ? ' explode' : ''}`
-            : `cell${hit ? ' hit' : ''}${miss ? ' miss' : ''}${explode ? ' explode' : ''}`;
-
-    const manageStatusGame = (field: ICell[][]): void => {
+    const manageGameStatus = (field: ICell[][]): void => {
         if (isFinishGame(field)) {
             changeGameStart(false);
             changeGameOver(true);
         }
     };
 
-    const updateComputerCell = () => {
-        const [array, again] = randomComputerShot(userField);
-        currentField = array;
+    const updateComputerCell = (): void => {
+        const [field, isAgain] = randomComputerShot(userField);
+        currentField = field;
         renderUserField(currentField);
         changeUserShips(getNonExplodeShips(userField));
-        manageStatusGame(currentField);
+        manageGameStatus(currentField);
 
-        if (again) {
+        if (isAgain) {
             setTimeout(() => {
                 updateComputerCell();
             }, 700);
-        } else if (!isFinishGame(array)) {
+        } else if (!isFinishGame(field)) {
             changeCurrentPlayer(User);
         }
     };
 
-    const updateUserCell = () => {
+    const updateUserCell = (): void => {
         const field = startCreateShip(userField, id);
         renderUserField(field);
         changeUserShips(getNonExplodeShips(userField));
         changeUserFieldComplete(getAllShips(field).length === SHIPS.length);
     };
 
-    const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>) => {
+    const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>): void => {
         evn.preventDefault();
 
-        if (owner === User) {
+        if (isUser) {
             updateUserCell();
         } else {
             currentField = checkShotByCell(computerField, id);
             renderComputerField(currentField);
-            manageStatusGame(currentField);
+            manageGameStatus(currentField);
 
             const [{ miss: currentMiss, explode: currentExplode }] = computerField.flat().filter(cell => cell.id === id);
             if (currentMiss) {
@@ -91,7 +89,9 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
         }
     };
 
-    return <button type="button" id={id} className={className} onClick={updateCellHandler} aria-label={id} disabled={disabled} />;
+    return (
+        <button type="button" id={id} className={`cell ${className}`} onClick={updateCellHandler} aria-label={id} disabled={isDisabled} />
+    );
 };
 
 export default Cell;

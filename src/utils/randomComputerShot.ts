@@ -1,91 +1,84 @@
 import { CellDirection, ShipDirection } from '../enums';
-import { ICell } from '../interface';
 import { getRandomValue } from '../helpers';
-import { checkShotByCell, getCellCoordsById, getCellsAround, isFinishGame } from './areaUtils';
+import { ICell } from '../interface';
+import { checkShotByCell, getCellCoordsById, getCellsAround, getRandomEmptyCell, isFinishGame } from './areaUtils';
 
-let possibleShots: ICell[] = [];
-let direction = '';
-let firstHitOnShip: null | ICell = null;
+let initialCellsForShot: ICell[] = [];
+let initialDirection: null | ShipDirection.Horizontal | ShipDirection.Vertical = null;
+let isFirstHit: null | ICell = null;
 
 /**
- * Get a random empty cell.
- * @param array
+ * Reset the initial values.
  */
-const getRandomEmptyCell = (array: ICell[][]): ICell => {
-    const { length } = array;
-    const xPoint = getRandomValue(length);
-    const yPoint = getRandomValue(length);
-    const cell = array[xPoint][yPoint];
-    const isNearShip = getCellsAround(array, xPoint, yPoint).filter(c => c?.explode);
-
-    return !cell.hit && !cell.miss && !isNearShip.length ? cell : getRandomEmptyCell(array);
+const resetInitialValues = (): void => {
+    isFirstHit = null;
+    initialDirection = null;
 };
 
 /**
- * Random shot.
- * @param array
+ * Reset the initial ships values.
  */
-const randomShot = (array: ICell[][]) => {
+const resetInitialCellsForShot = (): void => {
+    initialCellsForShot = [];
+};
+
+/**
+ * Random computer shot.
+ *
+ * @param field
+ */
+const randomComputerShot = (field: ICell[][]): [ICell[][], boolean] => {
+    if (isFinishGame(field)) {
+        return [field, false];
+    }
+
     const { Horizontal, Vertical } = ShipDirection;
     const { NonDiagonal } = CellDirection;
-    let cell = getRandomEmptyCell(array);
+    let cell = getRandomEmptyCell(field);
     let again = false;
 
-    if (possibleShots.length) {
-        cell = possibleShots[getRandomValue(possibleShots.length)];
-        possibleShots.splice(possibleShots.indexOf(cell), 1);
+    if (initialCellsForShot.length) {
+        cell = initialCellsForShot[getRandomValue(initialCellsForShot.length)];
+        initialCellsForShot.splice(initialCellsForShot.indexOf(cell), 1);
     }
 
     if (cell.ship) {
-        const [i, j] = getCellCoordsById(array, cell.id) as number[];
-        const nonDiagonalCell = getCellsAround(array, i, j, NonDiagonal) as ICell[];
+        const [cellCoordX, cellCoordY] = getCellCoordsById(field, cell.id);
+        const nonDiagonalCells = getCellsAround(field, cellCoordX, cellCoordY, NonDiagonal) as ICell[];
 
-        if (!possibleShots.length) {
-            possibleShots.push(...nonDiagonalCell);
+        if (!initialCellsForShot.length) {
+            initialCellsForShot.push(...nonDiagonalCells);
         }
 
-        if (!firstHitOnShip) {
-            firstHitOnShip = cell;
+        if (isFirstHit) {
+            const [firstHitCoordX, firstHitCoordY] = getCellCoordsById(field, isFirstHit.id);
+            const nonDiagonalCellsFirstHitOnShip = getCellsAround(field, firstHitCoordX, firstHitCoordY, NonDiagonal) as ICell[];
+
+            if (!initialDirection) {
+                initialDirection = cellCoordX === firstHitCoordX ? Horizontal : Vertical;
+                resetInitialCellsForShot();
+            }
+
+            initialCellsForShot = [...nonDiagonalCells, ...nonDiagonalCellsFirstHitOnShip].filter((_, idx) =>
+                initialDirection === Vertical ? idx % 2 === 0 : idx % 2 !== 0,
+            );
         } else {
-            const [xPoint, yPoint] = getCellCoordsById(array, firstHitOnShip.id) as number[];
-            const nonDiagonalCellsFirstHitOnShip = getCellsAround(array, xPoint, yPoint, NonDiagonal) as ICell[];
-
-            if (!direction) {
-                direction = i === xPoint ? Horizontal : Vertical;
-                possibleShots = [];
-            }
-
-            if (direction === Vertical) {
-                possibleShots = [...[...nonDiagonalCell, ...nonDiagonalCellsFirstHitOnShip].filter((c, idx) => !(idx % 2))];
-            } else if (direction === Horizontal) {
-                possibleShots = [...[...nonDiagonalCell, ...nonDiagonalCellsFirstHitOnShip].filter((c, idx) => idx % 2)];
-            }
+            isFirstHit = cell;
         }
 
         again = true;
     }
 
-    checkShotByCell(array, cell.id);
+    checkShotByCell(field, cell.id);
 
     if (cell.explode) {
-        possibleShots = [];
-        firstHitOnShip = null;
-        direction = '';
+        resetInitialCellsForShot();
+        resetInitialValues();
     }
 
-    possibleShots = possibleShots.filter(el => el !== null && !el.hit && !el.miss);
+    initialCellsForShot = initialCellsForShot.filter(el => el !== null && !el.hit && !el.miss);
 
-    return again;
-};
-
-/**
- * Computer shot.
- * @param array
- */
-const randomComputerShot = (array: ICell[][]): [ICell[][], boolean] => {
-    const again = !isFinishGame(array) ? randomShot(array) : false;
-
-    return [array, again];
+    return [field, again];
 };
 
 export default randomComputerShot;

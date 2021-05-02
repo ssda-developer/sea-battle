@@ -12,7 +12,7 @@ let isStartCreateShip = true;
 /**
  * Reset the initial values.
  */
-const resetInitialValues = () => {
+const resetInitialValues = (): void => {
     initialShipId = getUniqId();
     initialShipLength = 0;
     isStartCreateShip = true;

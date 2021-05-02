@@ -1,6 +1,6 @@
 import { AREA_LETTERS, AREA_NUMBERS } from '../constants';
 import { CellDirection } from '../enums';
-import { iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
+import { getRandomValue, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 import { ICell } from '../interface';
 
 /**
@@ -53,16 +53,16 @@ export const getCellsAround = (field: ICell[][], i: number, j: number, direction
         numberDown < length && letterRight < length ? field[numberDown][letterRight] : null,
     ].filter(cell => cell);
 
-    const cellNonDiagonal = [
+    const cellsNonDiagonal = [
         numberUp >= 0 ? field[numberUp][j] : null,
         letterRight < length ? field[i][letterRight] : null,
         numberDown < length ? field[numberDown][j] : null,
         letterLeft >= 0 ? field[i][letterLeft] : null,
     ].filter(cell => cell);
 
-    const cellsDirection = direction === Diagonal ? cellsDiagonal : cellNonDiagonal;
+    const cellsDirection = direction === Diagonal ? cellsDiagonal : cellsNonDiagonal;
 
-    return direction ? cellsDirection : [...cellsDiagonal, ...cellNonDiagonal];
+    return direction ? cellsDirection : [...cellsDiagonal, ...cellsNonDiagonal];
 };
 
 /**
@@ -103,6 +103,20 @@ export const getCellCoordsById = (field: ICell[][], cellId: string): number[] =>
     });
 
     return coords;
+};
+
+/**
+ * Get random empty cell.
+ *
+ * @param field
+ */
+export const getRandomEmptyCell = (field: ICell[][]): ICell => {
+    const { length } = field;
+    const coordX = getRandomValue(length);
+    const coordY = getRandomValue(length);
+    const cell = field[coordX][coordY];
+
+    return !cell.hit && !cell.miss ? cell : getRandomEmptyCell(field);
 };
 
 /**

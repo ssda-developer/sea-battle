@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 import { ICell } from '../../interface';
 import { Owners } from '../../enums';
 
-import { createField } from '../../utils/areaUtils';
 import randomLocationShips from '../../utils/randomLocationShips';
 
 import CellRow from '../CellRow/CellRow';
 
 import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
+import { createField } from '../../utils/field';
 
 interface BuildFieldProps {
     playerAffiliation: Owners;

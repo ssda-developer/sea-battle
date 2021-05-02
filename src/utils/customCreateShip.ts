@@ -2,7 +2,7 @@ import { SHIPS } from '../constants';
 import { CellDirection } from '../enums';
 import { getUniqId, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 import { ICell } from '../interface';
-import { getCellsAround, lockAllEmptyCells, lockCell } from './areaUtils';
+import { getCellsAround, lockAllEmptyCells, lockCell } from './cell';
 
 let initialShips = [...SHIPS];
 let initialShipId = getUniqId();

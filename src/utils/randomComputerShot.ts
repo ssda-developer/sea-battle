@@ -1,7 +1,8 @@
 import { CellDirection, ShipDirection } from '../enums';
 import { getRandomValue } from '../helpers';
 import { ICell } from '../interface';
-import { checkShotByCell, getCellCoordsById, getCellsAround, getRandomEmptyCell, isFinishGame } from './areaUtils';
+import { isFinishGame } from './field';
+import { checkShotByCell, getCellCoordsById, getCellsAround, getRandomEmptyCell } from './cell';
 
 let initialCellsForShot: ICell[] = [];
 let initialDirection: null | ShipDirection.Horizontal | ShipDirection.Vertical = null;

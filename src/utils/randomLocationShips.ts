@@ -2,7 +2,7 @@ import { SHIPS } from '../constants';
 import { CellDirection, ShipDirection } from '../enums';
 import { getRandomValue, getUniqId } from '../helpers';
 import { ICell } from '../interface';
-import { getCellsAround, lockAllEmptyCells, lockCell } from './areaUtils';
+import { getCellsAround, lockAllEmptyCells, lockCell } from './cell';
 import { finishCreateShip } from './customCreateShip';
 
 /**

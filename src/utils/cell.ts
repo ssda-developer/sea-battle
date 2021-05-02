@@ -1,37 +1,7 @@
-import { AREA_LETTERS, AREA_NUMBERS } from '../constants';
+import { ICell } from '../interface';
 import { CellDirection } from '../enums';
 import { getRandomValue, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
-import { ICell } from '../interface';
-
-/**
- * Create field with empty cells.
- */
-export const createField = (): ICell[][] => {
-    const field: ICell[][] = [];
-
-    AREA_NUMBERS.forEach(number => {
-        const row: ICell[] = [];
-
-        AREA_LETTERS.forEach(letter => {
-            const cell = {
-                id: `${letter}${number}`,
-                ship: false,
-                shipId: '',
-                hit: false,
-                miss: false,
-                lock: false,
-                explode: false,
-                lockId: '',
-            };
-
-            row.push(cell);
-        });
-
-        field.push(row);
-    });
-
-    return field;
-};
+import { explodeShip } from './ship';
 
 /**
  * Get cells around the current cell.
@@ -120,39 +90,6 @@ export const getRandomEmptyCell = (field: ICell[][]): ICell => {
 };
 
 /**
- * Explode the ship.
- *
- * @param field
- * @param currentShipId
- */
-const explodeShip = (field: ICell[][], currentShipId: string) => {
-    const arrayShip = field.flat().filter(cell => cell.shipId === currentShipId);
-    const countHitsShip = arrayShip.filter(cell => cell.hit).length;
-
-    const setMissCells = (cell: ICell) => {
-        const [coordX, coordY] = getCellCoordsById(field, cell.id);
-
-        getCellsAround(field, coordX, coordY).forEach(currentCell => {
-            if (currentCell && !currentCell.ship) {
-                currentCell.miss = true;
-            }
-        });
-    };
-
-    if (arrayShip.length === countHitsShip) {
-        arrayShip.forEach(cell => {
-            if (cell.shipId === currentShipId) {
-                cell.explode = true;
-
-                setMissCells(cell);
-            }
-        });
-    }
-
-    return field;
-};
-
-/**
  * Checking the shot hit or miss on the ship.
  *
  * @param field
@@ -195,49 +132,4 @@ export const lockAllEmptyCells = (field: ICell[][]): void => {
             cell.lock = true;
         }
     });
-};
-
-/**
- * Convert an array of ships objects to an array of formatted ships.
- *
- * @param array
- */
-export const convertArrayShipsToRightFormat = (array: ICell[]): number[] => {
-    const temp = array.reduce((acc: Record<string, number>, { shipId }) => {
-        acc[shipId] = (acc[shipId] || 0) + 1;
-        return acc;
-    }, {});
-
-    return Object.values(temp).sort((a: number, b: number) => temp[b] - temp[a]);
-};
-
-/**
- * Get array of all ships.
- *
- * @param field
- */
-export const getAllShips = (field: ICell[][]): number[] => {
-    const allShips = field.flat().filter(cell => cell.shipId);
-
-    return convertArrayShipsToRightFormat(allShips);
-};
-
-/**
- * Get array of non explode ships.
- *
- * @param field
- */
-export const getNonExplodeShips = (field: ICell[][]): number[] => {
-    const allNonExplodeShips = field.flat().filter(cell => cell.shipId && !cell.explode);
-
-    return convertArrayShipsToRightFormat(allNonExplodeShips);
-};
-
-/**
- * Checking the end of the game.
- *
- * @param field
- */
-export const isFinishGame = (field: ICell[][]): boolean => {
-    return !getNonExplodeShips(field).length;
 };

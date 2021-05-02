@@ -8,7 +8,6 @@ import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
 import { HintOptions, Owners } from '../../enums';
 
 import { resetInitialShipsValues } from '../../utils/customCreateShip';
-import { createField } from '../../utils/areaUtils';
 import Field from '../Field';
 import Hints from '../Hints';
 import AreaButtons from '../AreaButtons';
@@ -24,6 +23,7 @@ import { ReactComponent as SVGPlay } from '../../assets/icons/play.svg';
 import Ships from '../Ships/Ships';
 import './Area.scss';
 import randomLocationShips from '../../utils/randomLocationShips';
+import { createField } from '../../utils/field';
 
 interface AreaProps {
     areaOwner: Owners;

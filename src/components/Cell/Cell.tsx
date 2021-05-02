@@ -9,11 +9,13 @@ import { getClassNames } from '../../helpers';
 import useActions from '../../hooks';
 import { ICell } from '../../interface';
 
-import { getAllShips, getNonExplodeShips, isFinishGame, checkShotByCell } from '../../utils/areaUtils';
 import { startCreateShip } from '../../utils/customCreateShip';
 import randomComputerShot from '../../utils/randomComputerShot';
 
 import './Cell.scss';
+import { isFinishGame } from '../../utils/field';
+import { getAllShips, getNonExplodeShips } from '../../utils/ship';
+import { checkShotByCell } from '../../utils/cell';
 
 const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) => {
     const {

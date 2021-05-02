@@ -1,5 +1,5 @@
 import { ICell } from '../interface';
-import { getCellCoordsById, getCellsAround } from './cell';
+import { getCellById, getCellCoordsById, getCellsAround } from './cell';
 
 /**
  * Explode the ship.
@@ -29,6 +29,25 @@ export const explodeShip = (field: ICell[][], currentShipId: string): ICell[][] 
                 setMissCells(cell);
             }
         });
+    }
+
+    return field;
+};
+
+/**
+ * Checking the shot hit or miss on the ship.
+ *
+ * @param field
+ * @param currentCellId
+ */
+export const checkShot = (field: ICell[][], currentCellId: string): ICell[][] => {
+    const cell = getCellById(field, currentCellId) as ICell;
+
+    if (cell.ship) {
+        cell.hit = true;
+        field = explodeShip(field, cell.shipId);
+    } else {
+        cell.miss = true;
     }
 
     return field;

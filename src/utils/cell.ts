@@ -1,7 +1,6 @@
 import { ICell } from '../interface';
 import { CellDirection } from '../enums';
 import { getRandomValue, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
-import { explodeShip } from './ship';
 
 /**
  * Get cells around the current cell.
@@ -87,25 +86,6 @@ export const getRandomEmptyCell = (field: ICell[][]): ICell => {
     const cell = field[coordX][coordY];
 
     return !cell.hit && !cell.miss ? cell : getRandomEmptyCell(field);
-};
-
-/**
- * Checking the shot hit or miss on the ship.
- *
- * @param field
- * @param currentCellId
- */
-export const checkShotByCell = (field: ICell[][], currentCellId: string): ICell[][] => {
-    const cell = getCellById(field, currentCellId) as ICell;
-
-    if (cell.ship) {
-        cell.hit = true;
-        field = explodeShip(field, cell.shipId);
-    } else {
-        cell.miss = true;
-    }
-
-    return field;
 };
 
 /**

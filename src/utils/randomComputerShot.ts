@@ -2,7 +2,8 @@ import { CellDirection, ShipDirection } from '../enums';
 import { getRandomValue } from '../helpers';
 import { ICell } from '../interface';
 import { isFinishGame } from './field';
-import { checkShotByCell, getCellCoordsById, getCellsAround, getRandomEmptyCell } from './cell';
+import { getCellCoordsById, getCellsAround, getRandomEmptyCell } from './cell';
+import { checkShot } from './ship';
 
 let initialCellsForShot: ICell[] = [];
 let initialDirection: null | ShipDirection.Horizontal | ShipDirection.Vertical = null;
@@ -70,7 +71,7 @@ const randomComputerShot = (field: ICell[][]): [ICell[][], boolean] => {
         again = true;
     }
 
-    checkShotByCell(field, cell.id);
+    checkShot(field, cell.id);
 
     if (cell.explode) {
         resetInitialCellsForShot();

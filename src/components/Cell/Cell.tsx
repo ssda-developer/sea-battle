@@ -14,8 +14,7 @@ import randomComputerShot from '../../utils/randomComputerShot';
 
 import './Cell.scss';
 import { isFinishGame } from '../../utils/field';
-import { getAllShips, getNonExplodeShips } from '../../utils/ship';
-import { checkShotByCell } from '../../utils/cell';
+import { getAllShips, getNonExplodeShips, checkShot } from '../../utils/ship';
 
 const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) => {
     const {
@@ -73,7 +72,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
     };
 
     const updateComputerCellOnShot = (): void => {
-        currentField = checkShotByCell(computerField, id);
+        currentField = checkShot(computerField, id);
 
         renderComputerField(currentField);
         manageGameStatus(currentField);

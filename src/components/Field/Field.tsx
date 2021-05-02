@@ -5,7 +5,7 @@ import { ICell } from '../../interface';
 import { Owners } from '../../enums';
 
 import { createField } from '../../utils/areaUtils';
-import randomShipLocations from '../../utils/randomShipLocations';
+import randomLocationShips from '../../utils/randomLocationShips';
 
 import CellRow from '../CellRow/CellRow';
 
@@ -28,7 +28,7 @@ const Field: FC<BuildFieldProps> = ({ playerAffiliation }: BuildFieldProps) => {
 
     useEffect(() => {
         renderUserField(createField());
-        renderComputerField(randomShipLocations(createField()));
+        renderComputerField(randomLocationShips(createField()));
     }, []);
 
     return (

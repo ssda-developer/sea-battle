@@ -7,7 +7,6 @@ import useActions from '../../hooks/useActions';
 import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
 import { HintOptions, Owners } from '../../enums';
 
-import randomShipLocations from '../../utils/randomShipLocations';
 import { resetInitialShipsValues } from '../../utils/customCreateShip';
 import { createField } from '../../utils/areaUtils';
 import Field from '../Field';
@@ -24,6 +23,7 @@ import { ReactComponent as SVGTimes } from '../../assets/icons/times.svg';
 import { ReactComponent as SVGPlay } from '../../assets/icons/play.svg';
 import Ships from '../Ships/Ships';
 import './Area.scss';
+import randomLocationShips from '../../utils/randomLocationShips';
 
 interface AreaProps {
     areaOwner: Owners;
@@ -57,7 +57,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     }, [gameOver]);
 
     const userBuildRandomShipsHandler = () => {
-        renderUserField(randomShipLocations(createField()));
+        renderUserField(randomLocationShips(createField()));
         if (!userComplete) {
             changeUserShips([...SHIPS]);
             changeUserFieldComplete(true);
@@ -74,17 +74,17 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
 
     const startGameHandler = () => {
         if (!userComplete) {
-            renderUserField(randomShipLocations(createField()));
+            renderUserField(randomLocationShips(createField()));
             changeUserShips([...SHIPS]);
         }
-        renderComputerField(randomShipLocations(createField()));
+        renderComputerField(randomLocationShips(createField()));
         changeComputerShips([...SHIPS]);
         changeGameStart(true);
     };
 
     const resetGameHandler = () => {
         userClearAreaHandler();
-        renderComputerField(randomShipLocations(createField()));
+        renderComputerField(randomLocationShips(createField()));
         changeGameStart(false);
         changeUserShips([]);
         changeComputerShips([]);

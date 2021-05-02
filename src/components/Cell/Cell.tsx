@@ -1,17 +1,19 @@
 import React, { FC, MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ICell } from '../../interface';
+import { RootStore } from '../../store';
+
+import { SHIPS } from '../../constants';
 import { Owners } from '../../enums';
+import { getClassNames } from '../../helpers';
+import useActions from '../../hooks';
+import { ICell } from '../../interface';
+
+import { getAllShips, getNonExplodeShips, isFinishGame, checkShotByCell } from '../../utils/areaUtils';
+import { startCreateShip } from '../../utils/customCreateShip';
+import randomComputerShot from '../../utils/randomComputerShot';
 
 import './Cell.scss';
-import { startCreateShip } from '../../utils/customCreateShip';
-import { getAllShips, getNonExplodeShips, isFinishGame, checkShotByCell } from '../../utils/areaUtils';
-import randomComputerShot from '../../utils/randomComputerShot';
-import useActions from '../../hooks/useActions';
-import { RootStore } from '../../store';
-import { SHIPS } from '../../constants';
-import { getClassNames } from '../../helpers';
 
 const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) => {
     const {
@@ -43,49 +45,56 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
         }
     };
 
-    const updateComputerCell = (): void => {
-        const [field, isAgain] = randomComputerShot(userField);
-        currentField = field;
-        renderUserField(currentField);
-        changeUserShips(getNonExplodeShips(userField));
-        manageGameStatus(currentField);
-
-        if (isAgain) {
-            setTimeout(() => {
-                updateComputerCell();
-            }, 700);
-        } else if (!isFinishGame(field)) {
-            changeCurrentPlayer(User);
-        }
-    };
-
-    const updateUserCell = (): void => {
+    const updateUserCellOnCreate = (): void => {
         const field = startCreateShip(userField, id);
+
         renderUserField(field);
         changeUserShips(getNonExplodeShips(userField));
         changeUserFieldComplete(getAllShips(field).length === SHIPS.length);
+    };
+
+    const updateUserCellOnShot = (): void => {
+        setTimeout(() => {
+            const [field, isAgain] = randomComputerShot(userField);
+            currentField = field;
+
+            renderUserField(currentField);
+            changeUserShips(getNonExplodeShips(userField));
+            manageGameStatus(currentField);
+
+            if (isAgain) {
+                updateUserCellOnShot();
+            } else {
+                changeCurrentPlayer(User);
+            }
+        }, 700);
+    };
+
+    const updateComputerCellOnShot = (): void => {
+        currentField = checkShotByCell(computerField, id);
+
+        renderComputerField(currentField);
+        manageGameStatus(currentField);
+
+        const [{ miss: userClickMiss, explode: userClickExplode }] = computerField.flat().filter(cell => cell.id === id);
+
+        if (userClickMiss) {
+            changeCurrentPlayer(Computer);
+            updateUserCellOnShot();
+        }
+
+        if (userClickExplode) {
+            changeComputerShips(getNonExplodeShips(computerField));
+        }
     };
 
     const updateCellHandler = (evn: MouseEvent<HTMLButtonElement>): void => {
         evn.preventDefault();
 
         if (isUser) {
-            updateUserCell();
+            updateUserCellOnCreate();
         } else {
-            currentField = checkShotByCell(computerField, id);
-            renderComputerField(currentField);
-            manageGameStatus(currentField);
-
-            const [{ miss: currentMiss, explode: currentExplode }] = computerField.flat().filter(cell => cell.id === id);
-            if (currentMiss) {
-                changeCurrentPlayer(Computer);
-                setTimeout(() => {
-                    updateComputerCell();
-                }, 700);
-            }
-            if (currentExplode) {
-                changeComputerShips(getNonExplodeShips(computerField));
-            }
+            updateComputerCellOnShot();
         }
     };
 

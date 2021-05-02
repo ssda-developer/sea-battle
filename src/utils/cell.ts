@@ -20,14 +20,14 @@ export const getCellsAround = (field: ICell[][], i: number, j: number, direction
         numberUp >= 0 && letterRight < length ? field[numberUp][letterRight] : null,
         numberDown < length && letterLeft >= 0 ? field[numberDown][letterLeft] : null,
         numberDown < length && letterRight < length ? field[numberDown][letterRight] : null,
-    ].filter(cell => cell);
+    ];
 
     const cellsNonDiagonal = [
         numberUp >= 0 ? field[numberUp][j] : null,
         letterRight < length ? field[i][letterRight] : null,
         numberDown < length ? field[numberDown][j] : null,
         letterLeft >= 0 ? field[i][letterLeft] : null,
-    ].filter(cell => cell);
+    ];
 
     const cellsDirection = direction === Diagonal ? cellsDiagonal : cellsNonDiagonal;
 

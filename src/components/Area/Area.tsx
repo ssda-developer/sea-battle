@@ -1,29 +1,33 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { RootStore } from '../../store';
 import useActions from '../../hooks/useActions';
+import { RootStore } from '../../store';
 
 import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
 import { HintOptions, Owners } from '../../enums';
 
 import { resetInitialShipsValues } from '../../utils/customCreateShip';
+import { createField } from '../../utils/field';
+import randomLocationShips from '../../utils/randomLocationShips';
+
+import AreaAxes from '../AreaAxes';
+import AreaButton from '../AreaButton';
+import AreaButtons from '../AreaButtons';
 import Field from '../Field';
 import Hints from '../Hints';
-import AreaButtons from '../AreaButtons';
-import AreaButton from '../AreaButton';
 import Modal from '../Modal';
 import Rules from '../Rules';
-import WinnerMessage from '../WinnerMessage';
-import { ReactComponent as SVGRandom } from '../../assets/icons/random.svg';
-import { ReactComponent as SVGTrash } from '../../assets/icons/trash.svg';
-import { ReactComponent as SVGQuestion } from '../../assets/icons/question.svg';
-import { ReactComponent as SVGTimes } from '../../assets/icons/times.svg';
-import { ReactComponent as SVGPlay } from '../../assets/icons/play.svg';
 import Ships from '../Ships/Ships';
+import WinnerMessage from '../WinnerMessage';
+
+import { ReactComponent as SVGPlay } from '../../assets/icons/play.svg';
+import { ReactComponent as SVGQuestion } from '../../assets/icons/question.svg';
+import { ReactComponent as SVGRandom } from '../../assets/icons/random.svg';
+import { ReactComponent as SVGTimes } from '../../assets/icons/times.svg';
+import { ReactComponent as SVGTrash } from '../../assets/icons/trash.svg';
+
 import './Area.scss';
-import randomLocationShips from '../../utils/randomLocationShips';
-import { createField } from '../../utils/field';
 
 interface AreaProps {
     areaOwner: Owners;
@@ -48,27 +52,33 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
     const { gameStart, gameOver, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
-    const [open, setOpen] = useState(false);
+    const [openHints, setOpenHints] = useState(false);
 
     useEffect(() => {
         if (gameOver) {
-            setOpen(true);
+            setOpenHints(true);
         }
     }, [gameOver]);
 
-    const userBuildRandomShipsHandler = () => {
+    const displayHints = currentPlayer === Computer ? ComputerShot : PlayerShot;
+    const fieldClassNameDisabled =
+        (areaOwner === Computer && !gameStart) || (areaOwner === User && gameStart) || currentPlayer === Computer ? 'is-disabled' : '';
+
+    const userRandomLocationShipsHandler = () => {
         renderUserField(randomLocationShips(createField()));
+
         if (!userComplete) {
             changeUserShips([...SHIPS]);
             changeUserFieldComplete(true);
         }
     };
 
-    const userClearAreaHandler = () => {
+    const userClearFieldHandler = () => {
         renderUserField(createField());
         renderComputerField(createField());
         changeUserFieldComplete(false);
         changeUserShips([]);
+        changeComputerShips([]);
         resetInitialShipsValues();
     };
 
@@ -77,36 +87,27 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
             renderUserField(randomLocationShips(createField()));
             changeUserShips([...SHIPS]);
         }
+
         renderComputerField(randomLocationShips(createField()));
         changeComputerShips([...SHIPS]);
         changeGameStart(true);
     };
 
     const resetGameHandler = () => {
-        userClearAreaHandler();
-        renderComputerField(randomLocationShips(createField()));
+        userClearFieldHandler();
         changeGameStart(false);
-        changeUserShips([]);
-        changeComputerShips([]);
     };
 
     const openModal = () => {
-        setOpen(true);
+        setOpenHints(true);
     };
 
     const closeModal = () => {
-        setOpen(false);
+        setOpenHints(false);
 
         if (gameOver) {
             changeGameOver(false);
         }
-    };
-
-    const areaClassNameDisabled =
-        (areaOwner === Computer && !gameStart) || (areaOwner === User && gameStart) || currentPlayer === Computer ? 'is-disabled' : '';
-
-    const displayHints = () => {
-        return currentPlayer === Computer ? ComputerShot : PlayerShot;
     };
 
     return (
@@ -119,41 +120,28 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                             <AreaButton userClickHandler={resetGameHandler} icon={<SVGTimes />} />
                         ) : (
                             <>
-                                <AreaButton
-                                    userClickHandler={() => {
-                                        openModal();
-                                    }}
-                                    icon={<SVGQuestion />}
-                                />
-                                <AreaButton userClickHandler={userBuildRandomShipsHandler} icon={<SVGRandom />} />
-                                <AreaButton userClickHandler={userClearAreaHandler} icon={<SVGTrash />} />
+                                <AreaButton userClickHandler={openModal} icon={<SVGQuestion />} />
+                                <AreaButton userClickHandler={userRandomLocationShipsHandler} icon={<SVGRandom />} />
+                                <AreaButton userClickHandler={userClearFieldHandler} icon={<SVGTrash />} />
                                 <AreaButton userClickHandler={startGameHandler} icon={<SVGPlay />} />
                             </>
                         )}
                     </AreaButtons>
                 )}
                 <div className="area__letters">
-                    {AREA_LETTERS.map(letter => (
-                        <div className="cell" key={letter}>
-                            {letter.toLocaleUpperCase()}
-                        </div>
-                    ))}
+                    <AreaAxes array={AREA_LETTERS} />
                 </div>
                 <div className="area__numbers">
-                    {AREA_NUMBERS.map(number => (
-                        <div className="cell" key={number}>
-                            {number.toUpperCase()}
-                        </div>
-                    ))}
+                    <AreaAxes array={AREA_NUMBERS} />
                 </div>
-                <div className={`area__wrapper ${areaClassNameDisabled} ${areaOwner.toLowerCase()}`}>
-                    <Field playerAffiliation={areaOwner} />
+                <div className={`area__wrapper ${fieldClassNameDisabled} ${areaOwner.toLowerCase()}`}>
+                    <Field fieldOwner={areaOwner} />
                 </div>
             </div>
-            {open && (
+            {openHints && (
                 <Modal clickedOutside={closeModal}>{!gameStart && !gameOver ? <Rules /> : <WinnerMessage player={currentPlayer} />}</Modal>
             )}
-            {areaOwner === Computer && gameStart && <Hints hintText={displayHints()} />}
+            {areaOwner === Computer && gameStart && <Hints hintText={displayHints} />}
         </div>
     );
 };

@@ -13,10 +13,10 @@ import { RootStore } from '../../store';
 import { createField } from '../../utils/field';
 
 interface BuildFieldProps {
-    playerAffiliation: Owners;
+    fieldOwner: Owners;
 }
 
-const Field: FC<BuildFieldProps> = ({ playerAffiliation }: BuildFieldProps) => {
+const Field: FC<BuildFieldProps> = ({ fieldOwner }: BuildFieldProps) => {
     const { renderUserField, renderComputerField } = useActions();
     const { User } = Owners;
     const {
@@ -24,7 +24,7 @@ const Field: FC<BuildFieldProps> = ({ playerAffiliation }: BuildFieldProps) => {
         computer: { computerField },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
 
-    const currentField = playerAffiliation === User ? userField : computerField;
+    const currentField = fieldOwner === User ? userField : computerField;
 
     useEffect(() => {
         renderUserField(createField());
@@ -34,7 +34,7 @@ const Field: FC<BuildFieldProps> = ({ playerAffiliation }: BuildFieldProps) => {
     return (
         <>
             {currentField.map((row: ICell[], idx: number) => (
-                <CellRow key={row[idx].id} row={row} owner={playerAffiliation} />
+                <CellRow key={row[idx].id} row={row} owner={fieldOwner} />
             ))}
         </>
     );

@@ -1,24 +1,25 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { ICell } from '../../interface';
-import { Owners } from '../../enums';
+import { RootStore } from '../../store';
+import useActions from '../../hooks/useActions';
 
-import randomLocationShips from '../../utils/randomLocationShips';
+import { Owners } from '../../enums';
+import { ICell } from '../../interface';
+
+import { createField } from '../../utils/field';
 
 import CellRow from '../CellRow/CellRow';
 
-import useActions from '../../hooks/useActions';
-import { RootStore } from '../../store';
-import { createField } from '../../utils/field';
-
-interface BuildFieldProps {
+interface IFieldProps {
     fieldOwner: Owners;
 }
 
-const Field: FC<BuildFieldProps> = ({ fieldOwner }: BuildFieldProps) => {
-    const { renderUserField, renderComputerField } = useActions();
+const Field: FC<IFieldProps> = ({ fieldOwner }: IFieldProps) => {
     const { User } = Owners;
+
+    const { renderUserField, renderComputerField } = useActions();
+
     const {
         user: { userField },
         computer: { computerField },
@@ -28,13 +29,13 @@ const Field: FC<BuildFieldProps> = ({ fieldOwner }: BuildFieldProps) => {
 
     useEffect(() => {
         renderUserField(createField());
-        renderComputerField(randomLocationShips(createField()));
+        renderComputerField(createField());
     }, []);
 
     return (
         <>
             {currentField.map((row: ICell[], idx: number) => (
-                <CellRow key={row[idx].id} row={row} owner={fieldOwner} />
+                <CellRow key={row[idx].id} row={row} cellRowOwner={fieldOwner} />
             ))}
         </>
     );

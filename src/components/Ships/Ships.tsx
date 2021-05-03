@@ -1,21 +1,23 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 
-import { getUniqId } from '../../helpers';
-import ShipRow from '../ShipsRow/ShipRow';
-
-import { Owners } from '../../enums';
 import { RootStore } from '../../store';
 
-import './Ships.scss';
 import { SHIPS } from '../../constants';
+import { Owners } from '../../enums';
+import { getUniqId } from '../../helpers';
 
-interface ShipsProps {
+import ShipRow from '../ShipsRow/ShipRow';
+
+import './Ships.scss';
+
+interface IShipsProps {
     shipsOwner: Owners;
 }
 
-const Ships: FC<ShipsProps> = ({ shipsOwner }: ShipsProps) => {
+const Ships: FC<IShipsProps> = ({ shipsOwner }: IShipsProps) => {
     const { User } = Owners;
+
     const {
         user: { userShips },
         computer: { computerShips },
@@ -24,17 +26,19 @@ const Ships: FC<ShipsProps> = ({ shipsOwner }: ShipsProps) => {
     const shipsArray = shipsOwner === User ? userShips.slice() : computerShips.slice();
 
     const ships = [...SHIPS].map(ship => {
-        const obj = {
+        const temp = {
             length: ship,
-            isHas: !!shipsArray.find(fShips => fShips === ship),
+            isHas: !!shipsArray.find(currentShip => currentShip === ship),
         };
-        if (obj.isHas) {
+
+        if (temp.isHas) {
             shipsArray.splice(
-                shipsArray.findIndex(elt => elt === ship),
+                shipsArray.findIndex(currentShip => currentShip === ship),
                 1,
             );
         }
-        return obj;
+
+        return temp;
     });
 
     return (

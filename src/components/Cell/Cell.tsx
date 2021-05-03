@@ -2,21 +2,26 @@ import React, { FC, MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootStore } from '../../store';
+import useActions from '../../hooks';
 
 import { SHIPS } from '../../constants';
 import { Owners } from '../../enums';
 import { getClassNames } from '../../helpers';
-import useActions from '../../hooks';
 import { ICell } from '../../interface';
 
 import { startCreateShip } from '../../utils/customCreateShip';
+import { isFinishGame } from '../../utils/field';
 import randomComputerShot from '../../utils/randomComputerShot';
+import { checkShot, getAllShips, getNonExplodeShips } from '../../utils/ship';
 
 import './Cell.scss';
-import { isFinishGame } from '../../utils/field';
-import { getAllShips, getNonExplodeShips, checkShot } from '../../utils/ship';
 
 const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) => {
+    const { User, Computer } = Owners;
+    const isUser = owner === User;
+    const isDisabled = isUser ? hit || ship || miss || lock : hit || miss || explode;
+    const className = isUser ? getClassNames({ hit, miss, ship, lock, explode }) : getClassNames({ hit, miss, explode });
+
     const {
         renderUserField,
         renderComputerField,
@@ -33,10 +38,6 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
         computer: { computerField },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
 
-    const { User, Computer } = Owners;
-    const isUser = owner === User;
-    const isDisabled = isUser ? hit || ship || miss || lock : hit || miss || explode;
-    const className = isUser ? getClassNames({ hit, miss, ship, lock, explode }) : getClassNames({ hit, miss, explode });
     let currentField = isUser ? userField : computerField;
 
     const manageGameStatus = (field: ICell[][]): void => {
@@ -68,7 +69,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
             } else if (!isFinishGame(field)) {
                 changeCurrentPlayer(User);
             }
-        }, 100);
+        }, 700);
     };
 
     const updateComputerCellOnShot = (): void => {

@@ -2,19 +2,19 @@ import React, { FC, useEffect } from 'react';
 
 import './Modal.scss';
 
-type ModalProps = {
+interface IModalProps {
     clickedOutside: () => void;
     children: JSX.Element;
-};
+}
 
-const Modal: FC<ModalProps> = ({ clickedOutside, children }: ModalProps) => {
-    const handleKeyDown = ({ keyCode }: KeyboardEvent) => {
+const Modal: FC<IModalProps> = ({ clickedOutside, children }: IModalProps) => {
+    const handleKeyDown = ({ keyCode }: KeyboardEvent): void => {
         if (keyCode === 27) {
             clickedOutside();
         }
     };
 
-    const handleClickOutside = ({ target }: MouseEvent) => {
+    const handleClickOutside = ({ target }: MouseEvent): void => {
         if ((target as HTMLElement).classList.contains('modal')) {
             clickedOutside();
         }

@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
 
-import { IHints } from '../../interface';
+interface IHintsProps {
+    hintText: string;
+}
 
-const Hints: FC<IHints> = ({ hintText }: IHints) => {
+const Hints: FC<IHintsProps> = ({ hintText }: IHintsProps) => {
     return (
         <div className="sea-battle__hints hints">
             <h2>{hintText}</h2>

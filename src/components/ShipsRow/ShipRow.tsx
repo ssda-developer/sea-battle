@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 
-import Ship from '../Ship/Ship';
+import { getClassNames } from '../../helpers';
 
-import { getUniqId } from '../../helpers';
+import Ship from '../Ship/Ship';
 
 interface IShipRowProps {
     shipLength: number;
@@ -11,10 +11,8 @@ interface IShipRowProps {
 
 const ShipRow: FC<IShipRowProps> = ({ shipLength, shipHas }: IShipRowProps) => {
     return (
-        <div className={`ships__row ship ${shipHas ? 'is-has' : ''}`}>
-            {[0].map(() => (
-                <Ship key={getUniqId()} id={getUniqId()} cellCount={shipLength} />
-            ))}
+        <div className={`ships__row ship ${getClassNames({ 'is-has': shipHas })}`}>
+            <Ship cellCount={shipLength} />
         </div>
     );
 };

@@ -2,14 +2,14 @@ import React, { FC, MouseEvent, ReactElement } from 'react';
 
 import './AreaButton.scss';
 
-type AreaButtonProps = {
+interface AreaButtonProps {
     icon: ReactElement;
-    userClickHandler: (event: MouseEvent<HTMLButtonElement>) => void;
-};
+    clicked: (event: MouseEvent<HTMLButtonElement>) => void;
+}
 
-const AreaButton: FC<AreaButtonProps> = ({ icon, userClickHandler }: AreaButtonProps) => {
+const AreaButton: FC<AreaButtonProps> = ({ icon, clicked }: AreaButtonProps) => {
     return (
-        <button type="button" className="area__button" onClick={userClickHandler}>
+        <button type="button" className="area__button" onClick={clicked}>
             {icon}
         </button>
     );

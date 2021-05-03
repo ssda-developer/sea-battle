@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import useActions from '../../hooks/useActions';
 import { RootStore } from '../../store';
+import useActions from '../../hooks/useActions';
 
 import { AREA_LETTERS, AREA_NUMBERS, SHIPS } from '../../constants';
 import { HintOptions, Owners } from '../../enums';
@@ -15,11 +15,11 @@ import AreaAxes from '../AreaAxes';
 import AreaButton from '../AreaButton';
 import AreaButtons from '../AreaButtons';
 import Field from '../Field';
+import GameOverMessage from '../GameOverMessage';
 import Hints from '../Hints';
 import Modal from '../Modal';
 import Rules from '../Rules';
 import Ships from '../Ships/Ships';
-import WinnerMessage from '../WinnerMessage';
 
 import { ReactComponent as SVGPlay } from '../../assets/icons/play.svg';
 import { ReactComponent as SVGQuestion } from '../../assets/icons/question.svg';
@@ -64,7 +64,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const fieldClassNameDisabled =
         (areaOwner === Computer && !gameStart) || (areaOwner === User && gameStart) || currentPlayer === Computer ? 'is-disabled' : '';
 
-    const userRandomLocationShipsHandler = () => {
+    const userRandomLocationShipsHandler = (): void => {
         renderUserField(randomLocationShips(createField()));
 
         if (!userComplete) {
@@ -73,7 +73,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         }
     };
 
-    const userClearFieldHandler = () => {
+    const userClearFieldHandler = (): void => {
         renderUserField(createField());
         renderComputerField(createField());
         changeUserFieldComplete(false);
@@ -82,7 +82,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         resetInitialShipsValues();
     };
 
-    const startGameHandler = () => {
+    const startGameHandler = (): void => {
         if (!userComplete) {
             renderUserField(randomLocationShips(createField()));
             changeUserShips([...SHIPS]);
@@ -93,16 +93,16 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         changeGameStart(true);
     };
 
-    const resetGameHandler = () => {
+    const resetGameHandler = (): void => {
         userClearFieldHandler();
         changeGameStart(false);
     };
 
-    const openModal = () => {
+    const openModal = (): void => {
         setOpenHints(true);
     };
 
-    const closeModal = () => {
+    const closeModal = (): void => {
         setOpenHints(false);
 
         if (gameOver) {
@@ -117,13 +117,13 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                 {areaOwner === User && (
                     <AreaButtons>
                         {gameStart ? (
-                            <AreaButton userClickHandler={resetGameHandler} icon={<SVGTimes />} />
+                            <AreaButton clicked={resetGameHandler} icon={<SVGTimes />} />
                         ) : (
                             <>
-                                <AreaButton userClickHandler={openModal} icon={<SVGQuestion />} />
-                                <AreaButton userClickHandler={userRandomLocationShipsHandler} icon={<SVGRandom />} />
-                                <AreaButton userClickHandler={userClearFieldHandler} icon={<SVGTrash />} />
-                                <AreaButton userClickHandler={startGameHandler} icon={<SVGPlay />} />
+                                <AreaButton clicked={openModal} icon={<SVGQuestion />} />
+                                <AreaButton clicked={userRandomLocationShipsHandler} icon={<SVGRandom />} />
+                                <AreaButton clicked={userClearFieldHandler} icon={<SVGTrash />} />
+                                <AreaButton clicked={startGameHandler} icon={<SVGPlay />} />
                             </>
                         )}
                     </AreaButtons>
@@ -139,7 +139,9 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                 </div>
             </div>
             {openHints && (
-                <Modal clickedOutside={closeModal}>{!gameStart && !gameOver ? <Rules /> : <WinnerMessage player={currentPlayer} />}</Modal>
+                <Modal clickedOutside={closeModal}>
+                    {!gameStart && !gameOver ? <Rules /> : <GameOverMessage player={currentPlayer} />}
+                </Modal>
             )}
             {areaOwner === Computer && gameStart && <Hints hintText={displayHints} />}
         </div>

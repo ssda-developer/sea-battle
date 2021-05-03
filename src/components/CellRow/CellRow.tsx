@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 
+import { Owners } from '../../enums';
 import { ICell } from '../../interface';
 
 import Cell from '../Cell/Cell';
-import { Owners } from '../../enums';
 
 interface ICellRowProps {
     row: Array<ICell>;
-    owner: Owners;
+    cellRowOwner: Owners;
 }
 
-const CellRow: FC<ICellRowProps> = ({ row, owner }: ICellRowProps) => {
+const CellRow: FC<ICellRowProps> = ({ row, cellRowOwner }: ICellRowProps) => {
     return (
         <div className="area__row">
             {row.map(({ id, ship, shipId, hit, miss, lock, lockId, explode }) => (
@@ -24,7 +24,7 @@ const CellRow: FC<ICellRowProps> = ({ row, owner }: ICellRowProps) => {
                     lock={lock}
                     lockId={lockId}
                     explode={explode}
-                    owner={owner}
+                    owner={cellRowOwner}
                 />
             ))}
         </div>

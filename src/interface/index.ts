@@ -32,7 +32,3 @@ export interface IGame {
     gameOver: boolean;
     currentPlayer: Owners | null;
 }
-
-export interface IHints {
-    hintText: string;
-}

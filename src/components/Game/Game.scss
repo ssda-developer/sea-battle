@@ -4,21 +4,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 100px;
+    padding: 4%;
     width: 100%;
-
-    &__container {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-
-    &__wrapper {
-        text-align: center;
-    }
 
     &__areas {
         display: flex;
-        margin-bottom: 20px;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
     }
 }

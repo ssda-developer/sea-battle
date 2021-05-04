@@ -11,13 +11,9 @@ const Game: FC = () => {
 
     return (
         <div className="sea-battle">
-            <div className="sea-battle__container">
-                <div className="sea-battle__wrapper">
-                    <div className="sea-battle__areas">
-                        <Area areaOwner={User} />
-                        <Area areaOwner={Computer} />
-                    </div>
-                </div>
+            <div className="sea-battle__areas">
+                <Area areaOwner={User} />
+                <Area areaOwner={Computer} />
             </div>
         </div>
     );

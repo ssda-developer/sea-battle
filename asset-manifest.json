@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/sea-battle/static/css/main.3a0acc0d.chunk.css",
+    "main.js": "/sea-battle/static/js/main.6ee81835.chunk.js",
+    "main.js.map": "/sea-battle/static/js/main.6ee81835.chunk.js.map",
+    "runtime-main.js": "/sea-battle/static/js/runtime-main.5a910fe2.js",
+    "runtime-main.js.map": "/sea-battle/static/js/runtime-main.5a910fe2.js.map",
+    "static/js/2.66505996.chunk.js": "/sea-battle/static/js/2.66505996.chunk.js",
+    "static/js/2.66505996.chunk.js.map": "/sea-battle/static/js/2.66505996.chunk.js.map",
+    "index.html": "/sea-battle/index.html",
+    "static/css/main.3a0acc0d.chunk.css.map": "/sea-battle/static/css/main.3a0acc0d.chunk.css.map",
+    "static/js/2.66505996.chunk.js.LICENSE.txt": "/sea-battle/static/js/2.66505996.chunk.js.LICENSE.txt",
+    "static/media/frown.93f55f3a.svg": "/sea-battle/static/media/frown.93f55f3a.svg",
+    "static/media/play.b1032db7.svg": "/sea-battle/static/media/play.b1032db7.svg",
+    "static/media/question.a5ae4239.svg": "/sea-battle/static/media/question.a5ae4239.svg",
+    "static/media/random.2c4d7202.svg": "/sea-battle/static/media/random.2c4d7202.svg",
+    "static/media/smile.080b5c10.svg": "/sea-battle/static/media/smile.080b5c10.svg",
+    "static/media/times.65cc6ffe.svg": "/sea-battle/static/media/times.65cc6ffe.svg",
+    "static/media/trash.3a1e6017.svg": "/sea-battle/static/media/trash.3a1e6017.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5a910fe2.js",
+    "static/js/2.66505996.chunk.js",
+    "static/css/main.3a0acc0d.chunk.css",
+    "static/js/main.6ee81835.chunk.js"
+  ]
+}

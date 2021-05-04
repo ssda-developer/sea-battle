@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sea-battle/static/css/main.3a0acc0d.chunk.css",
-    "main.js": "/sea-battle/static/js/main.6ee81835.chunk.js",
-    "main.js.map": "/sea-battle/static/js/main.6ee81835.chunk.js.map",
-    "runtime-main.js": "/sea-battle/static/js/runtime-main.5a910fe2.js",
-    "runtime-main.js.map": "/sea-battle/static/js/runtime-main.5a910fe2.js.map",
-    "static/js/2.66505996.chunk.js": "/sea-battle/static/js/2.66505996.chunk.js",
-    "static/js/2.66505996.chunk.js.map": "/sea-battle/static/js/2.66505996.chunk.js.map",
+    "main.js": "/sea-battle/static/js/main.83d4ec35.chunk.js",
+    "main.js.map": "/sea-battle/static/js/main.83d4ec35.chunk.js.map",
+    "runtime-main.js": "/sea-battle/static/js/runtime-main.0a878c37.js",
+    "runtime-main.js.map": "/sea-battle/static/js/runtime-main.0a878c37.js.map",
+    "static/js/2.7b33a7ab.chunk.js": "/sea-battle/static/js/2.7b33a7ab.chunk.js",
+    "static/js/2.7b33a7ab.chunk.js.map": "/sea-battle/static/js/2.7b33a7ab.chunk.js.map",
     "index.html": "/sea-battle/index.html",
     "static/css/main.3a0acc0d.chunk.css.map": "/sea-battle/static/css/main.3a0acc0d.chunk.css.map",
-    "static/js/2.66505996.chunk.js.LICENSE.txt": "/sea-battle/static/js/2.66505996.chunk.js.LICENSE.txt",
+    "static/js/2.7b33a7ab.chunk.js.LICENSE.txt": "/sea-battle/static/js/2.7b33a7ab.chunk.js.LICENSE.txt",
     "static/media/frown.93f55f3a.svg": "/sea-battle/static/media/frown.93f55f3a.svg",
     "static/media/play.b1032db7.svg": "/sea-battle/static/media/play.b1032db7.svg",
     "static/media/question.a5ae4239.svg": "/sea-battle/static/media/question.a5ae4239.svg",
@@ -19,9 +19,9 @@
     "static/media/trash.3a1e6017.svg": "/sea-battle/static/media/trash.3a1e6017.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.5a910fe2.js",
-    "static/js/2.66505996.chunk.js",
+    "static/js/runtime-main.0a878c37.js",
+    "static/js/2.7b33a7ab.chunk.js",
     "static/css/main.3a0acc0d.chunk.css",
-    "static/js/main.6ee81835.chunk.js"
+    "static/js/main.83d4ec35.chunk.js"
   ]
 }

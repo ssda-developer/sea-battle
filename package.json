@@ -1,8 +1,16 @@
 {
-    "name": "my-app",
-    "version": "0.1.0",
-    "private": true,
+    "name": "sea-battle",
+    "description": "React App",
+    "version": "1.0.0",
     "homepage": "http://ssda-developer.github.io/sea-battle",
+    "contributors": [
+        {
+            "name": "Sanya Marynych"
+        },
+        {
+            "name": "Sergio Siritsa"
+        }
+    ],
     "dependencies": {
         "@testing-library/jest-dom": "^5.11.9",
         "@testing-library/react": "^11.2.3",

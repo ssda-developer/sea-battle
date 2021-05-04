@@ -45,6 +45,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         changeComputerShips,
         changeUserFieldComplete,
         changeGameOver,
+        changeCurrentPlayer,
     } = useActions();
 
     const {
@@ -62,7 +63,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
 
     const displayHints = currentPlayer === Computer ? ComputerShot : PlayerShot;
     const fieldClassNameDisabled =
-        (areaOwner === Computer && !gameStart) || (areaOwner === User && gameStart) || currentPlayer === Computer ? 'is-disabled' : '';
+        (areaOwner === User && gameStart) || (areaOwner === Computer && !gameStart) || currentPlayer === Computer ? 'is-disabled' : '';
 
     const userRandomLocationShipsHandler = (): void => {
         renderUserField(randomLocationShips(createField()));
@@ -91,6 +92,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         renderComputerField(randomLocationShips(createField()));
         changeComputerShips([...SHIPS]);
         changeGameStart(true);
+        changeCurrentPlayer(User);
     };
 
     const resetGameHandler = (): void => {

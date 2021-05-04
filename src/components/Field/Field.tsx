@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootStore } from '../../store';
-import useActions from '../../hooks/useActions';
+import useActions from '../../hooks';
 
 import { Owners } from '../../enums';
 import { ICell } from '../../interface';

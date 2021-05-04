@@ -69,7 +69,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
             } else if (!isFinishGame(field)) {
                 changeCurrentPlayer(User);
             }
-        }, 700);
+        }, 500);
     };
 
     const updateComputerCellOnShot = (): void => {

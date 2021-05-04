@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import './Hints.scss';
+
 interface IHintsProps {
     hintText: string;
 }
@@ -7,7 +9,7 @@ interface IHintsProps {
 const Hints: FC<IHintsProps> = ({ hintText }: IHintsProps) => {
     return (
         <div className="sea-battle__hints hints">
-            <h2>{hintText}</h2>
+            <p>{hintText}</p>
         </div>
     );
 };

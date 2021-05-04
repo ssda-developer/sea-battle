@@ -9,9 +9,14 @@
     width: 100%;
 
     &__areas {
+        align-items: flex-start;
         display: flex;
         justify-content: center;
         text-align: center;
         width: 100%;
+    }
+
+    &__area {
+        margin: 0 20px;
     }
 }

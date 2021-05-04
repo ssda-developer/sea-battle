@@ -15,7 +15,7 @@ import AreaAxes from '../AreaAxes';
 import AreaButton from '../AreaButton';
 import AreaButtons from '../AreaButtons';
 import Field from '../Field';
-import GameOverMessage from '../GameOverMessage';
+import FinalMessage from '../FinalMessage';
 import Hints from '../Hints';
 import Modal from '../Modal';
 import Rules from '../Rules';
@@ -139,9 +139,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                 </div>
             </div>
             {openHints && (
-                <Modal clickedOutside={closeModal}>
-                    {!gameStart && !gameOver ? <Rules /> : <GameOverMessage player={currentPlayer} />}
-                </Modal>
+                <Modal clickedOutside={closeModal}>{!gameStart && !gameOver ? <Rules /> : <FinalMessage player={currentPlayer} />}</Modal>
             )}
             {areaOwner === Computer && gameStart && <Hints hintText={displayHints} />}
         </div>

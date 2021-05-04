@@ -1,10 +1,28 @@
-<h1>Игра "Морской бой"</h1>
-<hr>
-<h2>Описание игры</h2>
-<p>«Морской бой» — игра для двух участников, в которой игроки по очереди называют координаты на неизвестной им карте соперника. Если у соперника по этим координатам имеется корабль (координаты заняты), то корабль или его часть «топится», а попавший получает право сделать ещё один ход. Цель игрока — первым потопить все корабли противника.</p>
-<p>Игровое поле имеет площадь 10x10. На игровом поле размещаются:<br>
-1 корабль — ряд из 4 клеток («четырёхпалубный»; линкор)<br>
-2 корабля — ряд из 3 клеток («трёхпалубные»; крейсера)<br>
-3 корабля — ряд из 2 клеток («двухпалубные»; эсминцы)<br>
-4 корабля — 1 клетка («однопалубные»; торпедные катера)</p>
-<p>При размещении корабли не могут касаться друг друга сторонами и углами. Расстояние между кораблями минимум 1 клетка.</p>
+# Sea Battle
+
+Sea battle game implemented on React+TypeScript.<br>
+You can visit the [deployed app](http://ssda-developer.github.io/sea-battle).
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm start`
+
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
+
+### `npm run deploy`
+
+Deploys project on gh-pages!

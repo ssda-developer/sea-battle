@@ -1,27 +1,31 @@
 import { CellDirection, ShipDirection } from '../enums';
 import { getRandomValue } from '../helpers';
 import { ICell } from '../interface';
+
 import { isFinishGame } from './field';
-import { getCellCoordsById, getCellsAround, getRandomEmptyCell } from './cell';
+import { getCellCoordsById, getCellsAround, getCellsByDirection, getRandomEmptyCell } from './cell';
 import { checkShot } from './ship';
 
-let initialCellsForShot: ICell[] = [];
+let firstHitCell: null | ICell = null;
 let initialDirection: null | ShipDirection.Horizontal | ShipDirection.Vertical = null;
-let isFirstHit: null | ICell = null;
+let initialCellsForShot: {
+    VerticalCells: (ICell | null)[];
+    HorizontalCells: (ICell | null)[];
+} = {
+    VerticalCells: [],
+    HorizontalCells: [],
+};
 
 /**
  * Reset the initial values.
  */
 const resetInitialValues = (): void => {
-    isFirstHit = null;
+    firstHitCell = null;
     initialDirection = null;
-};
-
-/**
- * Reset the initial ships values.
- */
-const resetInitialCellsForShot = (): void => {
-    initialCellsForShot = [];
+    initialCellsForShot = {
+        VerticalCells: [],
+        HorizontalCells: [],
+    };
 };
 
 /**
@@ -36,49 +40,52 @@ const randomComputerShot = (field: ICell[][]): [ICell[][], boolean] => {
 
     const { Horizontal, Vertical } = ShipDirection;
     const { NonDiagonal } = CellDirection;
-    let cell = getRandomEmptyCell(field);
+    const { VerticalCells, HorizontalCells } = initialCellsForShot;
+    let cell: ICell | null = getRandomEmptyCell(field);
     let again = false;
 
-    if (initialCellsForShot.length) {
-        cell = initialCellsForShot[getRandomValue(initialCellsForShot.length)];
-        initialCellsForShot.splice(initialCellsForShot.indexOf(cell), 1);
+    if (initialDirection === Vertical) {
+        cell = VerticalCells[getRandomValue(VerticalCells.length)];
+    } else if (initialDirection === Horizontal) {
+        cell = HorizontalCells[getRandomValue(HorizontalCells.length)];
+    } else if ([...VerticalCells, ...HorizontalCells].length) {
+        cell = [...VerticalCells, ...HorizontalCells][getRandomValue([...VerticalCells, ...HorizontalCells].length)];
     }
 
-    if (cell.ship) {
-        const [cellCoordX, cellCoordY] = getCellCoordsById(field, cell.id);
-        const nonDiagonalCells = getCellsAround(field, cellCoordX, cellCoordY, NonDiagonal) as ICell[];
+    if (cell) {
+        if (cell.ship) {
+            const [cellCoordX, cellCoordY] = getCellCoordsById(field, cell.id);
+            const nonDiagonalCells = getCellsAround(field, cellCoordX, cellCoordY, NonDiagonal);
 
-        if (!initialCellsForShot.length) {
-            initialCellsForShot.push(...nonDiagonalCells);
-        }
+            VerticalCells.push(...getCellsByDirection(nonDiagonalCells, Vertical));
+            HorizontalCells.push(...getCellsByDirection(nonDiagonalCells, Horizontal));
 
-        if (isFirstHit) {
-            const [firstHitCoordX, firstHitCoordY] = getCellCoordsById(field, isFirstHit.id);
-            const nonDiagonalCellsFirstHitOnShip = getCellsAround(field, firstHitCoordX, firstHitCoordY, NonDiagonal) as ICell[];
+            if (firstHitCell) {
+                const [firstHitCoordX, firstHitCoordY] = getCellCoordsById(field, firstHitCell.id);
+                const nonDiagonalCellsFirstHitOnShip = getCellsAround(field, firstHitCoordX, firstHitCoordY, NonDiagonal);
 
-            if (!initialDirection) {
-                initialDirection = cellCoordX === firstHitCoordX ? Horizontal : Vertical;
-                resetInitialCellsForShot();
+                VerticalCells.push(...getCellsByDirection(nonDiagonalCellsFirstHitOnShip, Vertical));
+                HorizontalCells.push(...getCellsByDirection(nonDiagonalCellsFirstHitOnShip, Horizontal));
+
+                if (!initialDirection) {
+                    initialDirection = cellCoordX === firstHitCoordX ? Horizontal : Vertical;
+                }
+            } else {
+                firstHitCell = cell;
             }
 
-            initialCellsForShot = [...nonDiagonalCells, ...nonDiagonalCellsFirstHitOnShip].filter((_, idx) =>
-                initialDirection === Vertical ? idx % 2 === 0 : idx % 2 !== 0,
-            );
-        } else {
-            isFirstHit = cell;
+            again = true;
         }
 
-        again = true;
+        checkShot(field, cell.id);
+
+        if (cell.explode) {
+            resetInitialValues();
+        }
     }
 
-    checkShot(field, cell.id);
-
-    if (cell.explode) {
-        resetInitialCellsForShot();
-        resetInitialValues();
-    }
-
-    initialCellsForShot = initialCellsForShot.filter(el => el !== null && !el.hit && !el.miss);
+    initialCellsForShot.VerticalCells = VerticalCells.filter(el => el && !el.hit && !el.miss);
+    initialCellsForShot.HorizontalCells = HorizontalCells.filter(el => el && !el.hit && !el.miss);
 
     return [field, again];
 };

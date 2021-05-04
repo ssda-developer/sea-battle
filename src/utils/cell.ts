@@ -1,5 +1,5 @@
 import { ICell } from '../interface';
-import { CellDirection } from '../enums';
+import { CellDirection, ShipDirection } from '../enums';
 import { getRandomValue, iteratingFlatArray, iteratingTwoDimensionalArray } from '../helpers';
 
 /**
@@ -72,6 +72,18 @@ export const getCellCoordsById = (field: ICell[][], cellId: string): number[] =>
     });
 
     return coords;
+};
+
+/**
+ * Get cells vertically or horizontally.
+ *
+ * @param array
+ * @param direction
+ */
+export const getCellsByDirection = (array: (ICell | null)[], direction: ShipDirection): (ICell | null)[] => {
+    const { Vertical } = ShipDirection;
+
+    return array.filter((_, idx) => (direction === Vertical ? idx % 2 === 0 : idx % 2 !== 0));
 };
 
 /**

@@ -4,7 +4,11 @@
     }
 
     &__button-cell {
-        --ship-button-cell-size: calc(var(--global-field-size) / 1.5 - 1px);
+        --ship-button-cell-size: calc(var(--global-field-size) / 1.6 - 1px);
+
+        @media screen and (max-width: 1279px) {
+            --ship-button-cell-size: calc(var(--global-field-size) / 1.8 - 1px);
+        }
 
         background: var(--color-2--3);
         height: var(--ship-button-cell-size);

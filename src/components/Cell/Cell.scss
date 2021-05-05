@@ -7,10 +7,15 @@
     background: var(--field-background);
     color: var(--field-color);
     display: flex;
+    font-size: 15px;
     height: var(--field-size);
     justify-content: center;
     margin: 1px;
     width: var(--field-size);
+
+    @media screen and (max-width: 1279px) {
+        font-size: 12px;
+    }
 
     .area__letters &,
     .area__numbers & {

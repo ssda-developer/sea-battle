@@ -4,6 +4,8 @@ import { getClassNames } from '../../helpers';
 
 import Ship from '../Ship/Ship';
 
+import './ShipsRow.scss';
+
 interface IShipRowProps {
     shipLength: number;
     shipHas: boolean;

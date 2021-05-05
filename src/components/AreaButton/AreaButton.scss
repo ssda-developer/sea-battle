@@ -14,13 +14,10 @@
     }
 
     svg {
-        fill: var(--color-white);
-        height: 17px;
-        width: 17px;
+        --svg-size: calc(var(--global-field-size) / 2.4);
 
-        @media screen and (max-width: 1279px) {
-            height: 13px;
-            width: 13px;
-        }
+        fill: var(--color-white);
+        height: var(--svg-size);
+        width: var(--svg-size);
     }
 }

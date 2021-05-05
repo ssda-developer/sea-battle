@@ -9,6 +9,10 @@
     padding: 4%;
     width: 100%;
 
+    @media screen and (max-width: 1439px) {
+        --global-field-size: 43px;
+    }
+
     @media screen and (max-width: 1279px) {
         --global-field-size: 26px;
 

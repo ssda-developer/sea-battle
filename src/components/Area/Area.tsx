@@ -12,6 +12,8 @@ import Ships from '../Ships/Ships';
 
 import './Area.scss';
 
+import { AreaDiv, AreaContainerDiv, AreaLettersDiv, AreaNumbersDiv, AreaWrapperDiv } from './styles';
+
 interface AreaProps {
     areaOwner: Owners;
 }
@@ -22,23 +24,23 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     const { gameStart, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
     const fieldClassNameDisabled =
-        (areaOwner === User && gameStart) || (areaOwner === Computer && !gameStart) || currentPlayer === Computer ? 'is-disabled' : '';
+        (areaOwner === User && gameStart) || (areaOwner === Computer && !gameStart) || currentPlayer === Computer;
 
     return (
-        <div className={`area ${areaOwner.toLowerCase()}`}>
+        <AreaDiv className={`${areaOwner.toLowerCase()}`} aOwner={areaOwner}>
             <Ships shipsOwner={areaOwner} />
-            <div className="area__container">
-                <div className="area__letters">
+            <AreaContainerDiv>
+                <AreaLettersDiv>
                     <AreaAxes array={AREA_LETTERS} />
-                </div>
-                <div className="area__numbers">
+                </AreaLettersDiv>
+                <AreaNumbersDiv>
                     <AreaAxes array={AREA_NUMBERS} />
-                </div>
-                <div className={`area__wrapper ${fieldClassNameDisabled} ${areaOwner.toLowerCase()}`}>
+                </AreaNumbersDiv>
+                <AreaWrapperDiv isDisabled={fieldClassNameDisabled}>
                     <Field fieldOwner={areaOwner} />
-                </div>
-            </div>
-        </div>
+                </AreaWrapperDiv>
+            </AreaContainerDiv>
+        </AreaDiv>
     );
 };
 

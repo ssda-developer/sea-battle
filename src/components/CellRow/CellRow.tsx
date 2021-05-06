@@ -5,6 +5,8 @@ import { ICell } from '../../interface';
 
 import Cell from '../Cell/Cell';
 
+import { AreaRow } from './styles';
+
 interface ICellRowProps {
     row: Array<ICell>;
     cellRowOwner: Owners;
@@ -12,7 +14,7 @@ interface ICellRowProps {
 
 const CellRow: FC<ICellRowProps> = ({ row, cellRowOwner }: ICellRowProps) => {
     return (
-        <div className="area__row">
+        <AreaRow>
             {row.map(({ id, ship, shipId, hit, miss, lock, lockId, explode }) => (
                 <Cell
                     key={id}
@@ -27,7 +29,7 @@ const CellRow: FC<ICellRowProps> = ({ row, cellRowOwner }: ICellRowProps) => {
                     owner={cellRowOwner}
                 />
             ))}
-        </div>
+        </AreaRow>
     );
 };
 

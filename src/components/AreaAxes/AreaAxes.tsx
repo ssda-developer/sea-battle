@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 
+import { AreaAxesCell } from './styles';
+
 interface IAreaAxesProps {
     array: readonly string[];
 }
@@ -8,9 +10,7 @@ const AreaAxes: FC<IAreaAxesProps> = ({ array }: IAreaAxesProps) => {
     return (
         <>
             {array.map(el => (
-                <div className="cell" key={el}>
-                    {el.toUpperCase()}
-                </div>
+                <AreaAxesCell key={el}>{el.toUpperCase()}</AreaAxesCell>
             ))}
         </>
     );

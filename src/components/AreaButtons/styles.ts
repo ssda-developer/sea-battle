@@ -1,4 +1,6 @@
-.area__buttons {
+import styled from 'styled-components';
+
+export const StyledAreaButtons = styled.div`
     display: flex;
     justify-content: flex-end;
     margin-top: 10px;
@@ -10,4 +12,4 @@
         top: 0;
         transform: translateY(-100%) translateY(-5px);
     }
-}
+`;

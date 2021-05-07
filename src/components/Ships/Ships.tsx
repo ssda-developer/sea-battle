@@ -9,7 +9,7 @@ import { getUniqId } from '../../helpers';
 
 import ShipRow from '../ShipsRow/ShipRow';
 
-import './Ships.scss';
+import { StyledShips } from './styles';
 
 interface IShipsProps {
     shipsOwner: Owners;
@@ -23,7 +23,7 @@ const Ships: FC<IShipsProps> = ({ shipsOwner }: IShipsProps) => {
         computer: { computerShips },
     } = useSelector(({ areaReducer }: RootStore) => areaReducer);
 
-    const shipsArray = shipsOwner === User ? userShips.slice() : computerShips.slice();
+    const shipsArray = (shipsOwner === User ? userShips : computerShips).slice();
 
     const ships = [...SHIPS].map(ship => {
         const temp = {
@@ -42,11 +42,11 @@ const Ships: FC<IShipsProps> = ({ shipsOwner }: IShipsProps) => {
     });
 
     return (
-        <div className="ships">
+        <StyledShips styledOwner={shipsOwner}>
             {ships.map(({ length, isHas }) => (
                 <ShipRow key={getUniqId()} shipLength={length} shipHas={isHas} />
             ))}
-        </div>
+        </StyledShips>
     );
 };
 

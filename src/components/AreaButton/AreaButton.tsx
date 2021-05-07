@@ -1,6 +1,6 @@
 import React, { FC, MouseEvent, ReactElement } from 'react';
 
-import './AreaButton.scss';
+import { StyledAreaButton } from './styles';
 
 interface AreaButtonProps {
     icon: ReactElement;
@@ -8,11 +8,7 @@ interface AreaButtonProps {
 }
 
 const AreaButton: FC<AreaButtonProps> = ({ icon, clicked }: AreaButtonProps) => {
-    return (
-        <button type="button" className="area__button" onClick={clicked}>
-            {icon}
-        </button>
-    );
+    return <StyledAreaButton onClick={clicked}>{icon}</StyledAreaButton>;
 };
 
 export default AreaButton;

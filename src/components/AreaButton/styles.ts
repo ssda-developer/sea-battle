@@ -1,4 +1,6 @@
-.area__button {
+import styled from 'styled-components';
+
+export const StyledAreaButton = styled.button`
     align-items: center;
     background-color: var(--color-black);
     cursor: pointer;
@@ -20,4 +22,4 @@
         height: var(--svg-size);
         width: var(--svg-size);
     }
-}
+`;

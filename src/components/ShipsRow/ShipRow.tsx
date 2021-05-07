@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
 
-import { getClassNames } from '../../helpers';
-
 import Ship from '../Ship/Ship';
 
-import './ShipsRow.scss';
+import { StyledShipRow } from './styles';
 
 interface IShipRowProps {
     shipLength: number;
@@ -13,9 +11,9 @@ interface IShipRowProps {
 
 const ShipRow: FC<IShipRowProps> = ({ shipLength, shipHas }: IShipRowProps) => {
     return (
-        <div className={`ships__row ship ${getClassNames({ 'is-has': shipHas })}`}>
+        <StyledShipRow styledIsHas={shipHas}>
             <Ship cellCount={shipLength} />
-        </div>
+        </StyledShipRow>
     );
 };
 

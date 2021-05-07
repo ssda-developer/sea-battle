@@ -38,7 +38,9 @@ export const finishCreateShip = (field: ICell[][], currentShipId: string): ICell
         const cell = field[i][j];
 
         if (cell.shipId === currentShipId) {
-            getCellsAround(field, i, j, NonDiagonal).forEach(nonDiagonalCell => lockCell(nonDiagonalCell, initialShipId));
+            getCellsAround(field, i, j, NonDiagonal).forEach(nonDiagonalCell =>
+                lockCell(nonDiagonalCell, initialShipId),
+            );
         }
     });
     resetInitialValues();

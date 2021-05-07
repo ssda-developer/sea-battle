@@ -62,7 +62,12 @@ const randomComputerShot = (field: ICell[][]): [ICell[][], boolean] => {
 
             if (firstHitCell) {
                 const [firstHitCoordX, firstHitCoordY] = getCellCoordsById(field, firstHitCell.id);
-                const nonDiagonalCellsFirstHitOnShip = getCellsAround(field, firstHitCoordX, firstHitCoordY, NonDiagonal);
+                const nonDiagonalCellsFirstHitOnShip = getCellsAround(
+                    field,
+                    firstHitCoordX,
+                    firstHitCoordY,
+                    NonDiagonal,
+                );
 
                 VerticalCells.push(...getCellsByDirection(nonDiagonalCellsFirstHitOnShip, Vertical));
                 HorizontalCells.push(...getCellsByDirection(nonDiagonalCellsFirstHitOnShip, Horizontal));

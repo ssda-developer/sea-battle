@@ -10,9 +10,13 @@ import AreaAxes from '../AreaAxes';
 import Field from '../Field';
 import Ships from '../Ships/Ships';
 
-import './Area.scss';
-
-import { AreaDiv, AreaContainerDiv, AreaLettersDiv, AreaNumbersDiv, AreaWrapperDiv } from './styles';
+import {
+    StyledAreaDiv,
+    StyledAreaContainerDiv,
+    StyledAreaLettersDiv,
+    StyledAreaNumbersDiv,
+    StyledAreaWrapperDiv,
+} from './styles';
 
 interface AreaProps {
     areaOwner: Owners;
@@ -27,20 +31,20 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
         (areaOwner === User && gameStart) || (areaOwner === Computer && !gameStart) || currentPlayer === Computer;
 
     return (
-        <AreaDiv className={`${areaOwner.toLowerCase()}`} aOwner={areaOwner}>
+        <StyledAreaDiv>
             <Ships shipsOwner={areaOwner} />
-            <AreaContainerDiv>
-                <AreaLettersDiv>
+            <StyledAreaContainerDiv>
+                <StyledAreaLettersDiv>
                     <AreaAxes array={AREA_LETTERS} />
-                </AreaLettersDiv>
-                <AreaNumbersDiv>
+                </StyledAreaLettersDiv>
+                <StyledAreaNumbersDiv>
                     <AreaAxes array={AREA_NUMBERS} />
-                </AreaNumbersDiv>
-                <AreaWrapperDiv isDisabled={fieldClassNameDisabled}>
+                </StyledAreaNumbersDiv>
+                <StyledAreaWrapperDiv isDisabled={fieldClassNameDisabled}>
                     <Field fieldOwner={areaOwner} />
-                </AreaWrapperDiv>
-            </AreaContainerDiv>
-        </AreaDiv>
+                </StyledAreaWrapperDiv>
+            </StyledAreaContainerDiv>
+        </StyledAreaDiv>
     );
 };
 

@@ -20,7 +20,9 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
     const { User, Computer } = Owners;
     const isUser = owner === User;
     const isDisabled = isUser ? hit || ship || miss || lock : hit || miss || explode;
-    const className = isUser ? getClassNames({ hit, miss, ship, lock, explode }) : getClassNames({ hit, miss, explode });
+    const className = isUser
+        ? getClassNames({ hit, miss, ship, lock, explode })
+        : getClassNames({ hit, miss, explode });
 
     const {
         renderUserField,
@@ -78,7 +80,9 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
         renderComputerField(currentField);
         manageGameStatus(currentField);
 
-        const [{ miss: userClickMiss, explode: userClickExplode }] = computerField.flat().filter(cell => cell.id === id);
+        const [{ miss: userClickMiss, explode: userClickExplode }] = computerField
+            .flat()
+            .filter(cell => cell.id === id);
 
         if (userClickMiss) {
             changeCurrentPlayer(Computer);
@@ -101,7 +105,14 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
     };
 
     return (
-        <button type="button" id={id} className={`cell ${className}`} onClick={updateCellHandler} aria-label={id} disabled={isDisabled} />
+        <button
+            type="button"
+            id={id}
+            className={`cell ${className}`}
+            onClick={updateCellHandler}
+            aria-label={id}
+            disabled={isDisabled}
+        />
     );
 };
 

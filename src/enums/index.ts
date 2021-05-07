@@ -1,6 +1,8 @@
 export enum HintOptions {
     PlayerShot = 'Ваш ход',
     ComputerShot = 'Ход компьютера',
+    WinMessage = 'Поздравляем! Вы победили!',
+    LossMessage = 'Вы проиграли',
 }
 
 export enum Owners {

@@ -17,7 +17,7 @@
             "error",
             {
                 "semi": true,
-                "printWidth": 140,
+                "printWidth": 120,
                 "tabWidth": 4,
                 "singleQuote": true,
                 "bracketSpacing": true,

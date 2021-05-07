@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Owners } from '../../enums';
+import { Owners, HintOptions } from '../../enums';
 
 import { ReactComponent as SVGFrown } from '../../assets/icons/frown.svg';
 import { ReactComponent as SVGSmile } from '../../assets/icons/smile.svg';
@@ -13,7 +13,8 @@ interface IFinalMessageProps {
 
 const FinalMessage: FC<IFinalMessageProps> = ({ player }: IFinalMessageProps) => {
     const { User } = Owners;
-    const message = player === User ? 'Поздравляем! Вы победили!' : 'Вы проиграли';
+    const { WinMessage, LossMessage } = HintOptions;
+    const message = player === User ? WinMessage : LossMessage;
 
     return (
         <div className="final-message">

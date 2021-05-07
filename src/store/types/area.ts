@@ -31,4 +31,9 @@ export type ChangeUserFieldComplete = {
     payload: boolean;
 };
 
-export type AreaDispatchTypes = RenderUserField | RenderComputerField | ChangeUserFieldComplete | ChangeUserShips | ChangeComputerShips;
+export type AreaDispatchTypes =
+    | RenderUserField
+    | RenderComputerField
+    | ChangeUserFieldComplete
+    | ChangeUserShips
+    | ChangeComputerShips;

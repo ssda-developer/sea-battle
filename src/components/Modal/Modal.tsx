@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 
-import './Modal.scss';
+import { StyledModal, StyledModalMessage } from './styles';
 
 interface IModalProps {
     clickedOutside: () => void;
@@ -31,9 +31,9 @@ const Modal: FC<IModalProps> = ({ clickedOutside, children }: IModalProps) => {
     }, []);
 
     return (
-        <div className="modal">
-            <div className="modal__message">{children}</div>
-        </div>
+        <StyledModal className="modal">
+            <StyledModalMessage>{children}</StyledModalMessage>
+        </StyledModal>
     );
 };
 

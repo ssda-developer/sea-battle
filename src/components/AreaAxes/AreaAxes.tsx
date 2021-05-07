@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { AreaAxesCell } from './styles';
+import { StyledAreaAxesCell } from './styles';
 
 interface IAreaAxesProps {
     array: readonly string[];
@@ -10,7 +10,7 @@ const AreaAxes: FC<IAreaAxesProps> = ({ array }: IAreaAxesProps) => {
     return (
         <>
             {array.map(el => (
-                <AreaAxesCell key={el}>{el.toUpperCase()}</AreaAxesCell>
+                <StyledAreaAxesCell key={el}>{el.toUpperCase()}</StyledAreaAxesCell>
             ))}
         </>
     );

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const AreaAxesCell = styled.div`
+export const StyledAreaAxesCell = styled.div`
     --field-background: var(--color-1--3);
     --field-color: var(--color-white);
     --field-size: calc(var(--global-field-size) - 2px);

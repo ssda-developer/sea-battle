@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import './Hints.scss';
+import { StyledHints, StyledHintsText } from './styles';
 
 interface IHintsProps {
     hintText: string;
@@ -8,9 +8,9 @@ interface IHintsProps {
 
 const Hints: FC<IHintsProps> = ({ hintText }: IHintsProps) => {
     return (
-        <div className="sea-battle__hints hints">
-            <p>{hintText}</p>
-        </div>
+        <StyledHints>
+            <StyledHintsText>{hintText}</StyledHintsText>
+        </StyledHints>
     );
 };
 

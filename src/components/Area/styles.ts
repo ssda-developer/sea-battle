@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 
-interface IAreaWrapperDiv {
+interface IAreaWrapper {
     isDisabled: boolean;
 }
 
-const stylesAreaWrapperDivDisabled = css`
+const stylesAreaWrapperDisabled = css`
     opacity: 0.8;
     pointer-events: none;
 
@@ -13,37 +13,37 @@ const stylesAreaWrapperDivDisabled = css`
     }
 `;
 
-export const StyledAreaDiv = styled.div`
+export const StyledArea = styled.div`
     --area-row-size: calc(var(--global-field-size) * 10);
 
     position: relative;
     width: 100%;
 `;
 
-export const StyledAreaContainerDiv = styled.div`
+export const StyledAreaContainer = styled.div`
     background-color: var(--color-1--4);
     display: flex;
     flex-wrap: wrap;
     position: relative;
 `;
 
-export const StyledAreaLettersDiv = styled.div`
+export const StyledAreaLetters = styled.div`
     padding-left: var(--global-field-size);
     display: flex;
     pointer-events: none;
 `;
 
-export const StyledAreaNumbersDiv = styled.div`
+export const StyledAreaNumbers = styled.div`
     display: flex;
     flex-direction: column;
     pointer-events: none;
 `;
 
-export const StyledAreaWrapperDiv = styled.div<IAreaWrapperDiv>`
+export const StyledAreaWrapper = styled.div<IAreaWrapper>`
     display: flex;
     flex-wrap: wrap;
     margin: 0;
     width: var(--area-row-size);
 
-    ${({ isDisabled }) => isDisabled && stylesAreaWrapperDivDisabled}
+    ${({ isDisabled }) => isDisabled && stylesAreaWrapperDisabled}
 `;

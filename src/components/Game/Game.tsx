@@ -25,7 +25,7 @@ import { ReactComponent as SVGRandom } from '../../assets/icons/random.svg';
 import { ReactComponent as SVGTimes } from '../../assets/icons/times.svg';
 import { ReactComponent as SVGTrash } from '../../assets/icons/trash.svg';
 
-import { StyledSeaBattleDiv, StyledSeaBattleAreasDiv, StyledSeaBattleAreaDiv } from './style';
+import { StyledSeaBattle, StyledSeaBattleAreas, StyledSeaBattleArea } from './style';
 
 const Game: FC = () => {
     const { User, Computer } = Owners;
@@ -100,9 +100,9 @@ const Game: FC = () => {
     };
 
     return (
-        <StyledSeaBattleDiv>
-            <StyledSeaBattleAreasDiv>
-                <StyledSeaBattleAreaDiv>
+        <StyledSeaBattle>
+            <StyledSeaBattleAreas>
+                <StyledSeaBattleArea>
                     <Area areaOwner={User} />
                     <AreaButtons>
                         {gameStart ? (
@@ -116,12 +116,12 @@ const Game: FC = () => {
                             </>
                         )}
                     </AreaButtons>
-                </StyledSeaBattleAreaDiv>
-                <StyledSeaBattleAreaDiv>
+                </StyledSeaBattleArea>
+                <StyledSeaBattleArea>
                     <Area areaOwner={Computer} />
                     {gameStart && <Hints hintText={displayHints} />}
-                </StyledSeaBattleAreaDiv>
-            </StyledSeaBattleAreasDiv>
+                </StyledSeaBattleArea>
+            </StyledSeaBattleAreas>
             {gameOver && (
                 <Modal clickedOutside={closeModal}>
                     <FinalMessage player={currentPlayer} />
@@ -132,7 +132,7 @@ const Game: FC = () => {
                     <Rules />
                 </Modal>
             )}
-        </StyledSeaBattleDiv>
+        </StyledSeaBattle>
     );
 };
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const StyledSeaBattleDiv = styled.div`
+export const StyledSeaBattle = styled.div`
     --area-row-size: calc(var(--global-field-size) * 10);
 
     align-items: center;
@@ -27,7 +27,7 @@ export const StyledSeaBattleDiv = styled.div`
     }
 `;
 
-export const StyledSeaBattleAreasDiv = styled.div`
+export const StyledSeaBattleAreas = styled.div`
     align-items: flex-start;
     display: flex;
     justify-content: center;
@@ -39,7 +39,7 @@ export const StyledSeaBattleAreasDiv = styled.div`
     }
 `;
 
-export const StyledSeaBattleAreaDiv = styled.div`
+export const StyledSeaBattleArea = styled.div`
     margin: 0 20px;
     position: relative;
     width: calc(var(--area-row-size) + var(--global-field-size));

@@ -45,5 +45,5 @@ export const StyledAreaWrapper = styled.div<IAreaWrapper>`
     margin: 0;
     width: var(--area-row-size);
 
-    ${({ isDisabled }) => isDisabled && stylesAreaWrapperDisabled}
+    ${({ isDisabled }) => isDisabled && stylesAreaWrapperDisabled};
 `;

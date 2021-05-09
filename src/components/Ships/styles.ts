@@ -33,5 +33,5 @@ export const StyledShips = styled.div<IStyledShips>`
         display: none;
     }
 
-    ${({ styledOwner }) => (styledOwner === User ? stylesUserShips : stylesComputerShips)}
+    ${({ styledOwner }) => (styledOwner === User ? stylesUserShips : stylesComputerShips)};
 `;

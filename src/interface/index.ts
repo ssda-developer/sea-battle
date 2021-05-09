@@ -12,7 +12,7 @@ export interface ICell {
     lockId: string;
     explode: boolean;
     updateCellHandler?: (event: MouseEvent<HTMLButtonElement>) => void;
-    owner?: any;
+    owner?: Owners;
 }
 
 export interface IArea {

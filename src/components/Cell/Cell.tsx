@@ -6,7 +6,6 @@ import useActions from '../../hooks';
 
 import { SHIPS } from '../../constants';
 import { Owners } from '../../enums';
-import { getClassNames } from '../../helpers';
 import { ICell } from '../../interface';
 
 import { startCreateShip } from '../../utils/customCreateShip';
@@ -14,15 +13,12 @@ import { isFinishGame } from '../../utils/field';
 import randomComputerShot from '../../utils/randomComputerShot';
 import { checkShot, getAllShips, getNonExplodeShips } from '../../utils/ship';
 
-import './Cell.scss';
+import { StyledCell } from './styles';
 
 const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) => {
     const { User, Computer } = Owners;
     const isUser = owner === User;
     const isDisabled = isUser ? hit || ship || miss || lock : hit || miss || explode;
-    const className = isUser
-        ? getClassNames({ hit, miss, ship, lock, explode })
-        : getClassNames({ hit, miss, explode });
 
     const {
         renderUserField,
@@ -105,13 +101,19 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
     };
 
     return (
-        <button
+        <StyledCell
             type="button"
             id={id}
-            className={`cell ${className}`}
             onClick={updateCellHandler}
             aria-label={id}
             disabled={isDisabled}
+            styledCellOwner={owner}
+            styledHit={hit}
+            styledMiss={miss}
+            styledShip={ship}
+            styledLock={lock}
+            styledExplode={explode}
+            styledDisabled={isDisabled}
         />
     );
 };

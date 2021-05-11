@@ -19,6 +19,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
     const { User, Computer } = Owners;
     const isUser = owner === User;
     const isDisabled = isUser ? hit || ship || miss || lock : hit || miss || explode;
+    const classNames = isUser ? { hit, miss, ship, lock, explode } : { hit, miss, explode };
 
     const {
         renderUserField,
@@ -108,11 +109,7 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
             aria-label={id}
             disabled={isDisabled}
             styledCellOwner={owner}
-            styledHit={hit}
-            styledMiss={miss}
-            styledShip={ship}
-            styledLock={lock}
-            styledExplode={explode}
+            styledClassNames={classNames}
             styledDisabled={isDisabled}
         />
     );

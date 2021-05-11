@@ -6,11 +6,13 @@ const { User } = Owners;
 
 interface IStyledCell {
     styledCellOwner: Owners | undefined;
-    styledHit: boolean;
-    styledMiss: boolean;
-    styledShip: boolean;
-    styledLock: boolean;
-    styledExplode: boolean;
+    styledClassNames: {
+        hit?: boolean;
+        miss?: boolean;
+        ship?: boolean;
+        lock?: boolean;
+        explode?: boolean;
+    };
     styledDisabled: boolean;
 }
 
@@ -45,6 +47,22 @@ const stylesCellExplode = css`
     border-radius: 5px;
 `;
 
+const getStylesCell = ({ styledClassNames: { hit, miss, ship, lock, explode } }: IStyledCell): string => {
+    let styles = '';
+
+    if (miss) styles += stylesCellMiss;
+
+    if (ship) styles += stylesCellShip;
+
+    if (lock) styles += stylesCellLock;
+
+    if (hit) styles += stylesCellHit;
+
+    if (explode) styles += stylesCellExplode;
+
+    return styles;
+};
+
 export const StyledCell = styled.button<IStyledCell>`
     --field-background: var(--color-1--2);
     --field-color: var(--color-1--4);
@@ -61,13 +79,9 @@ export const StyledCell = styled.button<IStyledCell>`
     margin: 1px;
     width: var(--field-size);
 
-    ${({ styledMiss }) => styledMiss && stylesCellMiss};
-    ${({ styledShip, styledCellOwner }) => styledShip && styledCellOwner === User && stylesCellShip};
-    ${({ styledLock, styledCellOwner }) => styledLock && styledCellOwner === User && stylesCellLock};
-    ${({ styledHit }) => styledHit && stylesCellHit};
-    ${({ styledExplode }) => styledExplode && stylesCellExplode};
+    ${getStylesCell};
 
-    @media screen and (max-width: 1279px) {
+    @media screen and(max-width: 1279px) {
         font-size: 12px;
     }
 

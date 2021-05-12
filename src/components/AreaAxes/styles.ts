@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const StyledAreaAxesCell = styled.div`
     --field-background: var(--color-1--3);

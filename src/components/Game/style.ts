@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const StyledSeaBattle = styled.div`
     --area-row-size: calc(var(--global-field-size) * 10);

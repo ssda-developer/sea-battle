@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const StyledRules = styled.div`
     @media screen and (max-width: 767px) {

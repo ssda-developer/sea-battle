@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootStore } from '../../store';
@@ -42,4 +42,4 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
     );
 };
 
-export default Area;
+export default memo(Area);

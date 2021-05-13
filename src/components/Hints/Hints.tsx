@@ -1,15 +1,21 @@
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
+
+import { RootStore } from '../../store';
+
+import { HintOptions, Owners } from '../../enums';
 
 import { StyledHints, StyledHintsText } from './styles';
 
-interface IHintsProps {
-    hintText: string;
-}
+const Hints: FC = () => {
+    const { Computer } = Owners;
+    const { PlayerShot, ComputerShot } = HintOptions;
 
-const Hints: FC<IHintsProps> = ({ hintText }: IHintsProps) => {
+    const { currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
+
     return (
         <StyledHints>
-            <StyledHintsText>{hintText}</StyledHintsText>
+            <StyledHintsText>{currentPlayer === Computer ? ComputerShot : PlayerShot}</StyledHintsText>
         </StyledHints>
     );
 };

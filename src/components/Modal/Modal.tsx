@@ -1,39 +1,43 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, ReactNode, useEffect, useRef, MouseEvent } from 'react';
+
+import Portal from '../Portal';
 
 import { StyledModal, StyledModalMessage } from './styles';
 
 interface IModalProps {
     clickedOutside: () => void;
-    children: JSX.Element;
+    children: ReactNode;
 }
 
 const Modal: FC<IModalProps> = ({ clickedOutside, children }: IModalProps) => {
+    const backdrop = useRef(null);
+
     const handleKeyDown = ({ keyCode }: KeyboardEvent): void => {
         if (keyCode === 27) {
             clickedOutside();
         }
     };
 
-    const handleClickOutside = ({ target }: MouseEvent): void => {
-        if ((target as HTMLElement).classList.contains('modal')) {
+    const handleClickOutside = ({ target }: MouseEvent<HTMLDivElement>): void => {
+        if (backdrop.current === target) {
             clickedOutside();
         }
     };
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('click', handleClickOutside);
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('click', handleClickOutside);
         };
     }, []);
 
     return (
-        <StyledModal className="modal">
-            <StyledModalMessage>{children}</StyledModalMessage>
-        </StyledModal>
+        <Portal>
+            <StyledModal ref={backdrop} onClick={handleClickOutside}>
+                <StyledModalMessage>{children}</StyledModalMessage>
+            </StyledModal>
+        </Portal>
     );
 };
 

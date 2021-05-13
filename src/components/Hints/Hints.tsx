@@ -11,12 +11,16 @@ const Hints: FC = () => {
     const { Computer } = Owners;
     const { PlayerShot, ComputerShot } = HintOptions;
 
-    const { currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
+    const { gameStart, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
 
     return (
-        <StyledHints>
-            <StyledHintsText>{currentPlayer === Computer ? ComputerShot : PlayerShot}</StyledHintsText>
-        </StyledHints>
+        <>
+            {gameStart && (
+                <StyledHints>
+                    <StyledHintsText>{currentPlayer === Computer ? ComputerShot : PlayerShot}</StyledHintsText>
+                </StyledHints>
+            )}
+        </>
     );
 };
 

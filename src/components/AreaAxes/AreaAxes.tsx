@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, memo } from 'react';
 
 import { StyledAreaAxesCell } from './styles';
 
@@ -16,4 +16,4 @@ const AreaAxes: FC<IAreaAxesProps> = ({ array }: IAreaAxesProps) => {
     );
 };
 
-export default AreaAxes;
+export default memo(AreaAxes);

@@ -1,7 +1,4 @@
-import React, { FC, memo } from 'react';
-import { useSelector } from 'react-redux';
-
-import { RootStore } from '../../store';
+import React, { FC } from 'react';
 
 import { Owners } from '../../enums';
 
@@ -14,8 +11,6 @@ import { StyledSeaBattle, StyledSeaBattleAreas, StyledSeaBattleArea } from './st
 const Game: FC = () => {
     const { User, Computer } = Owners;
 
-    const { gameStart } = useSelector(({ gameReducer }: RootStore) => gameReducer);
-
     return (
         <StyledSeaBattle>
             <StyledSeaBattleAreas>
@@ -25,11 +20,11 @@ const Game: FC = () => {
                 </StyledSeaBattleArea>
                 <StyledSeaBattleArea>
                     <Area areaOwner={Computer} />
-                    {gameStart && <Hints />}
+                    <Hints />
                 </StyledSeaBattleArea>
             </StyledSeaBattleAreas>
         </StyledSeaBattle>
     );
 };
 
-export default memo(Game);
+export default Game;

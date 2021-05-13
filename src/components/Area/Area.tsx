@@ -1,7 +1,4 @@
 import React, { FC, memo } from 'react';
-import { useSelector } from 'react-redux';
-
-import { RootStore } from '../../store';
 
 import { AREA_LETTERS, AREA_NUMBERS } from '../../constants';
 import { Owners } from '../../enums';
@@ -10,20 +7,13 @@ import AreaAxes from '../AreaAxes';
 import Field from '../Field';
 import Ships from '../Ships/Ships';
 
-import { StyledArea, StyledAreaContainer, StyledAreaLetters, StyledAreaNumbers, StyledAreaWrapper } from './styles';
+import { StyledArea, StyledAreaContainer, StyledAreaLetters, StyledAreaNumbers } from './styles';
 
 interface AreaProps {
     areaOwner: Owners;
 }
 
 const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
-    const { User, Computer } = Owners;
-
-    const { gameStart, currentPlayer } = useSelector(({ gameReducer }: RootStore) => gameReducer);
-
-    const fieldClassNameDisabled =
-        (areaOwner === User && gameStart) || (areaOwner === Computer && !gameStart) || currentPlayer === Computer;
-
     return (
         <StyledArea>
             <Ships shipsOwner={areaOwner} />
@@ -34,9 +24,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                 <StyledAreaNumbers>
                     <AreaAxes array={AREA_NUMBERS} />
                 </StyledAreaNumbers>
-                <StyledAreaWrapper isDisabled={fieldClassNameDisabled}>
-                    <Field fieldOwner={areaOwner} />
-                </StyledAreaWrapper>
+                <Field fieldOwner={areaOwner} />
             </StyledAreaContainer>
         </StyledArea>
     );

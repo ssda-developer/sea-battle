@@ -1,6 +1,5 @@
 # "Sea Battle" game
 
-## Description:
 The classic "Sea Battle" game where the player plays against the computer.<br/>
 You can visit the [deployed app](http://ssda-developer.github.io/sea-battle).
 

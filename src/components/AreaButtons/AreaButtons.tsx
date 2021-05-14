@@ -93,24 +93,26 @@ const AreaButtons: FC = () => {
         }
     };
 
+    const areaButtons = useMemo(() => {
+        return (
+            <StyledAreaButtons>
+                {gameStart ? (
+                    <AreaButton clicked={resetGameHandler} icon={<SVGTimes />} />
+                ) : (
+                    <>
+                        <AreaButton clicked={openModalHandler} icon={<SVGQuestion />} />
+                        <AreaButton clicked={userRandomLocationShipsHandler} icon={<SVGRandom />} />
+                        <AreaButton clicked={userClearFieldHandler} icon={<SVGTrash />} />
+                        <AreaButton clicked={startGameHandler} icon={<SVGPlay />} />
+                    </>
+                )}
+            </StyledAreaButtons>
+        );
+    }, [gameStart]);
+
     return (
         <>
-            {useMemo(() => {
-                return (
-                    <StyledAreaButtons>
-                        {gameStart ? (
-                            <AreaButton clicked={resetGameHandler} icon={<SVGTimes />} />
-                        ) : (
-                            <>
-                                <AreaButton clicked={openModalHandler} icon={<SVGQuestion />} />
-                                <AreaButton clicked={userRandomLocationShipsHandler} icon={<SVGRandom />} />
-                                <AreaButton clicked={userClearFieldHandler} icon={<SVGTrash />} />
-                                <AreaButton clicked={startGameHandler} icon={<SVGPlay />} />
-                            </>
-                        )}
-                    </StyledAreaButtons>
-                );
-            }, [gameStart])}
+            {areaButtons}
             {(gameOver || openModal) && (
                 <Modal clickedOutside={closeModalHandler}>
                     {gameOver && <FinalMessage player={currentPlayer} />}

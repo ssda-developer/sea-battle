@@ -4,16 +4,16 @@ import { AREA_LETTERS, AREA_NUMBERS } from '../../constants';
 import { Owners } from '../../enums';
 
 import AreaAxes from '../AreaAxes';
-import Field from '../Field';
-import Ships from '../Ships/Ships';
+import FieldContainer from '../FieldContainer';
+import Ships from '../Ships';
 
 import { StyledArea, StyledAreaContainer, StyledAreaLetters, StyledAreaNumbers } from './styles';
 
-interface AreaProps {
+interface IAreaProps {
     areaOwner: Owners;
 }
 
-const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
+const Area: FC<IAreaProps> = ({ areaOwner }: IAreaProps) => {
     return (
         <StyledArea>
             <Ships shipsOwner={areaOwner} />
@@ -24,7 +24,7 @@ const Area: FC<AreaProps> = ({ areaOwner }: AreaProps) => {
                 <StyledAreaNumbers>
                     <AreaAxes array={AREA_NUMBERS} />
                 </StyledAreaNumbers>
-                <Field fieldOwner={areaOwner} />
+                <FieldContainer fieldContainerOwner={areaOwner} />
             </StyledAreaContainer>
         </StyledArea>
     );

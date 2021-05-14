@@ -8,7 +8,7 @@ import Cell from '../Cell/Cell';
 import { StyledCellRow } from './styles';
 
 interface ICellRowProps {
-    row: Array<ICell>;
+    row: ICell[];
     cellRowOwner: Owners;
 }
 

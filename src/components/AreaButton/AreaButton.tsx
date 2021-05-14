@@ -2,12 +2,12 @@ import React, { FC, MouseEvent, ReactElement } from 'react';
 
 import { StyledAreaButton } from './styles';
 
-interface AreaButtonProps {
+interface IAreaButtonProps {
     icon: ReactElement;
     clicked: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const AreaButton: FC<AreaButtonProps> = ({ icon, clicked }: AreaButtonProps) => {
+const AreaButton: FC<IAreaButtonProps> = ({ icon, clicked }: IAreaButtonProps) => {
     return <StyledAreaButton onClick={clicked}>{icon}</StyledAreaButton>;
 };
 

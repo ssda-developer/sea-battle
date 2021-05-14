@@ -1,10 +1,10 @@
 # "Sea Battle" game
 
-##Description:
+## Description:
 The classic "Sea Battle" game where the player plays against the computer.<br/>
 You can visit the [deployed app](http://ssda-developer.github.io/sea-battle).
 
-##Technologies and libraries:
+## Technologies and libraries:
 - [Create-react-app](https://github.com/facebook/create-react-app): Create React apps with no build configuration.
 - [React.js](https://reactjs.org/): A declarative, efficient, and flexible JavaScript library for building user interfaces.
 - [Redux](https://redux.js.org/): Predictable state container for JavaScript apps.

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import Ship from '../Ship/Ship';
+import Ship from '../Ship';
 
 import { StyledShipRow } from './styles';
 

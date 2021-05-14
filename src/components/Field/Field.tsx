@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Owners } from '../../enums';
 import { ICell } from '../../interface';
 
-import CellRow from '../CellRow/CellRow';
+import CellRow from '../CellRow';
 
 interface IFieldProps {
     fieldOwner: Owners;

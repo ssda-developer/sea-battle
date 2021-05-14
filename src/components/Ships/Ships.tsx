@@ -7,7 +7,7 @@ import { SHIPS } from '../../constants';
 import { Owners } from '../../enums';
 import { getUniqId } from '../../helpers';
 
-import ShipRow from '../ShipsRow/ShipRow';
+import ShipRow from '../ShipsRow';
 
 import { StyledShips } from './styles';
 

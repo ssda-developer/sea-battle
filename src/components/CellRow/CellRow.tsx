@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Owners } from '../../enums';
 import { ICell } from '../../interface';
 
-import Cell from '../Cell/Cell';
+import Cell from '../Cell';
 
 import { StyledCellRow } from './styles';
 

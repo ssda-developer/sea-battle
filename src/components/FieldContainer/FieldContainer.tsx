@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Owners } from '../../enums';

@@ -41,9 +41,13 @@ const FieldContainer: FC<IFieldContainerProps> = ({ fieldContainerOwner }: IFiel
     const currentField = fieldContainerOwner === User ? userField : computerField;
 
     return (
-        <StyledFieldContainer isDisabled={fieldClassNameDisabled}>
-            <Field fieldOwner={fieldContainerOwner} fieldArray={currentField} />
-        </StyledFieldContainer>
+        <>
+            {currentField.length && (
+                <StyledFieldContainer isDisabled={fieldClassNameDisabled}>
+                    <Field fieldOwner={fieldContainerOwner} fieldArray={currentField} />
+                </StyledFieldContainer>
+            )}
+        </>
     );
 };
 

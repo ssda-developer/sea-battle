@@ -7,8 +7,8 @@ You can visit the [deployed app](http://ssda-developer.github.io/sea-battle).
 - [Create-react-app](https://github.com/facebook/create-react-app): Create React apps with no build configuration.
 - [React.js](https://reactjs.org/): A declarative, efficient, and flexible JavaScript library for building user interfaces.
 - [Redux](https://redux.js.org/): Predictable state container for JavaScript apps.
-- [TypeScript](https://www.typescriptlang.org/): Language which builds on JavaScript by adding static type definitions.
 - [Styled Components](https://styled-components.com/): Library for React for writing and managing CSS.
+- [TypeScript](https://www.typescriptlang.org/): Language which builds on JavaScript by adding static type definitions.
 - [Eslint](https://eslint.org/): A fully pluggable tool for identifying and reporting on patterns in JavaScript.
 - [Prettier](https://prettier.io/): Tool that aims to use hard-coded rules for the formatting of programs.
 

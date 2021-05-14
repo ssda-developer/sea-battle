@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/sea-battle/static/js/main.7aa9c563.chunk.js",
-    "main.js.map": "/sea-battle/static/js/main.7aa9c563.chunk.js.map",
+    "main.js": "/sea-battle/static/js/main.3ea97070.chunk.js",
+    "main.js.map": "/sea-battle/static/js/main.3ea97070.chunk.js.map",
     "runtime-main.js": "/sea-battle/static/js/runtime-main.0a878c37.js",
     "runtime-main.js.map": "/sea-battle/static/js/runtime-main.0a878c37.js.map",
     "static/js/2.05f3333e.chunk.js": "/sea-battle/static/js/2.05f3333e.chunk.js",
@@ -9,16 +9,16 @@
     "index.html": "/sea-battle/index.html",
     "static/js/2.05f3333e.chunk.js.LICENSE.txt": "/sea-battle/static/js/2.05f3333e.chunk.js.LICENSE.txt",
     "static/media/frown.93f55f3a.svg": "/sea-battle/static/media/frown.93f55f3a.svg",
-    "static/media/play.af8087c7.svg": "/sea-battle/static/media/play.af8087c7.svg",
-    "static/media/question.f8b8e649.svg": "/sea-battle/static/media/question.f8b8e649.svg",
-    "static/media/random.57ad5afa.svg": "/sea-battle/static/media/random.57ad5afa.svg",
+    "static/media/play.b1032db7.svg": "/sea-battle/static/media/play.b1032db7.svg",
+    "static/media/question.a5ae4239.svg": "/sea-battle/static/media/question.a5ae4239.svg",
+    "static/media/random.2c4d7202.svg": "/sea-battle/static/media/random.2c4d7202.svg",
     "static/media/smile.080b5c10.svg": "/sea-battle/static/media/smile.080b5c10.svg",
-    "static/media/times.788e6949.svg": "/sea-battle/static/media/times.788e6949.svg",
-    "static/media/trash.754bd8c2.svg": "/sea-battle/static/media/trash.754bd8c2.svg"
+    "static/media/times.65cc6ffe.svg": "/sea-battle/static/media/times.65cc6ffe.svg",
+    "static/media/trash.3a1e6017.svg": "/sea-battle/static/media/trash.3a1e6017.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.0a878c37.js",
     "static/js/2.05f3333e.chunk.js",
-    "static/js/main.7aa9c563.chunk.js"
+    "static/js/main.3ea97070.chunk.js"
   ]
 }

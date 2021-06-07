@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootStore } from '../../store';
@@ -67,6 +67,7 @@ const AreaButtons: FC = () => {
     const startGameHandler = (): void => {
         if (!userComplete) {
             renderUserField(randomLocationShips(createField()));
+            changeUserFieldComplete(true);
             changeUserShips([...SHIPS]);
         }
 
@@ -79,6 +80,7 @@ const AreaButtons: FC = () => {
     const resetGameHandler = (): void => {
         userClearFieldHandler();
         changeGameStart(false);
+        changeCurrentPlayer(User);
     };
 
     const openModalHandler = (): void => {
@@ -90,11 +92,12 @@ const AreaButtons: FC = () => {
 
         if (gameOver) {
             changeGameOver(false);
+            resetGameHandler();
         }
     };
 
-    const areaButtons = useMemo(() => {
-        return (
+    return (
+        <>
             <StyledAreaButtons>
                 {gameStart ? (
                     <AreaButton clicked={resetGameHandler} icon={<SVGTimes />} />
@@ -107,12 +110,6 @@ const AreaButtons: FC = () => {
                     </>
                 )}
             </StyledAreaButtons>
-        );
-    }, [gameStart]);
-
-    return (
-        <>
-            {areaButtons}
             {(gameOver || openModal) && (
                 <Modal clickedOutside={closeModalHandler}>
                     {gameOver && <FinalMessage player={currentPlayer} />}

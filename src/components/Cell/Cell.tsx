@@ -48,10 +48,12 @@ const Cell: FC<ICell> = ({ id, ship, hit, miss, lock, explode, owner }: ICell) =
 
     const updateUserCellOnCreate = (): void => {
         const field = startCreateShip(userField, id);
+        const isAllShipsCreated =
+            getAllShips(field).length === SHIPS.length && SHIPS.every(length => getAllShips(field).includes(length));
 
         renderUserField(field);
         changeUserShips(getNonExplodeShips(userField));
-        changeUserFieldComplete(getAllShips(field).length === SHIPS.length);
+        changeUserFieldComplete(isAllShipsCreated);
     };
 
     const updateUserCellOnShot = (): void => {
